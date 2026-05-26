@@ -1,0 +1,2775 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#3B82F6">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Haze Portal">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="Haze - Portal dos Pais: comunicacao escolar organizada para familias.">
+  <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="%233B82F6"/><path d="M16 43V16h8v11h16V16h8v27h-8V34H24v9z" fill="white"/><circle cx="48" cy="16" r="5" fill="%23F59E0B"/></svg>'>
+  <title>Haze - Portal dos Pais</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f3f4f6;
+      --surface-strong: #e5e7eb;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --secondary: #10b981;
+      --secondary-dark: #059669;
+      --accent: #f59e0b;
+      --danger: #ef4444;
+      --danger-soft: #fee2e2;
+      --warning-soft: #fef3c7;
+      --blue-soft: #dbeafe;
+      --green-soft: #d1fae5;
+      --indigo-soft: #e0e7ff;
+      --radius: 8px;
+      --page-max: 1480px;
+      color-scheme: light;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Outfit, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    .app {
+      min-height: 100vh;
+      padding-bottom: 24px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      width: min(var(--page-max), 100%);
+      margin: 0 auto;
+      padding: 14px 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      place-items: center;
+      border-radius: var(--radius);
+      background: var(--primary);
+    }
+
+    .brand-mark svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .brand-title {
+      display: block;
+      overflow: hidden;
+      color: var(--text);
+      font-weight: 800;
+      line-height: 1.1;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .brand-subtitle {
+      display: block;
+      overflow: hidden;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .mode-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      padding: 4px;
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .mode-switch button {
+      min-height: 40px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 800;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .mode-switch button:hover {
+      transform: scale(1.02);
+    }
+
+    .mode-switch button.active {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .main {
+      width: min(var(--page-max), 100%);
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .side-panel,
+    .work-panel,
+    .top-panel,
+    .card,
+    .form-panel,
+    .empty-state,
+    .login-box {
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .side-panel {
+      position: sticky;
+      top: 90px;
+      display: grid;
+      gap: 16px;
+      padding: 24px;
+    }
+
+    .side-title {
+      margin-bottom: 8px;
+      color: var(--text);
+      font-size: clamp(2.4rem, 4vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+    }
+
+    .side-copy {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .kicker {
+      display: inline-flex;
+      width: fit-content;
+      min-height: 28px;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--primary-dark);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .compact-tools {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border-radius: var(--radius);
+      background: var(--bg);
+    }
+
+    .compact-tools .field input,
+    .compact-tools .field select {
+      background: var(--surface);
+    }
+
+    .quick-publish {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .quick-publish .btn {
+      min-height: 42px;
+      justify-content: flex-start;
+      padding: 0 12px;
+      font-size: 0.86rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 800;
+      text-align: center;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.03);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background: var(--text);
+      color: #ffffff;
+    }
+
+    .btn-muted {
+      background: var(--surface-strong);
+      color: var(--text);
+    }
+
+    .btn-danger {
+      background: var(--danger-soft);
+      color: #b91c1c;
+    }
+
+    .btn-small {
+      min-height: 38px;
+      padding: 0 12px;
+      font-size: 0.84rem;
+    }
+
+    .stat-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .stat-card {
+      min-height: 96px;
+      padding: 16px;
+      border-radius: var(--radius);
+      background: var(--bg);
+    }
+
+    .stat-card.blue {
+      background: var(--blue-soft);
+    }
+
+    .stat-card.green {
+      background: var(--green-soft);
+    }
+
+    .stat-card.amber {
+      background: var(--warning-soft);
+    }
+
+    .stat-card.indigo {
+      background: var(--indigo-soft);
+    }
+
+    .stat-value {
+      display: block;
+      color: var(--text);
+      font-size: 1.9rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .stat-label {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .work-panel {
+      display: grid;
+      gap: 20px;
+      padding: 20px;
+      background: var(--bg);
+    }
+
+    .parent-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px;
+      border-radius: var(--radius);
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .parent-top h2 {
+      margin-bottom: 4px;
+      color: #ffffff;
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .parent-top p {
+      margin-bottom: 0;
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.4;
+    }
+
+    .school-initial {
+      display: grid;
+      width: 56px;
+      height: 56px;
+      flex: 0 0 56px;
+      place-items: center;
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--primary);
+      font-weight: 800;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 6px;
+      padding: 6px;
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .tabs button {
+      min-height: 46px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 800;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .tabs button:hover {
+      transform: scale(1.02);
+      background: var(--surface-strong);
+    }
+
+    .tabs button.active {
+      background: var(--bg);
+      color: var(--primary);
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: grid;
+      gap: 20px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .section {
+      display: grid;
+      gap: 12px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .section-header h2 {
+      margin-bottom: 0;
+      color: var(--text);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .section-header p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .cards-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+      padding: 16px;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.01);
+      background: var(--surface-strong);
+    }
+
+    .item-card {
+      display: grid;
+      grid-template-columns: 60px minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .item-card.urgent {
+      background: var(--danger-soft);
+    }
+
+    .item-card.urgent:hover {
+      background: #fecaca;
+    }
+
+    .date-tile {
+      display: grid;
+      width: 56px;
+      height: 64px;
+      place-items: center;
+      border-radius: var(--radius);
+      background: var(--bg);
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .date-tile span {
+      display: block;
+      color: var(--primary);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+    }
+
+    .date-tile strong {
+      display: block;
+      color: var(--text);
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .item-body {
+      min-width: 0;
+    }
+
+    .item-kind {
+      display: inline-flex;
+      margin-bottom: 6px;
+      color: var(--primary);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .card-title h3 {
+      margin: 0;
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+    }
+
+    .card p {
+      margin-bottom: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .card-image {
+      display: block;
+      width: 100%;
+      max-height: 260px;
+      margin: 12px 0 0;
+      border-radius: var(--radius);
+      object-fit: cover;
+      background: var(--surface-strong);
+    }
+
+    .item-card .card-image {
+      max-height: 220px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .badge {
+      display: inline-flex;
+      min-height: 26px;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--bg);
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 800;
+    }
+
+    .badge.importante {
+      background: var(--warning-soft);
+      color: #92400e;
+    }
+
+    .badge.urgente {
+      background: var(--danger);
+      color: #ffffff;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .filters.three {
+      grid-template-columns: 1fr 1fr auto;
+      align-items: end;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field label {
+      color: var(--text);
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      min-height: 48px;
+      padding: 11px 12px;
+      border: 0;
+      border-radius: var(--radius);
+      outline: none;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .field textarea {
+      min-height: 108px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border: 2px solid var(--primary);
+      background: #ffffff;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .empty-state {
+      padding: 24px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .empty-state strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .login-box {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      width: min(920px, 100%);
+      min-height: 520px;
+      margin: 34px auto 0;
+      overflow: hidden;
+      border-radius: 16px;
+      background: var(--surface);
+    }
+
+    .login-intro {
+      position: relative;
+      display: grid;
+      align-content: space-between;
+      min-height: 520px;
+      padding: 34px;
+      overflow: hidden;
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .login-intro::before,
+    .login-intro::after {
+      position: absolute;
+      content: "";
+    }
+
+    .login-intro::before {
+      right: -56px;
+      bottom: -56px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .login-intro::after {
+      top: 92px;
+      right: 42px;
+      width: 96px;
+      height: 96px;
+      border-radius: 16px;
+      background: var(--accent);
+      transform: rotate(12deg);
+    }
+
+    .login-mark {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      width: 72px;
+      height: 72px;
+      place-items: center;
+      border-radius: 16px;
+      background: #ffffff;
+      color: var(--primary);
+      font-size: 1.55rem;
+      font-weight: 800;
+    }
+
+    .login-intro h2 {
+      position: relative;
+      z-index: 1;
+      max-width: 260px;
+      margin: 0;
+      color: #ffffff;
+      font-size: clamp(2.8rem, 5vw, 4.8rem);
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      line-height: 0.88;
+    }
+
+    .login-intro p {
+      position: relative;
+      z-index: 1;
+      max-width: 280px;
+      margin: 14px 0 0;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.45;
+    }
+
+    .login-card {
+      display: grid;
+      align-content: center;
+      gap: 24px;
+      min-height: 520px;
+      padding: 48px;
+      background: #ffffff;
+    }
+
+    .login-card h3 {
+      margin: 0 0 8px;
+      color: var(--text);
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .login-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .login-card .form-grid,
+    .login-card .form-actions {
+      grid-template-columns: 1fr;
+    }
+
+    .login-card .field input {
+      min-height: 58px;
+      background: var(--surface);
+      font-size: 1rem;
+    }
+
+    .login-card .btn {
+      min-height: 58px;
+      font-size: 1rem;
+    }
+
+    .admin-top {
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) 2fr;
+      gap: 18px;
+      padding: 20px;
+      border-radius: var(--radius);
+      background: var(--surface);
+      margin-bottom: 20px;
+    }
+
+    .admin-top h1 {
+      margin-bottom: 8px;
+      color: var(--text);
+      font-size: clamp(2rem, 3vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .admin-top p {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .admin-nav {
+      position: sticky;
+      top: 90px;
+      display: grid;
+      gap: 8px;
+      padding: 10px;
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .admin-nav button {
+      display: flex;
+      min-height: 46px;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0 14px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 800;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .admin-nav button:hover {
+      transform: scale(1.02);
+      background: var(--surface-strong);
+    }
+
+    .admin-nav button.active {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .admin-screen {
+      display: none;
+    }
+
+    .admin-screen.active {
+      display: grid;
+      gap: 16px;
+    }
+
+    .admin-toolbar {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .form-panel {
+      display: none;
+      padding: 18px;
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .form-panel.active {
+      display: block;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .form-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .admin-list-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      left: 16px;
+      z-index: 70;
+      display: none;
+      max-width: 460px;
+      margin: 0 auto;
+      padding: 12px 14px;
+      border-radius: var(--radius);
+      background: var(--text);
+      color: #ffffff;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .toast.show {
+      display: block;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(17, 24, 39, 0.48);
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-card {
+      width: min(620px, 100%);
+      max-height: min(720px, 90vh);
+      overflow: auto;
+      padding: 22px;
+      border-radius: var(--radius);
+      background: var(--bg);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .modal-head h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .settings-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      gap: 16px;
+    }
+
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      grid-column: 1 / -1;
+    }
+
+    .theme-btn {
+      min-height: 52px;
+      border: 0;
+      border-radius: var(--radius);
+      color: #ffffff;
+      font-weight: 800;
+      transition: transform 0.2s ease;
+    }
+
+    .theme-btn:hover {
+      transform: scale(1.03);
+    }
+
+    .preview-card {
+      display: grid;
+      align-content: start;
+      gap: 12px;
+      padding: 18px;
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .preview-banner {
+      padding: 16px;
+      border-radius: var(--radius);
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .preview-pill {
+      width: fit-content;
+      min-height: 28px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--text);
+      font-size: 0.76rem;
+      font-weight: 800;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 1100px) {
+      .layout,
+      .admin-top,
+      .admin-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .side-panel,
+      .admin-nav {
+        position: static;
+      }
+
+      .side-title {
+        font-size: 2.5rem;
+      }
+
+      .stat-list,
+      .summary-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .admin-nav {
+        display: flex;
+        overflow-x: auto;
+      }
+
+      .admin-nav button {
+        flex: 0 0 auto;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .app {
+        padding-bottom: 82px;
+      }
+
+      .topbar-inner {
+        align-items: stretch;
+        flex-direction: column;
+        padding: 12px 14px;
+      }
+
+      .main {
+        padding: 14px;
+      }
+
+      .layout,
+      .work-panel,
+      .screen.active,
+      .admin-screen.active {
+        gap: 14px;
+      }
+
+      .side-panel,
+      .work-panel,
+      .admin-top,
+      .admin-toolbar,
+      .form-panel,
+      .login-intro,
+      .login-card {
+        padding: 22px;
+      }
+
+      .quick-actions,
+      .quick-publish,
+      .summary-grid,
+      .stat-list,
+      .cards-grid,
+      .filters,
+      .filters.three,
+      .form-grid,
+      .form-actions,
+      .login-box,
+      .settings-layout,
+      .theme-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .login-box {
+        margin-top: 18px;
+        gap: 14px;
+      }
+
+      .login-intro,
+      .login-card,
+      .login-box {
+        min-height: auto;
+      }
+
+      .parent-top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .school-initial {
+        width: 48px;
+        height: 48px;
+      }
+
+      .tabs {
+        position: fixed;
+        right: 10px;
+        bottom: calc(10px + env(safe-area-inset-bottom));
+        left: 10px;
+        z-index: 60;
+        grid-template-columns: repeat(5, minmax(68px, 1fr));
+        overflow-x: auto;
+      }
+
+      .tabs button {
+        min-width: 68px;
+        min-height: 52px;
+        font-size: 0.75rem;
+      }
+
+      .item-card {
+        grid-template-columns: 52px minmax(0, 1fr);
+        gap: 12px;
+      }
+
+      .date-tile {
+        width: 50px;
+        height: 58px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="#" data-mode-link="parent" aria-label="Abrir portal dos pais">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64">
+              <path d="M16 44V16h8v11h16V16h8v28h-8V34H24v10z" fill="white"></path>
+              <circle cx="48" cy="16" r="5" fill="#F59E0B"></circle>
+            </svg>
+          </span>
+          <span>
+            <span class="brand-title">Haze - Portal dos Pais</span>
+            <span class="brand-subtitle">Comunicação escolar organizada</span>
+          </span>
+        </a>
+        <div class="mode-switch" aria-label="Alternar modo do sistema">
+          <button type="button" class="active" data-mode="parent">Pais</button>
+          <button type="button" data-mode="admin">Escola</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <section id="parentView" class="view active" aria-label="Portal dos Pais">
+        <div class="layout">
+          <aside class="side-panel" aria-label="Resumo da escola">
+            <span class="kicker">Portal dos Pais</span>
+            <div>
+              <h1 id="heroSchoolName" class="side-title">Haze - Portal dos Pais</h1>
+              <p class="side-copy">A escola publica. Os pais acompanham. A comunicação fica organizada.</p>
+            </div>
+            <div class="quick-actions">
+              <a id="whatsappButton" class="btn btn-primary" href="#" target="_blank" rel="noopener">WhatsApp da escola</a>
+              <a id="locationButton" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Ver localização</a>
+            </div>
+            <div class="compact-tools">
+              <div class="field">
+                <label for="parentGlobalClass">Turma acompanhada</label>
+                <select id="parentGlobalClass"></select>
+              </div>
+              <button id="clearParentFilters" class="btn btn-muted btn-small" type="button">Limpar filtros</button>
+            </div>
+            <div id="parentHeroMetrics" class="stat-list"></div>
+          </aside>
+
+          <div class="work-panel">
+            <nav id="parentBottomNav" class="tabs parent-only" aria-label="Menu do portal dos pais">
+              <button type="button" class="active" data-parent-screen="home">Início</button>
+              <button type="button" data-parent-screen="announcements">Avisos</button>
+              <button type="button" data-parent-screen="events">Eventos</button>
+              <button type="button" data-parent-screen="calendar">Agenda</button>
+              <button type="button" data-parent-screen="documents">Docs</button>
+            </nav>
+
+            <section id="parent-home" class="screen active">
+              <div class="parent-top">
+                <div>
+                  <h2 id="homeSchoolName">Olá, famílias</h2>
+                  <p id="homeGreeting">Acompanhe os recados importantes da escola.</p>
+                </div>
+                <div class="school-initial" id="schoolInitial">H</div>
+              </div>
+
+              <div id="parentStatusGrid" class="summary-grid"></div>
+              <div id="urgentHighlights" class="grid"></div>
+
+              <div class="section">
+                <div class="section-header">
+                  <div>
+                    <h2>Comunicados recentes</h2>
+                    <p>Últimas publicações da escola</p>
+                  </div>
+                </div>
+                <div id="homeAnnouncements" class="grid"></div>
+              </div>
+
+              <div class="section">
+                <div class="section-header">
+                  <div>
+                    <h2>Próximos eventos</h2>
+                    <p>Datas para a família acompanhar</p>
+                  </div>
+                </div>
+                <div id="homeEvents" class="grid"></div>
+              </div>
+
+              <div class="section">
+                <div class="section-header">
+                  <div>
+                    <h2>Hoje e próximos dias</h2>
+                    <p>Calendário escolar em destaque</p>
+                  </div>
+                </div>
+                <div id="homeCalendar" class="grid"></div>
+              </div>
+
+              <div class="section">
+                <div class="section-header">
+                  <div>
+                    <h2>Documentos recentes</h2>
+                    <p>Links importantes para consulta rápida</p>
+                  </div>
+                </div>
+                <div id="homeDocuments" class="grid"></div>
+              </div>
+            </section>
+
+            <section id="parent-announcements" class="screen">
+              <div class="section-header">
+                <div>
+                  <h2>Comunicados</h2>
+                  <p>Recados publicados pela escola</p>
+                </div>
+              </div>
+              <div class="filters">
+                <div class="field">
+                  <label for="parentAnnouncementClass">Turma</label>
+                  <select id="parentAnnouncementClass" data-parent-filter="announcements"></select>
+                </div>
+                <div class="field">
+                  <label for="parentAnnouncementPriority">Prioridade</label>
+                  <select id="parentAnnouncementPriority" data-parent-filter="announcements">
+                    <option value="">Todas</option>
+                    <option value="normal">Normal</option>
+                    <option value="importante">Importante</option>
+                    <option value="urgente">Urgente</option>
+                  </select>
+                </div>
+              </div>
+              <div id="parentAnnouncementsList" class="grid"></div>
+            </section>
+
+            <section id="parent-events" class="screen">
+              <div class="section-header">
+                <div>
+                  <h2>Eventos</h2>
+                  <p>Programações e encontros da escola</p>
+                </div>
+              </div>
+              <div class="filters">
+                <div class="field">
+                  <label for="parentEventClass">Turma</label>
+                  <select id="parentEventClass" data-parent-filter="events"></select>
+                </div>
+              </div>
+              <div id="parentEventsList" class="grid"></div>
+            </section>
+
+            <section id="parent-calendar" class="screen">
+              <div class="section-header">
+                <div>
+                  <h2>Calendário</h2>
+                  <p>Datas importantes para não perder</p>
+                </div>
+              </div>
+              <div class="filters">
+                <div class="field">
+                  <label for="parentCalendarClass">Turma</label>
+                  <select id="parentCalendarClass" data-parent-filter="calendar"></select>
+                </div>
+              </div>
+              <div id="parentCalendarList" class="grid"></div>
+            </section>
+
+            <section id="parent-documents" class="screen">
+              <div class="section-header">
+                <div>
+                  <h2>Documentos</h2>
+                  <p>Links e materiais úteis</p>
+                </div>
+              </div>
+              <div class="filters">
+                <div class="field">
+                  <label for="parentDocumentClass">Turma</label>
+                  <select id="parentDocumentClass" data-parent-filter="documents"></select>
+                </div>
+              </div>
+              <div id="parentDocumentsList" class="grid"></div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section id="adminView" class="view" aria-label="Painel da Escola">
+        <div id="loginArea" class="login-box">
+          <div class="login-intro">
+            <div>
+              <div class="login-mark">H</div>
+            </div>
+            <div>
+              <h2>Haze Escola</h2>
+              <p>Painel de publicações do Portal dos Pais.</p>
+            </div>
+          </div>
+
+          <div class="login-card">
+            <div>
+              <h3>Acesso da equipe</h3>
+              <p>Entre para administrar comunicados, eventos e documentos.</p>
+            </div>
+            <form id="loginForm" class="form-grid">
+              <div class="field full">
+                <label for="adminPassword">Senha do painel</label>
+                <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Digite a senha">
+              </div>
+              <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Entrar no painel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div id="adminArea" class="hidden">
+          <div class="admin-top">
+            <div>
+              <span class="kicker">Gestão escolar</span>
+              <h1>Painel da Escola</h1>
+              <p>Publique informações para as famílias em poucos cliques.</p>
+              <button id="newInfoButton" class="btn btn-primary" type="button">+ Publicar nova informação</button>
+              <div class="quick-publish" aria-label="Atalhos de publicação">
+                <button class="btn btn-muted" type="button" data-quick-create="announcements">Comunicado</button>
+                <button class="btn btn-muted" type="button" data-quick-create="events">Evento</button>
+                <button class="btn btn-muted" type="button" data-quick-create="calendar">Calendário</button>
+                <button class="btn btn-muted" type="button" data-quick-create="documents">Documento</button>
+              </div>
+            </div>
+            <div id="summaryCards" class="summary-grid"></div>
+          </div>
+
+          <div class="admin-layout">
+            <nav class="admin-nav" aria-label="Menu do painel da escola">
+              <button type="button" class="active" data-admin-screen="dashboard">Início</button>
+              <button type="button" data-admin-screen="announcements">Comunicados</button>
+              <button type="button" data-admin-screen="events">Eventos</button>
+              <button type="button" data-admin-screen="calendar">Calendário</button>
+              <button type="button" data-admin-screen="documents">Documentos</button>
+              <button type="button" data-admin-screen="settings">Configurações</button>
+            </nav>
+
+            <div>
+              <section id="admin-dashboard" class="admin-screen active">
+                <div class="section-header">
+                  <div>
+                    <h2>Início</h2>
+                    <p>Resumo das informações publicadas no portal.</p>
+                  </div>
+                </div>
+                <div id="dashboardHighlights" class="grid cards-grid"></div>
+              </section>
+
+              <section id="admin-announcements" class="admin-screen">
+                <div class="admin-toolbar">
+                  <div class="section-header">
+                    <div>
+                      <h2>Comunicados</h2>
+                      <p>Publique recados para uma turma ou para todas.</p>
+                    </div>
+                    <button class="btn btn-primary btn-small" type="button" data-open-form="announcementFormPanel">+ Novo</button>
+                  </div>
+                  <div class="filters three">
+                    <div class="field">
+                      <label for="adminAnnouncementSearch">Buscar</label>
+                      <input id="adminAnnouncementSearch" data-admin-search="announcements" placeholder="Título, texto ou turma">
+                    </div>
+                    <div class="field">
+                      <label for="adminAnnouncementClassFilter">Filtrar por turma</label>
+                      <select id="adminAnnouncementClassFilter" data-admin-filter="announcements"></select>
+                    </div>
+                    <button class="btn btn-muted btn-small" type="button" data-clear-admin="announcements">Limpar</button>
+                  </div>
+                </div>
+                <div id="announcementFormPanel" class="form-panel">
+                  <form id="announcementForm">
+                    <input type="hidden" name="id">
+                    <div class="form-grid">
+                      <div class="field">
+                        <label for="announcementTitle">Título</label>
+                        <input id="announcementTitle" name="title" required placeholder="Ex: Reunião de pais">
+                      </div>
+                      <div class="field">
+                        <label for="announcementClass">Turma</label>
+                        <input id="announcementClass" name="className" required placeholder="Ex: Infantil 3 ou Todas">
+                      </div>
+                      <div class="field">
+                        <label for="announcementPriority">Prioridade</label>
+                        <select id="announcementPriority" name="priority">
+                          <option value="normal">Normal</option>
+                          <option value="importante">Importante</option>
+                          <option value="urgente">Urgente</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="announcementDate">Data</label>
+                        <input id="announcementDate" name="date" type="date" required>
+                      </div>
+                      <div class="field full">
+                        <label for="announcementText">Texto</label>
+                        <textarea id="announcementText" name="text" required placeholder="Escreva o comunicado de forma clara para as famílias."></textarea>
+                      </div>
+                      <div class="field full">
+                        <label for="announcementImage">Imagem do aviso</label>
+                        <input id="announcementImage" name="announcementImage" type="file" accept="image/*">
+                        <input name="imageData" type="hidden">
+                      </div>
+                    </div>
+                    <div class="form-actions">
+                      <button class="btn btn-primary" type="submit">Publicar comunicado</button>
+                      <button class="btn btn-muted" type="button" data-cancel-form="announcementFormPanel">Cancelar</button>
+                    </div>
+                  </form>
+                </div>
+                <div id="adminAnnouncementsList" class="grid cards-grid"></div>
+              </section>
+
+              <section id="admin-events" class="admin-screen">
+                <div class="admin-toolbar">
+                  <div class="section-header">
+                    <div>
+                      <h2>Eventos</h2>
+                      <p>Cadastre eventos, encontros e atividades abertas às famílias.</p>
+                    </div>
+                    <button class="btn btn-primary btn-small" type="button" data-open-form="eventFormPanel">+ Novo</button>
+                  </div>
+                  <div class="filters three">
+                    <div class="field">
+                      <label for="adminEventSearch">Buscar</label>
+                      <input id="adminEventSearch" data-admin-search="events" placeholder="Evento, descrição ou turma">
+                    </div>
+                    <div class="field">
+                      <label for="adminEventClassFilter">Filtrar por turma</label>
+                      <select id="adminEventClassFilter" data-admin-filter="events"></select>
+                    </div>
+                    <button class="btn btn-muted btn-small" type="button" data-clear-admin="events">Limpar</button>
+                  </div>
+                </div>
+                <div id="eventFormPanel" class="form-panel">
+                  <form id="eventForm">
+                    <input type="hidden" name="id">
+                    <div class="form-grid">
+                      <div class="field">
+                        <label for="eventName">Nome do evento</label>
+                        <input id="eventName" name="name" required placeholder="Ex: Festa junina">
+                      </div>
+                      <div class="field">
+                        <label for="eventClass">Turma</label>
+                        <input id="eventClass" name="className" required placeholder="Ex: Todas">
+                      </div>
+                      <div class="field">
+                        <label for="eventDate">Data</label>
+                        <input id="eventDate" name="date" type="date" required>
+                      </div>
+                      <div class="field">
+                        <label for="eventTime">Horário</label>
+                        <input id="eventTime" name="time" type="time" required>
+                      </div>
+                      <div class="field full">
+                        <label for="eventDescription">Descrição</label>
+                        <textarea id="eventDescription" name="description" required placeholder="Informe detalhes importantes para as famílias."></textarea>
+                      </div>
+                    </div>
+                    <div class="form-actions">
+                      <button class="btn btn-primary" type="submit">Publicar evento</button>
+                      <button class="btn btn-muted" type="button" data-cancel-form="eventFormPanel">Cancelar</button>
+                    </div>
+                  </form>
+                </div>
+                <div id="adminEventsList" class="grid cards-grid"></div>
+              </section>
+
+              <section id="admin-calendar" class="admin-screen">
+                <div class="admin-toolbar">
+                  <div class="section-header">
+                    <div>
+                      <h2>Calendário</h2>
+                      <p>Organize provas, reuniões, passeios, feriados e atividades.</p>
+                    </div>
+                    <button class="btn btn-primary btn-small" type="button" data-open-form="calendarFormPanel">+ Nova data</button>
+                  </div>
+                  <div class="filters three">
+                    <div class="field">
+                      <label for="adminCalendarSearch">Buscar</label>
+                      <input id="adminCalendarSearch" data-admin-search="calendar" placeholder="Título, tipo ou turma">
+                    </div>
+                    <div class="field">
+                      <label for="adminCalendarClassFilter">Filtrar por turma</label>
+                      <select id="adminCalendarClassFilter" data-admin-filter="calendar"></select>
+                    </div>
+                    <button class="btn btn-muted btn-small" type="button" data-clear-admin="calendar">Limpar</button>
+                  </div>
+                </div>
+                <div id="calendarFormPanel" class="form-panel">
+                  <form id="calendarForm">
+                    <input type="hidden" name="id">
+                    <div class="form-grid">
+                      <div class="field">
+                        <label for="calendarTitle">Título</label>
+                        <input id="calendarTitle" name="title" required placeholder="Ex: Prova de matemática">
+                      </div>
+                      <div class="field">
+                        <label for="calendarDate">Data</label>
+                        <input id="calendarDate" name="date" type="date" required>
+                      </div>
+                      <div class="field">
+                        <label for="calendarType">Tipo</label>
+                        <select id="calendarType" name="type">
+                          <option value="prova">Prova</option>
+                          <option value="reunião">Reunião</option>
+                          <option value="passeio">Passeio</option>
+                          <option value="feriado">Feriado</option>
+                          <option value="atividade">Atividade</option>
+                          <option value="outro">Outro</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="calendarClass">Turma</label>
+                        <input id="calendarClass" name="className" required placeholder="Ex: 2º ano">
+                      </div>
+                      <div class="field full">
+                        <label for="calendarDescription">Descrição</label>
+                        <textarea id="calendarDescription" name="description" required placeholder="Adicione uma observação para os pais."></textarea>
+                      </div>
+                    </div>
+                    <div class="form-actions">
+                      <button class="btn btn-primary" type="submit">Publicar data</button>
+                      <button class="btn btn-muted" type="button" data-cancel-form="calendarFormPanel">Cancelar</button>
+                    </div>
+                  </form>
+                </div>
+                <div id="adminCalendarList" class="grid cards-grid"></div>
+              </section>
+
+              <section id="admin-documents" class="admin-screen">
+                <div class="admin-toolbar">
+                  <div class="section-header">
+                    <div>
+                      <h2>Documentos</h2>
+                      <p>Disponibilize links, materiais, contratos e autorizações.</p>
+                    </div>
+                    <button class="btn btn-primary btn-small" type="button" data-open-form="documentFormPanel">+ Novo</button>
+                  </div>
+                  <div class="filters three">
+                    <div class="field">
+                      <label for="adminDocumentSearch">Buscar</label>
+                      <input id="adminDocumentSearch" data-admin-search="documents" placeholder="Documento, descrição ou turma">
+                    </div>
+                    <div class="field">
+                      <label for="adminDocumentClassFilter">Filtrar por turma</label>
+                      <select id="adminDocumentClassFilter" data-admin-filter="documents"></select>
+                    </div>
+                    <button class="btn btn-muted btn-small" type="button" data-clear-admin="documents">Limpar</button>
+                  </div>
+                </div>
+                <div id="documentFormPanel" class="form-panel">
+                  <form id="documentForm">
+                    <input type="hidden" name="id">
+                    <div class="form-grid">
+                      <div class="field">
+                        <label for="documentName">Nome do documento</label>
+                        <input id="documentName" name="name" required placeholder="Ex: Calendário anual">
+                      </div>
+                      <div class="field">
+                        <label for="documentClass">Turma</label>
+                        <input id="documentClass" name="className" required placeholder="Ex: Todas">
+                      </div>
+                      <div class="field full">
+                        <label for="documentLink">Link do documento</label>
+                        <input id="documentLink" name="link" type="url" required placeholder="https://...">
+                      </div>
+                      <div class="field full">
+                        <label for="documentDescription">Descrição</label>
+                        <textarea id="documentDescription" name="description" required placeholder="Explique rapidamente o conteúdo do documento."></textarea>
+                      </div>
+                    </div>
+                    <div class="form-actions">
+                      <button class="btn btn-primary" type="submit">Publicar documento</button>
+                      <button class="btn btn-muted" type="button" data-cancel-form="documentFormPanel">Cancelar</button>
+                    </div>
+                  </form>
+                </div>
+                <div id="adminDocumentsList" class="grid cards-grid"></div>
+              </section>
+
+              <section id="admin-settings" class="admin-screen">
+                <div class="section-header">
+                  <div>
+                    <h2>Configurações</h2>
+                    <p>Personalize nome, contatos, localização e cores do portal.</p>
+                  </div>
+                </div>
+                <div class="settings-layout">
+                <div class="form-panel active">
+                  <form id="settingsForm">
+                    <div class="form-grid">
+                      <div class="field">
+                        <label for="schoolName">Nome da escola</label>
+                        <input id="schoolName" name="schoolName" required>
+                      </div>
+                      <div class="field">
+                        <label for="schoolWhatsApp">WhatsApp da escola</label>
+                        <input id="schoolWhatsApp" name="whatsapp" placeholder="5585999999999">
+                      </div>
+                      <div class="field full">
+                        <label for="schoolAddress">Endereço</label>
+                        <input id="schoolAddress" name="address">
+                      </div>
+                      <div class="field full">
+                        <label for="schoolLocation">Link de localização</label>
+                        <input id="schoolLocation" name="locationLink" type="url" placeholder="https://maps.google.com/...">
+                      </div>
+                      <div class="field">
+                        <label for="primaryColor">Cor principal</label>
+                        <input id="primaryColor" name="primaryColor" type="color">
+                      </div>
+                      <div class="field">
+                        <label for="secondaryColor">Cor secundária</label>
+                        <input id="secondaryColor" name="secondaryColor" type="color">
+                      </div>
+                      <div class="field">
+                        <label for="accentColor">Cor de destaque</label>
+                        <input id="accentColor" name="accentColor" type="color">
+                      </div>
+                      <div class="theme-grid">
+                        <button class="theme-btn" style="background:#3B82F6" type="button" data-theme="classic">Azul Haze</button>
+                        <button class="theme-btn" style="background:#10B981" type="button" data-theme="green">Verde Escola</button>
+                        <button class="theme-btn" style="background:#7C3AED" type="button" data-theme="violet">Violeta</button>
+                      </div>
+                    </div>
+                    <div class="form-actions">
+                      <button class="btn btn-primary" type="submit">Salvar configurações</button>
+                      <button class="btn btn-muted" type="button" id="resetDemoButton">Restaurar exemplo</button>
+                    </div>
+                  </form>
+                </div>
+                <aside class="preview-card" aria-label="Prévia do portal">
+                  <span class="kicker">Prévia</span>
+                  <div class="preview-banner">
+                    <strong id="settingsPreviewName">Escola Haze</strong>
+                    <p id="settingsPreviewAddress">Rua da Educação, 123</p>
+                  </div>
+                  <span class="preview-pill">Comunicado importante</span>
+                  <p class="side-copy">As cores escolhidas aparecem no portal dos pais e nos botões principais.</p>
+                </aside>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <div id="detailModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+      <article class="modal-card">
+        <div class="modal-head">
+          <div>
+            <span id="detailKind" class="item-kind">Detalhe</span>
+            <h2 id="detailTitle">Informação</h2>
+          </div>
+          <button id="closeDetailModal" class="btn btn-muted btn-small" type="button">Fechar</button>
+        </div>
+        <div id="detailBody"></div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    "use strict";
+
+    /*
+      Haze - Portal dos Pais
+      Primeira versao local em arquivo unico usando localStorage.
+      Futuramente pode ser conectado ao Firebase para login real,
+      banco de dados em nuvem e notificacoes push.
+    */
+
+    const STORAGE_KEY = "hazePortalData";
+    const ADMIN_PASSWORD = "haze123";
+
+    const defaultData = {
+      settings: {
+        schoolName: "Escola Haze",
+        whatsapp: "5585999999999",
+        address: "Rua da Educação, 123",
+        locationLink: "https://maps.google.com",
+        primaryColor: "#3B82F6",
+        secondaryColor: "#10B981",
+        accentColor: "#F59E0B"
+      },
+      announcements: [
+        {
+          id: createId(),
+          title: "Reunião de pais e responsáveis",
+          text: "Na próxima quinta-feira teremos reunião para conversar sobre rotina, avaliações e próximos projetos da turma.",
+          className: "Todas",
+          priority: "importante",
+          date: todayOffset(2)
+        },
+        {
+          id: createId(),
+          title: "Entrega de autorização para passeio",
+          text: "Pedimos que as famílias enviem a autorização assinada até amanhã pela agenda escolar.",
+          className: "Infantil 4",
+          priority: "urgente",
+          date: todayOffset(0)
+        }
+      ],
+      events: [
+        {
+          id: createId(),
+          name: "Mostra Cultural",
+          date: todayOffset(8),
+          time: "17:30",
+          className: "Todas",
+          description: "Apresentação dos trabalhos desenvolvidos pelos estudantes ao longo do trimestre."
+        }
+      ],
+      calendar: [
+        {
+          id: createId(),
+          title: "Avaliação de matemática",
+          date: todayOffset(5),
+          type: "prova",
+          className: "3º ano",
+          description: "Conteúdo: operações, problemas e leitura de gráficos."
+        },
+        {
+          id: createId(),
+          title: "Feriado municipal",
+          date: todayOffset(14),
+          type: "feriado",
+          className: "Todas",
+          description: "Não haverá aula nesta data."
+        }
+      ],
+      documents: [
+        {
+          id: createId(),
+          name: "Calendário anual",
+          link: "https://example.com/calendario",
+          description: "Documento com datas letivas, feriados e eventos gerais.",
+          className: "Todas"
+        },
+        {
+          id: createId(),
+          name: "Lista de materiais",
+          link: "https://example.com/materiais",
+          description: "Materiais sugeridos para uso dos alunos durante o ano.",
+          className: "Infantil 4"
+        }
+      ]
+    };
+
+    let state = loadState();
+    let adminAuthenticated = false;
+
+    const els = {
+      parentView: document.getElementById("parentView"),
+      adminView: document.getElementById("adminView"),
+      parentBottomNav: document.getElementById("parentBottomNav"),
+      loginArea: document.getElementById("loginArea"),
+      adminArea: document.getElementById("adminArea"),
+      toast: document.getElementById("toast")
+    };
+
+    document.addEventListener("DOMContentLoaded", init);
+
+    function init() {
+      applyTheme();
+      bindEvents();
+      renderAll();
+    }
+
+    function loadState() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultData));
+        return structuredClone(defaultData);
+      }
+
+      try {
+        return mergeDefaults(JSON.parse(saved));
+      } catch (error) {
+        console.warn("Dados locais invalidos. Restaurando modelo.", error);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultData));
+        return structuredClone(defaultData);
+      }
+    }
+
+    function mergeDefaults(saved) {
+      if (saved.settings && saved.settings.schoolName === "Escola Haze Modelo") {
+        saved.settings.schoolName = "Escola Haze";
+      }
+
+      return {
+        settings: { ...defaultData.settings, ...(saved.settings || {}) },
+        announcements: Array.isArray(saved.announcements) ? saved.announcements : [],
+        events: Array.isArray(saved.events) ? saved.events : [],
+        calendar: Array.isArray(saved.calendar) ? saved.calendar : [],
+        documents: Array.isArray(saved.documents) ? saved.documents : []
+      };
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function bindEvents() {
+      document.querySelectorAll("[data-mode]").forEach((button) => {
+        button.addEventListener("click", () => setMode(button.dataset.mode));
+      });
+
+      document.querySelectorAll("[data-mode-link]").forEach((link) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          setMode(link.dataset.modeLink);
+        });
+      });
+
+      document.querySelectorAll("[data-parent-screen]").forEach((button) => {
+        button.addEventListener("click", () => setParentScreen(button.dataset.parentScreen));
+      });
+
+      document.querySelectorAll("[data-admin-screen]").forEach((button) => {
+        button.addEventListener("click", () => setAdminScreen(button.dataset.adminScreen));
+      });
+
+      document.querySelectorAll("[data-open-form]").forEach((button) => {
+        button.addEventListener("click", () => openFormPanel(button.dataset.openForm));
+      });
+
+      document.querySelectorAll("[data-cancel-form]").forEach((button) => {
+        button.addEventListener("click", () => closeFormPanel(button.dataset.cancelForm));
+      });
+
+      document.querySelectorAll("[data-parent-filter]").forEach((input) => {
+        input.addEventListener("change", renderParentLists);
+      });
+
+      document.querySelectorAll("[data-admin-filter]").forEach((input) => {
+        input.addEventListener("change", renderAdminLists);
+      });
+
+      document.querySelectorAll("[data-admin-search]").forEach((input) => {
+        input.addEventListener("input", renderAdminLists);
+      });
+
+      document.querySelectorAll("[data-clear-admin]").forEach((button) => {
+        button.addEventListener("click", () => clearAdminFilters(button.dataset.clearAdmin));
+      });
+
+      document.getElementById("parentGlobalClass").addEventListener("change", () => {
+        syncParentClassFilters(document.getElementById("parentGlobalClass").value);
+        renderParentLists();
+      });
+
+      document.getElementById("clearParentFilters").addEventListener("click", () => {
+        document.getElementById("parentGlobalClass").value = "";
+        document.getElementById("parentAnnouncementPriority").value = "";
+        syncParentClassFilters("");
+        renderParentLists();
+      });
+
+      document.getElementById("newInfoButton").addEventListener("click", () => {
+        setAdminScreen("announcements");
+        openFormPanel("announcementFormPanel");
+      });
+
+      document.querySelectorAll("[data-quick-create]").forEach((button) => {
+        button.addEventListener("click", () => openQuickCreate(button.dataset.quickCreate));
+      });
+
+      document.querySelectorAll("[data-theme]").forEach((button) => {
+        button.addEventListener("click", () => applyThemePreset(button.dataset.theme));
+      });
+
+      document.querySelectorAll("#settingsForm input").forEach((input) => {
+        input.addEventListener("input", () => {
+          const form = document.getElementById("settingsForm");
+          state.settings = {
+            ...state.settings,
+            ...formToObject(form, [
+              "schoolName",
+              "whatsapp",
+              "address",
+              "locationLink",
+              "primaryColor",
+              "secondaryColor",
+              "accentColor"
+            ])
+          };
+          applyTheme();
+          renderSettingsPreview();
+        });
+      });
+
+      document.getElementById("closeDetailModal").addEventListener("click", closeDetailModal);
+      document.getElementById("detailModal").addEventListener("click", (event) => {
+        if (event.target.id === "detailModal") closeDetailModal();
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeDetailModal();
+      });
+
+      document.getElementById("resetDemoButton").addEventListener("click", () => {
+        state = structuredClone(defaultData);
+        saveState();
+        applyTheme();
+        renderAll();
+        showToast("Dados de exemplo restaurados.");
+      });
+
+      document.getElementById("loginForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const password = document.getElementById("adminPassword").value.trim();
+        if (password !== ADMIN_PASSWORD) {
+          showToast("Senha incorreta. Tente haze123 nesta versão local.");
+          return;
+        }
+
+        adminAuthenticated = true;
+        document.getElementById("adminPassword").value = "";
+        els.loginArea.classList.add("hidden");
+        els.adminArea.classList.remove("hidden");
+        renderAll();
+        showToast("Bem-vindo ao Painel da Escola.");
+      });
+
+      document.getElementById("announcementForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const data = formToObject(event.target, ["id", "title", "text", "className", "priority", "date", "imageData"]);
+        const file = event.target.elements.announcementImage.files[0];
+        if (file) {
+          data.imageData = await fileToDataUrl(file);
+        }
+        upsertItem("announcements", data);
+        closeFormPanel("announcementFormPanel");
+      });
+
+      document.getElementById("eventForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        upsertItem("events", formToObject(event.target, ["id", "name", "date", "time", "className", "description"]));
+        closeFormPanel("eventFormPanel");
+      });
+
+      document.getElementById("calendarForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        upsertItem("calendar", formToObject(event.target, ["id", "title", "date", "type", "className", "description"]));
+        closeFormPanel("calendarFormPanel");
+      });
+
+      document.getElementById("documentForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        upsertItem("documents", formToObject(event.target, ["id", "name", "link", "description", "className"]));
+        closeFormPanel("documentFormPanel");
+      });
+
+      document.getElementById("settingsForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        state.settings = formToObject(event.target, [
+          "schoolName",
+          "whatsapp",
+          "address",
+          "locationLink",
+          "primaryColor",
+          "secondaryColor",
+          "accentColor"
+        ]);
+        saveState();
+        applyTheme();
+        renderAll();
+        showToast("Configurações salvas.");
+      });
+    }
+
+    function setMode(mode) {
+      document.querySelectorAll("[data-mode]").forEach((button) => {
+        button.classList.toggle("active", button.dataset.mode === mode);
+      });
+
+      els.parentView.classList.toggle("active", mode === "parent");
+      els.adminView.classList.toggle("active", mode === "admin");
+      els.parentBottomNav.classList.toggle("hidden", mode !== "parent");
+
+      if (mode === "admin" && !adminAuthenticated) {
+        els.loginArea.classList.remove("hidden");
+        els.adminArea.classList.add("hidden");
+      }
+    }
+
+    function setParentScreen(screen) {
+      document.querySelectorAll(".screen").forEach((section) => {
+        section.classList.toggle("active", section.id === `parent-${screen}`);
+      });
+      document.querySelectorAll("[data-parent-screen]").forEach((button) => {
+        button.classList.toggle("active", button.dataset.parentScreen === screen);
+      });
+    }
+
+    function setAdminScreen(screen) {
+      document.querySelectorAll(".admin-screen").forEach((section) => {
+        section.classList.toggle("active", section.id === `admin-${screen}`);
+      });
+      document.querySelectorAll("[data-admin-screen]").forEach((button) => {
+        button.classList.toggle("active", button.dataset.adminScreen === screen);
+      });
+    }
+
+    function openQuickCreate(collection) {
+      const panelMap = {
+        announcements: "announcementFormPanel",
+        events: "eventFormPanel",
+        calendar: "calendarFormPanel",
+        documents: "documentFormPanel"
+      };
+      const screenMap = {
+        announcements: "announcements",
+        events: "events",
+        calendar: "calendar",
+        documents: "documents"
+      };
+
+      setAdminScreen(screenMap[collection]);
+      openFormPanel(panelMap[collection]);
+    }
+
+    function openFormPanel(panelId) {
+      const panel = document.getElementById(panelId);
+      const form = panel.querySelector("form");
+      form.reset();
+      form.elements.id.value = "";
+      setDefaultDates(form);
+      panel.classList.add("active");
+      panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function closeFormPanel(panelId) {
+      const panel = document.getElementById(panelId);
+      const form = panel.querySelector("form");
+      form.reset();
+      if (form.elements.id) form.elements.id.value = "";
+      panel.classList.remove("active");
+    }
+
+    function upsertItem(collection, item) {
+      const isEditing = Boolean(item.id);
+      const cleanItem = normalizeItem(item);
+      if (isEditing) {
+        state[collection] = state[collection].map((current) => current.id === cleanItem.id ? cleanItem : current);
+      } else {
+        cleanItem.id = createId();
+        state[collection].unshift(cleanItem);
+      }
+
+      saveState();
+      renderAll();
+      showToast(isEditing ? "Informação atualizada." : "Informação publicada.");
+    }
+
+    function normalizeItem(item) {
+      const normalized = { ...item };
+      Object.keys(normalized).forEach((key) => {
+        if (typeof normalized[key] === "string") normalized[key] = normalized[key].trim();
+      });
+      return normalized;
+    }
+
+    function editItem(collection, id) {
+      const item = state[collection].find((entry) => entry.id === id);
+      if (!item) return;
+
+      const panelMap = {
+        announcements: "announcementFormPanel",
+        events: "eventFormPanel",
+        calendar: "calendarFormPanel",
+        documents: "documentFormPanel"
+      };
+      const screenMap = {
+        announcements: "announcements",
+        events: "events",
+        calendar: "calendar",
+        documents: "documents"
+      };
+
+      setAdminScreen(screenMap[collection]);
+      const panel = document.getElementById(panelMap[collection]);
+      const form = panel.querySelector("form");
+      Object.entries(item).forEach(([key, value]) => {
+        if (form.elements[key]) form.elements[key].value = value;
+      });
+      panel.classList.add("active");
+      panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function deleteItem(collection, id) {
+      const confirmed = window.confirm("Excluir esta informação do portal?");
+      if (!confirmed) return;
+
+      state[collection] = state[collection].filter((entry) => entry.id !== id);
+      saveState();
+      renderAll();
+      showToast("Informação excluída.");
+    }
+
+    function markUrgent(id) {
+      state.announcements = state.announcements.map((entry) => {
+        if (entry.id !== id) return entry;
+        return { ...entry, priority: "urgente" };
+      });
+      saveState();
+      renderAll();
+      showToast("Comunicado marcado como urgente.");
+    }
+
+    function duplicateItem(collection, id) {
+      const item = state[collection].find((entry) => entry.id === id);
+      if (!item) return;
+
+      const copy = {
+        ...item,
+        id: createId()
+      };
+      if (copy.title) copy.title = `${copy.title} (cópia)`;
+      if (copy.name) copy.name = `${copy.name} (cópia)`;
+      state[collection].unshift(copy);
+      saveState();
+      renderAll();
+      showToast("Informação duplicada.");
+    }
+
+    function clearAdminFilters(collection) {
+      const map = {
+        announcements: ["adminAnnouncementClassFilter", "adminAnnouncementSearch"],
+        events: ["adminEventClassFilter", "adminEventSearch"],
+        calendar: ["adminCalendarClassFilter", "adminCalendarSearch"],
+        documents: ["adminDocumentClassFilter", "adminDocumentSearch"]
+      };
+      (map[collection] || []).forEach((id) => {
+        const field = document.getElementById(id);
+        if (field) field.value = "";
+      });
+      renderAdminLists();
+    }
+
+    function syncParentClassFilters(value) {
+      ["parentAnnouncementClass", "parentEventClass", "parentCalendarClass", "parentDocumentClass"].forEach((id) => {
+        const select = document.getElementById(id);
+        if (select && Array.from(select.options).some((option) => option.value === value)) {
+          select.value = value;
+        }
+      });
+    }
+
+    function applyThemePreset(theme) {
+      const themes = {
+        classic: ["#3B82F6", "#10B981", "#F59E0B"],
+        green: ["#10B981", "#3B82F6", "#F59E0B"],
+        violet: ["#7C3AED", "#10B981", "#F59E0B"]
+      };
+      const colors = themes[theme];
+      if (!colors) return;
+
+      const form = document.getElementById("settingsForm");
+      form.elements.primaryColor.value = colors[0];
+      form.elements.secondaryColor.value = colors[1];
+      form.elements.accentColor.value = colors[2];
+      state.settings = {
+        ...state.settings,
+        primaryColor: colors[0],
+        secondaryColor: colors[1],
+        accentColor: colors[2]
+      };
+      saveState();
+      applyTheme();
+      renderSettingsPreview();
+      showToast("Tema aplicado.");
+    }
+
+    function openDetailModal(collection, id) {
+      const item = state[collection].find((entry) => entry.id === id);
+      if (!item) return;
+
+      const title = item.title || item.name || "Informação";
+      const text = item.text || item.description || "";
+      document.getElementById("detailKind").textContent = collectionLabel(collection);
+      document.getElementById("detailTitle").textContent = title;
+      document.getElementById("detailBody").innerHTML = `
+        <p>${escapeHtml(text)}</p>
+        ${imageHtml(item)}
+        ${metaRow(item)}
+        ${collection === "documents" ? `<div class="meta-row"><a class="btn btn-primary" href="${escapeAttribute(item.link)}" target="_blank" rel="noopener">Abrir documento</a></div>` : ""}
+      `;
+      document.getElementById("detailModal").classList.add("show");
+    }
+
+    function closeDetailModal() {
+      document.getElementById("detailModal").classList.remove("show");
+    }
+
+    function renderAll() {
+      populateClassFilters();
+      populateSettingsForm();
+      renderBranding();
+      renderSummary();
+      renderParentLists();
+      renderAdminLists();
+      renderDashboard();
+    }
+
+    function applyTheme() {
+      const legacyColors = ["#00d9ff", "#8b5cf6", "#ff8a2a", "#1040c0", "#d02020", "#f0c020", "#6c63ff", "#38b2ac", "#8b84ff"];
+      if (legacyColors.includes(String(state.settings.primaryColor).toLowerCase())) {
+        state.settings.primaryColor = defaultData.settings.primaryColor;
+        state.settings.secondaryColor = defaultData.settings.secondaryColor;
+        state.settings.accentColor = defaultData.settings.accentColor;
+        saveState();
+      }
+
+      document.documentElement.style.setProperty("--primary", state.settings.primaryColor || defaultData.settings.primaryColor);
+      document.documentElement.style.setProperty("--secondary", state.settings.secondaryColor || defaultData.settings.secondaryColor);
+      document.documentElement.style.setProperty("--accent", state.settings.accentColor || defaultData.settings.accentColor);
+    }
+
+    function renderBranding() {
+      const settings = state.settings;
+      document.getElementById("heroSchoolName").textContent = settings.schoolName || "Haze - Portal dos Pais";
+      document.getElementById("homeSchoolName").textContent = settings.schoolName || "Olá, famílias";
+      document.getElementById("schoolInitial").textContent = (settings.schoolName || "H").trim().charAt(0).toUpperCase();
+      document.getElementById("homeGreeting").textContent = settings.address
+        ? `Acompanhe os recados e informações de ${settings.address}.`
+        : "Acompanhe os recados importantes da escola.";
+
+      const cleanPhone = (settings.whatsapp || "").replace(/\D/g, "");
+      const whatsappButton = document.getElementById("whatsappButton");
+      whatsappButton.href = cleanPhone ? `https://wa.me/${cleanPhone}` : "#";
+      whatsappButton.classList.toggle("hidden", !cleanPhone);
+
+      const locationButton = document.getElementById("locationButton");
+      locationButton.href = settings.locationLink || "#";
+      locationButton.classList.toggle("hidden", !settings.locationLink);
+    }
+
+    function renderSummary() {
+      const upcomingEvents = getUpcoming(state.events, "date").length;
+      const urgent = state.announcements.filter((item) => item.priority === "urgente").length;
+      const cards = [
+        ["Comunicados", state.announcements.length, "Recados ativos no portal", "blue"],
+        ["Eventos", upcomingEvents, "Programações futuras", "green"],
+        ["Calendário", state.calendar.length, "Datas importantes", "amber"],
+        ["Documentos", state.documents.length, "Links úteis para famílias", "indigo"],
+        ["Urgentes", urgent, "Comunicados em destaque", "blue"]
+      ];
+
+      document.getElementById("summaryCards").innerHTML = cards.map(([label, value, note, color]) => `
+        <article class="stat-card ${color}">
+          <span class="stat-value">${value}</span>
+          <span class="stat-label">${escapeHtml(label)}</span>
+          <p class="side-copy">${escapeHtml(note)}</p>
+        </article>
+      `).join("");
+    }
+
+    function renderParentLists() {
+      renderParentOverview();
+      const globalClass = document.getElementById("parentGlobalClass").value;
+
+      const urgent = sortByDateDesc(state.announcements)
+        .filter((item) => item.priority === "urgente")
+        .filter((item) => matchesClass(item, globalClass))
+        .slice(0, 2);
+      document.getElementById("urgentHighlights").innerHTML = urgent.length
+        ? urgent.map((item) => `
+          <article class="card item-card urgent">
+            ${dateTile(item)}
+            <div class="item-body">
+              <span class="item-kind">Urgente</span>
+              <div class="card-title"><h3>${escapeHtml(item.title)}</h3></div>
+              <p>${escapeHtml(item.text)}</p>
+              ${imageHtml(item)}
+              ${metaRow(item)}
+            </div>
+          </article>
+        `).join("")
+        : "";
+
+      renderList("homeAnnouncements", sortByDateDesc(state.announcements).filter((item) => matchesClass(item, globalClass)).slice(0, 3), "announcements", "Nenhum comunicado publicado ainda");
+      renderList("homeEvents", getUpcoming(state.events, "date").filter((item) => matchesClass(item, globalClass)).slice(0, 3), "events", "Nenhum evento cadastrado");
+      renderList("homeCalendar", getUpcoming(state.calendar, "date").filter((item) => matchesClass(item, globalClass)).slice(0, 3), "calendar", "Nenhuma data importante cadastrada");
+      renderList("homeDocuments", state.documents.filter((item) => matchesClass(item, globalClass)).slice(0, 3), "documents", "Nenhum documento disponível");
+
+      const announcementClass = document.getElementById("parentAnnouncementClass").value;
+      const announcementPriority = document.getElementById("parentAnnouncementPriority").value;
+      const filteredAnnouncements = sortByDateDesc(state.announcements)
+        .filter((item) => matchesClass(item, announcementClass))
+        .filter((item) => !announcementPriority || item.priority === announcementPriority);
+      renderList("parentAnnouncementsList", filteredAnnouncements, "announcements", "Nenhum comunicado publicado ainda");
+
+      const eventClass = document.getElementById("parentEventClass").value;
+      renderList("parentEventsList", getUpcoming(state.events, "date").filter((item) => matchesClass(item, eventClass)), "events", "Nenhum evento cadastrado");
+
+      const calendarClass = document.getElementById("parentCalendarClass").value;
+      renderList("parentCalendarList", sortByDate(state.calendar).filter((item) => matchesClass(item, calendarClass)), "calendar", "Nenhuma data importante cadastrada");
+
+      const documentClass = document.getElementById("parentDocumentClass").value;
+      renderList("parentDocumentsList", state.documents.filter((item) => matchesClass(item, documentClass)), "documents", "Nenhum documento disponível");
+    }
+
+    function renderParentOverview() {
+      const urgentCount = state.announcements.filter((item) => item.priority === "urgente").length;
+      const nextEvents = getUpcoming(state.events, "date").length;
+      const nextDates = getUpcoming(state.calendar, "date").length;
+      const metrics = [
+        [urgentCount, "Avisos urgentes", "blue"],
+        [nextEvents, "Eventos próximos", "green"],
+        [state.documents.length, "Documentos", "amber"]
+      ];
+      const status = [
+        [state.announcements.length, "Comunicados", "blue"],
+        [nextDates, "Datas importantes", "green"],
+        [state.documents.length, "Links úteis", "amber"]
+      ];
+
+      document.getElementById("parentHeroMetrics").innerHTML = metrics.map(([value, label, color]) => `
+        <div class="stat-card ${color}">
+          <span class="stat-value">${value}</span>
+          <span class="stat-label">${escapeHtml(label)}</span>
+        </div>
+      `).join("");
+
+      document.getElementById("parentStatusGrid").innerHTML = status.map(([value, label, color]) => `
+        <div class="stat-card ${color}">
+          <span class="stat-value">${value}</span>
+          <span class="stat-label">${escapeHtml(label)}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderAdminLists() {
+      const announcementClass = document.getElementById("adminAnnouncementClassFilter").value;
+      const announcementSearch = document.getElementById("adminAnnouncementSearch").value;
+      renderAdminCollection("adminAnnouncementsList", filterBySearch(sortByDateDesc(state.announcements).filter((item) => matchesClass(item, announcementClass)), announcementSearch), "announcements", "Nenhum comunicado publicado ainda");
+
+      const eventClass = document.getElementById("adminEventClassFilter").value;
+      const eventSearch = document.getElementById("adminEventSearch").value;
+      renderAdminCollection("adminEventsList", filterBySearch(getUpcoming(state.events, "date").filter((item) => matchesClass(item, eventClass)), eventSearch), "events", "Nenhum evento cadastrado");
+
+      const calendarClass = document.getElementById("adminCalendarClassFilter").value;
+      const calendarSearch = document.getElementById("adminCalendarSearch").value;
+      renderAdminCollection("adminCalendarList", filterBySearch(sortByDate(state.calendar).filter((item) => matchesClass(item, calendarClass)), calendarSearch), "calendar", "Nenhuma data importante cadastrada");
+
+      const documentClass = document.getElementById("adminDocumentClassFilter").value;
+      const documentSearch = document.getElementById("adminDocumentSearch").value;
+      renderAdminCollection("adminDocumentsList", filterBySearch(state.documents.filter((item) => matchesClass(item, documentClass)), documentSearch), "documents", "Nenhum documento disponível");
+    }
+
+    function renderDashboard() {
+      const urgent = state.announcements.filter((item) => item.priority === "urgente");
+      const upcoming = getUpcoming(state.events, "date").slice(0, 2);
+      const latest = sortByDateDesc(state.announcements).slice(0, 2);
+      const items = [
+        ...urgent.map((item) => ({ ...item, dashboardType: "Urgente", collection: "announcements" })),
+        ...upcoming.map((item) => ({ ...item, dashboardType: "Próximo evento", collection: "events" })),
+        ...latest.map((item) => ({ ...item, dashboardType: "Comunicado recente", collection: "announcements" }))
+      ].slice(0, 6);
+
+      const container = document.getElementById("dashboardHighlights");
+      if (!items.length) {
+        container.innerHTML = emptyState("Nenhuma informação publicada ainda", "Use o botão de publicar para começar.");
+        return;
+      }
+
+      container.innerHTML = items.map((item) => {
+        const title = item.title || item.name;
+        const text = item.text || item.description || "";
+        return `
+          <article class="card item-card ${item.priority === "urgente" ? "urgent" : ""}">
+            ${dateTile(item)}
+            <div class="item-body">
+              <span class="item-kind">${escapeHtml(item.dashboardType)}</span>
+              <div class="card-title"><h3>${escapeHtml(title)}</h3></div>
+              <p>${escapeHtml(text)}</p>
+              ${imageHtml(item)}
+              ${metaRow(item)}
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderAdminCollection(containerId, items, collection, emptyMessage) {
+      const container = document.getElementById(containerId);
+      if (!items.length) {
+        container.innerHTML = emptyState(emptyMessage, "Quando a escola publicar, tudo aparecerá aqui.");
+        return;
+      }
+
+      container.innerHTML = items.map((item) => {
+        const title = item.title || item.name;
+        const text = item.text || item.description || "";
+        const urgentButton = collection === "announcements" && item.priority !== "urgente"
+          ? `<button class="btn btn-small btn-muted" type="button" data-mark-urgent="${item.id}">Marcar urgente</button>`
+          : "";
+
+        return `
+          <article class="card item-card ${item.priority === "urgente" ? "urgent" : ""}">
+            ${dateTile(item)}
+            <div class="item-body">
+              <span class="item-kind">${escapeHtml(collectionLabel(collection))}</span>
+              <div class="card-title">
+                <h3>${escapeHtml(title)}</h3>
+                ${priorityBadge(item)}
+              </div>
+              <p>${escapeHtml(text)}</p>
+              ${imageHtml(item)}
+              ${metaRow(item)}
+              ${collection === "documents" ? `<div class="meta-row"><a class="btn btn-primary btn-small" href="${escapeAttribute(item.link)}" target="_blank" rel="noopener">Abrir link</a></div>` : ""}
+              <div class="admin-list-actions">
+                <button class="btn btn-muted btn-small" type="button" data-detail="${collection}:${item.id}">Ver</button>
+                <button class="btn btn-muted btn-small" type="button" data-edit="${collection}:${item.id}">Editar</button>
+                <button class="btn btn-muted btn-small" type="button" data-duplicate="${collection}:${item.id}">Duplicar</button>
+                ${urgentButton}
+                <button class="btn btn-danger btn-small" type="button" data-delete="${collection}:${item.id}">Excluir</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      container.querySelectorAll("[data-edit]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const [itemCollection, id] = button.dataset.edit.split(":");
+          editItem(itemCollection, id);
+        });
+      });
+
+      container.querySelectorAll("[data-duplicate]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const [itemCollection, id] = button.dataset.duplicate.split(":");
+          duplicateItem(itemCollection, id);
+        });
+      });
+
+      container.querySelectorAll("[data-detail]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const [itemCollection, id] = button.dataset.detail.split(":");
+          openDetailModal(itemCollection, id);
+        });
+      });
+
+      container.querySelectorAll("[data-delete]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const [itemCollection, id] = button.dataset.delete.split(":");
+          deleteItem(itemCollection, id);
+        });
+      });
+
+      container.querySelectorAll("[data-mark-urgent]").forEach((button) => {
+        button.addEventListener("click", () => markUrgent(button.dataset.markUrgent));
+      });
+    }
+
+    function renderList(containerId, items, collection, emptyMessage) {
+      const container = document.getElementById(containerId);
+      if (!items.length) {
+        container.innerHTML = emptyState(emptyMessage, "A escola ainda não publicou informações nesta área.");
+        return;
+      }
+
+      container.innerHTML = items.map((item) => {
+        const title = item.title || item.name;
+        const text = item.text || item.description || "";
+        const documentLink = collection === "documents"
+          ? `<div class="meta-row"><a class="btn btn-primary btn-small" href="${escapeAttribute(item.link)}" target="_blank" rel="noopener">Abrir documento</a></div>`
+          : "";
+
+        return `
+          <article class="card item-card ${item.priority === "urgente" ? "urgent" : ""}">
+            ${dateTile(item)}
+            <div class="item-body">
+              <span class="item-kind">${escapeHtml(collectionLabel(collection))}</span>
+              <div class="card-title">
+                <h3>${escapeHtml(title)}</h3>
+                ${priorityBadge(item)}
+              </div>
+              <p>${escapeHtml(text)}</p>
+              ${imageHtml(item)}
+              ${metaRow(item)}
+              ${documentLink}
+              <div class="meta-row">
+                <button class="btn btn-muted btn-small" type="button" data-detail="${collection}:${item.id}">Ver detalhes</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      container.querySelectorAll("[data-detail]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const [itemCollection, id] = button.dataset.detail.split(":");
+          openDetailModal(itemCollection, id);
+        });
+      });
+    }
+
+    function populateClassFilters() {
+      const allClasses = new Set(["Todas"]);
+      ["announcements", "events", "calendar", "documents"].forEach((collection) => {
+        state[collection].forEach((item) => {
+          if (item.className) allClasses.add(item.className);
+        });
+      });
+
+      const options = `<option value="">Todas as turmas</option>${Array.from(allClasses).sort().map((className) => (
+        `<option value="${escapeAttribute(className)}">${escapeHtml(className)}</option>`
+      )).join("")}`;
+
+      document.querySelectorAll("select[data-parent-filter], select[data-admin-filter], #parentGlobalClass").forEach((select) => {
+        const previous = select.value;
+        if (select.id === "parentAnnouncementPriority") return;
+        select.innerHTML = options;
+        select.value = Array.from(select.options).some((option) => option.value === previous) ? previous : "";
+      });
+    }
+
+    function populateSettingsForm() {
+      const form = document.getElementById("settingsForm");
+      Object.entries(state.settings).forEach(([key, value]) => {
+        if (form.elements[key]) form.elements[key].value = value;
+      });
+      renderSettingsPreview();
+    }
+
+    function renderSettingsPreview() {
+      const name = document.getElementById("settingsPreviewName");
+      const address = document.getElementById("settingsPreviewAddress");
+      if (!name || !address) return;
+      name.textContent = state.settings.schoolName || "Escola Haze";
+      address.textContent = state.settings.address || "Endereço da escola";
+    }
+
+    function formToObject(form, fields) {
+      return fields.reduce((item, field) => {
+        item[field] = form.elements[field] ? form.elements[field].value : "";
+        return item;
+      }, {});
+    }
+
+    function setDefaultDates(form) {
+      Array.from(form.elements).forEach((element) => {
+        if (element.type === "date" && !element.value) element.value = todayOffset(0);
+      });
+    }
+
+    function getUpcoming(items, dateKey) {
+      const today = todayOffset(0);
+      return sortByDate(items, dateKey).filter((item) => !item[dateKey] || item[dateKey] >= today);
+    }
+
+    function sortByDate(items, dateKey = "date") {
+      return [...items].sort((a, b) => (a[dateKey] || "").localeCompare(b[dateKey] || ""));
+    }
+
+    function sortByDateDesc(items, dateKey = "date") {
+      return [...items].sort((a, b) => (b[dateKey] || "").localeCompare(a[dateKey] || ""));
+    }
+
+    function filterBySearch(items, query) {
+      const normalizedQuery = String(query || "").trim().toLowerCase();
+      if (!normalizedQuery) return items;
+
+      return items.filter((item) => Object.values(item).some((value) => (
+        String(value || "").toLowerCase().includes(normalizedQuery)
+      )));
+    }
+
+    function matchesClass(item, selectedClass) {
+      if (!selectedClass) return true;
+      return item.className === selectedClass || item.className === "Todas";
+    }
+
+    function priorityBadge(item) {
+      if (!item.priority) return "";
+      const label = item.priority.charAt(0).toUpperCase() + item.priority.slice(1);
+      return `<span class="badge ${escapeAttribute(item.priority)}">${escapeHtml(label)}</span>`;
+    }
+
+    function collectionLabel(collection) {
+      const labels = {
+        announcements: "Comunicado",
+        events: "Evento",
+        calendar: "Calendário",
+        documents: "Documento"
+      };
+      return labels[collection] || "Informação";
+    }
+
+    function dateTile(item) {
+      if (!item.date) {
+        return `
+          <div class="date-tile">
+            <span>Link</span>
+            <strong>Doc</strong>
+          </div>
+        `;
+      }
+
+      const [, month, day] = item.date.split("-");
+      const monthLabel = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"][Number(month) - 1] || "Data";
+      return `
+        <div class="date-tile">
+          <span>${escapeHtml(monthLabel)}</span>
+          <strong>${escapeHtml(day || "")}</strong>
+        </div>
+      `;
+    }
+
+    function metaRow(item) {
+      const parts = [];
+      if (item.date) parts.push(formatDate(item.date));
+      if (item.time) parts.push(item.time);
+      if (item.className) parts.push(item.className);
+      if (item.type) parts.push(item.type);
+      if (!parts.length) return "";
+      return `<div class="meta-row">${parts.map((part) => `<span class="badge">${escapeHtml(part)}</span>`).join("")}</div>`;
+    }
+
+    function imageHtml(item) {
+      if (!item.imageData) return "";
+      return `<img class="card-image" src="${escapeAttribute(item.imageData)}" alt="Imagem do aviso">`;
+    }
+
+    function fileToDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function emptyState(title, message) {
+      return `
+        <div class="empty-state">
+          <strong>${escapeHtml(title)}</strong>
+          <span>${escapeHtml(message)}</span>
+        </div>
+      `;
+    }
+
+    function createId() {
+      return `haze-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    }
+
+    function todayOffset(days) {
+      const date = new Date();
+      date.setDate(date.getDate() + days);
+      return date.toISOString().slice(0, 10);
+    }
+
+    function formatDate(value) {
+      if (!value) return "";
+      const [year, month, day] = value.split("-");
+      return `${day}/${month}/${year}`;
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function escapeAttribute(value) {
+      return escapeHtml(value);
+    }
+
+    function showToast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("show");
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => {
+        els.toast.classList.remove("show");
+      }, 2600);
+    }
+  </script>
+</body>
+</html>
