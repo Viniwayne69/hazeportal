@@ -30,7 +30,7 @@
       --green-soft: #d1fae5;
       --indigo-soft: #e0e7ff;
       --radius: 8px;
-      --page-max: 1480px;
+      --page-max: 1720px;
       color-scheme: light;
     }
 
@@ -176,9 +176,9 @@
     }
 
     .main {
-      width: min(var(--page-max), 100%);
-      margin: 0 auto;
-      padding: 24px;
+      width: 100%;
+      margin: 0;
+      padding: 24px clamp(14px, 1.2vw, 24px);
     }
 
     .view {
@@ -191,8 +191,8 @@
 
     .layout {
       display: grid;
-      grid-template-columns: 320px minmax(0, 1fr);
-      gap: 24px;
+      grid-template-columns: clamp(320px, 19vw, 360px) minmax(0, 1fr);
+      gap: clamp(22px, 2vw, 34px);
       align-items: start;
     }
 
@@ -212,7 +212,7 @@
       top: 90px;
       display: grid;
       gap: 16px;
-      padding: 24px;
+      padding: clamp(24px, 2vw, 34px);
     }
 
     .side-title {
@@ -265,6 +265,133 @@
       background: var(--surface);
     }
 
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .audience-tabs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      padding: 5px;
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .audience-tabs button {
+      position: relative;
+      min-height: 38px;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 900;
+      transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+    }
+
+    .audience-tabs button:hover {
+      transform: translateY(-1px);
+      color: var(--text);
+    }
+
+    .audience-tabs button.active {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .audience-tabs button:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+      transform: none;
+    }
+
+    .audience-tabs button:disabled:hover::after {
+      position: absolute;
+      right: 50%;
+      bottom: calc(100% + 8px);
+      z-index: 10;
+      width: max-content;
+      max-width: 190px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: var(--text);
+      color: #ffffff;
+      content: attr(data-disabled-tooltip);
+      font-size: 0.76rem;
+      font-weight: 800;
+      line-height: 1.25;
+      opacity: 1;
+      pointer-events: none;
+      transform: translateX(50%);
+      white-space: normal;
+    }
+
+    .audience-tabs button:disabled:hover::before {
+      position: absolute;
+      right: 50%;
+      bottom: calc(100% + 2px);
+      z-index: 11;
+      border: 6px solid transparent;
+      border-top-color: var(--text);
+      content: "";
+      pointer-events: none;
+      transform: translateX(50%);
+    }
+
+    .priority-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+      padding: 5px;
+      border-radius: var(--radius);
+      background: var(--bg);
+    }
+
+    .priority-tabs button {
+      min-height: 38px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 900;
+      transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+    }
+
+    .priority-tabs button:hover {
+      transform: translateY(-1px);
+      color: var(--text);
+    }
+
+    .priority-tabs button.active {
+      background: var(--text);
+      color: #ffffff;
+    }
+
+    .scope-notice {
+      display: none;
+      padding: 12px;
+      border-radius: var(--radius);
+      background: var(--blue-soft);
+      color: var(--primary-dark);
+      font-size: 0.86rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .scope-notice.show {
+      display: block;
+      animation: fadeSlideUp 0.35s ease both;
+    }
+
     .quick-publish {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -301,6 +428,12 @@
 
     .btn:active {
       transform: scale(0.98);
+    }
+
+    .btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+      transform: none;
     }
 
     .btn-primary {
@@ -343,6 +476,13 @@
       padding: 16px;
       border-radius: var(--radius);
       background: var(--bg);
+      animation: cardEnter 0.4s ease both;
+      animation-delay: var(--delay, 0ms);
+      transition: transform 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
     }
 
     .stat-card.blue {
@@ -383,7 +523,7 @@
     .work-panel {
       display: grid;
       gap: 20px;
-      padding: 20px;
+      padding: clamp(20px, 1.6vw, 30px);
       background: var(--bg);
     }
 
@@ -468,6 +608,97 @@
       gap: 12px;
     }
 
+    .home-scope-banner {
+      display: grid;
+      gap: 6px;
+      padding: 18px;
+      border-radius: var(--radius);
+      background: var(--text);
+      color: #ffffff;
+      animation: fadeSlideUp 0.35s ease both;
+    }
+
+    .home-scope-banner strong {
+      font-size: 1.1rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .home-scope-banner span {
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.45;
+    }
+
+    .feed-split {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .feed-column {
+      display: grid;
+      align-content: start;
+      gap: 12px;
+      min-height: 260px;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .feed-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px;
+      border-radius: var(--radius);
+      color: #ffffff;
+    }
+
+    .feed-head span {
+      display: inline-flex;
+      margin-bottom: 6px;
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0.84;
+    }
+
+    .feed-head h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .feed-head p {
+      margin: 4px 0 0;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 0.88rem;
+    }
+
+    .feed-head strong {
+      display: grid;
+      width: 46px;
+      height: 46px;
+      flex: 0 0 46px;
+      place-items: center;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      font-size: 1.3rem;
+      font-weight: 900;
+    }
+
+    .feed-general .feed-head {
+      background: var(--primary);
+    }
+
+    .feed-class .feed-head {
+      background: var(--secondary);
+    }
+
     .section {
       display: grid;
       gap: 12px;
@@ -504,13 +735,30 @@
     }
 
     .card {
+      position: relative;
+      overflow: hidden;
       padding: 16px;
-      transition: transform 0.2s ease, background 0.2s ease;
+      animation: cardEnter 0.42s ease both;
+      animation-delay: var(--delay, 0ms);
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .card::before {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: var(--primary);
+      content: "";
     }
 
     .card:hover {
-      transform: scale(1.01);
+      transform: translateY(-3px) scale(1.01);
       background: var(--surface-strong);
+    }
+
+    .card.saved {
+      animation: savedPulse 1.1s ease both;
+      background: var(--blue-soft);
     }
 
     .item-card {
@@ -524,8 +772,24 @@
       background: var(--danger-soft);
     }
 
+    .item-card.urgent::before {
+      background: var(--danger);
+    }
+
     .item-card.urgent:hover {
       background: #fecaca;
+    }
+
+    .item-card.event::before {
+      background: var(--secondary);
+    }
+
+    .item-card.calendar::before {
+      background: var(--accent);
+    }
+
+    .item-card.document::before {
+      background: #6366f1;
     }
 
     .date-tile {
@@ -593,15 +857,16 @@
     .card-image {
       display: block;
       width: 100%;
-      max-height: 260px;
+      max-height: 170px;
       margin: 12px 0 0;
       border-radius: var(--radius);
       object-fit: cover;
+      object-position: center;
       background: var(--surface-strong);
     }
 
     .item-card .card-image {
-      max-height: 220px;
+      max-height: 150px;
     }
 
     .meta-row {
@@ -631,6 +896,11 @@
     .badge.urgente {
       background: var(--danger);
       color: #ffffff;
+    }
+
+    .badge.target {
+      background: var(--blue-soft);
+      color: var(--primary-dark);
     }
 
     .filters {
@@ -688,15 +958,21 @@
     }
 
     .empty-state {
-      padding: 24px;
+      display: grid;
+      gap: 8px;
+      padding: 28px;
+      border-radius: var(--radius);
+      background: var(--surface);
       color: var(--muted);
-      text-align: center;
+      text-align: left;
+      animation: fadeSlideUp 0.35s ease both;
     }
 
     .empty-state strong {
       display: block;
       margin-bottom: 4px;
       color: var(--text);
+      font-size: 1rem;
     }
 
     .login-box {
@@ -911,7 +1187,23 @@
     }
 
     .form-panel.active {
+      display: grid;
+      gap: 14px;
+      animation: fadeSlideUp 0.28s ease both;
+    }
+
+    .form-panel.active::before {
       display: block;
+      width: fit-content;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--primary-dark);
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      content: attr(data-panel-title);
     }
 
     .form-grid {
@@ -928,10 +1220,20 @@
     }
 
     .admin-list-actions {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: auto auto auto 1fr auto;
       gap: 8px;
       margin-top: 12px;
+      justify-content: start;
+    }
+
+    .admin-list-actions .action-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .admin-list-actions .btn-danger {
+      justify-self: end;
     }
 
     .toast {
@@ -953,6 +1255,7 @@
 
     .toast.show {
       display: block;
+      animation: toastIn 0.22s ease both;
     }
 
     .modal {
@@ -971,7 +1274,7 @@
     }
 
     .modal-card {
-      width: min(620px, 100%);
+      width: min(760px, 100%);
       max-height: min(720px, 90vh);
       overflow: auto;
       padding: 22px;
@@ -992,6 +1295,36 @@
       font-size: 1.5rem;
       font-weight: 800;
       letter-spacing: -0.03em;
+    }
+
+    .detail-content {
+      display: grid;
+      gap: 14px;
+    }
+
+    .detail-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px;
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .detail-text {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      white-space: pre-wrap;
+    }
+
+    .detail-image {
+      display: block;
+      width: 100%;
+      max-height: 420px;
+      border-radius: var(--radius);
+      object-fit: contain;
+      background: var(--surface);
     }
 
     .settings-layout {
@@ -1020,6 +1353,76 @@
       transform: scale(1.03);
     }
 
+    .class-manager {
+      display: grid;
+      gap: 12px;
+    }
+
+    .class-editor {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+    }
+
+    .class-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 10px;
+    }
+
+    .class-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px;
+      border-radius: var(--radius);
+      background: var(--muted);
+      font-weight: 800;
+    }
+
+    .class-row.editing {
+      align-items: stretch;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      background: var(--blue-soft);
+    }
+
+    .class-row input {
+      min-height: 42px;
+      padding: 10px 12px;
+      border: 0;
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--text);
+      font: inherit;
+      outline: none;
+    }
+
+    .class-row input:focus {
+      border: 2px solid var(--primary);
+    }
+
+    .class-row span {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .class-row small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .class-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
     .preview-card {
       display: grid;
       align-content: start;
@@ -1045,6 +1448,64 @@
       color: var(--text);
       font-size: 0.76rem;
       font-weight: 800;
+    }
+
+    @keyframes cardEnter {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.985);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes savedPulse {
+      0% {
+        background: var(--accent);
+        transform: translateY(0) scale(1);
+      }
+      45% {
+        transform: translateY(-2px) scale(1.015);
+      }
+      100% {
+        background: var(--blue-soft);
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
 
     .hidden {
@@ -1122,15 +1583,19 @@
       .quick-actions,
       .quick-publish,
       .summary-grid,
+      .feed-split,
       .stat-list,
       .cards-grid,
       .filters,
       .filters.three,
       .form-grid,
       .form-actions,
+      .admin-list-actions,
       .login-box,
       .settings-layout,
-      .theme-grid {
+      .theme-grid,
+      .priority-tabs,
+      .class-editor {
         grid-template-columns: 1fr;
       }
 
@@ -1180,6 +1645,10 @@
         width: 50px;
         height: 58px;
       }
+
+      .admin-list-actions .btn-danger {
+        justify-self: stretch;
+      }
     }
   </style>
 </head>
@@ -1213,7 +1682,7 @@
             <span class="kicker">Portal dos Pais</span>
             <div>
               <h1 id="heroSchoolName" class="side-title">Haze - Portal dos Pais</h1>
-              <p class="side-copy">A escola publica. Os pais acompanham. A comunicação fica organizada.</p>
+              <p class="side-copy">A escola publica, os pais acompanham e a comunicação fica organizada.</p>
             </div>
             <div class="quick-actions">
               <a id="whatsappButton" class="btn btn-primary" href="#" target="_blank" rel="noopener">WhatsApp da escola</a>
@@ -1224,40 +1693,57 @@
                 <label for="parentGlobalClass">Turma acompanhada</label>
                 <select id="parentGlobalClass"></select>
               </div>
+              <div class="audience-tabs" aria-label="Filtro de publicações">
+                <button type="button" data-parent-audience="general">Gerais</button>
+                <button class="active" type="button" data-parent-audience="mine" data-disabled-tooltip="Escolha uma turma acima">Turma</button>
+              </div>
+              <select id="parentAudienceFilter" class="sr-only" aria-hidden="true" tabindex="-1">
+                <option value="general">Gerais</option>
+                <option value="mine">Turma</option>
+              </select>
               <button id="clearParentFilters" class="btn btn-muted btn-small" type="button">Limpar filtros</button>
             </div>
+            <div id="parentScopeNotice" class="scope-notice"></div>
             <div id="parentHeroMetrics" class="stat-list"></div>
           </aside>
 
           <div class="work-panel">
             <nav id="parentBottomNav" class="tabs parent-only" aria-label="Menu do portal dos pais">
               <button type="button" class="active" data-parent-screen="home">Início</button>
-              <button type="button" data-parent-screen="announcements">Avisos</button>
+              <button type="button" data-parent-screen="announcements">Comunicados</button>
               <button type="button" data-parent-screen="events">Eventos</button>
               <button type="button" data-parent-screen="calendar">Agenda</button>
-              <button type="button" data-parent-screen="documents">Docs</button>
+              <button type="button" data-parent-screen="documents">Documentos</button>
             </nav>
 
             <section id="parent-home" class="screen active">
-              <div class="parent-top">
-                <div>
-                  <h2 id="homeSchoolName">Olá, famílias</h2>
-                  <p id="homeGreeting">Acompanhe os recados importantes da escola.</p>
-                </div>
-                <div class="school-initial" id="schoolInitial">H</div>
-              </div>
-
               <div id="parentStatusGrid" class="summary-grid"></div>
               <div id="urgentHighlights" class="grid"></div>
 
-              <div class="section">
-                <div class="section-header">
-                  <div>
-                    <h2>Comunicados recentes</h2>
-                    <p>Últimas publicações da escola</p>
+              <div class="feed-split">
+                <section class="feed-column feed-general">
+                  <div class="feed-head">
+                    <div>
+                      <span>Gerais</span>
+                      <h2>Comunicados gerais</h2>
+                      <p>Publicações para todas as turmas</p>
+                    </div>
+                    <strong id="homeGeneralCount">0</strong>
                   </div>
-                </div>
-                <div id="homeAnnouncements" class="grid"></div>
+                  <div id="homeGeneralAnnouncements" class="grid"></div>
+                </section>
+
+                <section class="feed-column feed-class">
+                  <div class="feed-head">
+                    <div>
+                      <span>Turma</span>
+                      <h2>Comunicados da turma</h2>
+                      <p id="homeClassSubtitle">Escolha a turma acompanhada para ver os recados específicos</p>
+                    </div>
+                    <strong id="homeClassCount">0</strong>
+                  </div>
+                  <div id="homeClassAnnouncements" class="grid"></div>
+                </section>
               </div>
 
               <div class="section">
@@ -1274,7 +1760,7 @@
                 <div class="section-header">
                   <div>
                     <h2>Hoje e próximos dias</h2>
-                    <p>Calendário escolar em destaque</p>
+                    <p>Agenda escolar em destaque</p>
                   </div>
                 </div>
                 <div id="homeCalendar" class="grid"></div>
@@ -1300,12 +1786,14 @@
               </div>
               <div class="filters">
                 <div class="field">
-                  <label for="parentAnnouncementClass">Turma</label>
-                  <select id="parentAnnouncementClass" data-parent-filter="announcements"></select>
-                </div>
-                <div class="field">
                   <label for="parentAnnouncementPriority">Prioridade</label>
-                  <select id="parentAnnouncementPriority" data-parent-filter="announcements">
+                  <div class="priority-tabs" aria-label="Filtro de prioridade">
+                    <button class="active" type="button" data-priority-filter="">Todas</button>
+                    <button type="button" data-priority-filter="normal">Normal</button>
+                    <button type="button" data-priority-filter="importante">Importante</button>
+                    <button type="button" data-priority-filter="urgente">Urgente</button>
+                  </div>
+                  <select id="parentAnnouncementPriority" class="sr-only" data-parent-filter="announcements" aria-hidden="true" tabindex="-1">
                     <option value="">Todas</option>
                     <option value="normal">Normal</option>
                     <option value="importante">Importante</option>
@@ -1323,26 +1811,14 @@
                   <p>Programações e encontros da escola</p>
                 </div>
               </div>
-              <div class="filters">
-                <div class="field">
-                  <label for="parentEventClass">Turma</label>
-                  <select id="parentEventClass" data-parent-filter="events"></select>
-                </div>
-              </div>
               <div id="parentEventsList" class="grid"></div>
             </section>
 
             <section id="parent-calendar" class="screen">
               <div class="section-header">
                 <div>
-                  <h2>Calendário</h2>
+                  <h2>Agenda</h2>
                   <p>Datas importantes para não perder</p>
-                </div>
-              </div>
-              <div class="filters">
-                <div class="field">
-                  <label for="parentCalendarClass">Turma</label>
-                  <select id="parentCalendarClass" data-parent-filter="calendar"></select>
                 </div>
               </div>
               <div id="parentCalendarList" class="grid"></div>
@@ -1353,12 +1829,6 @@
                 <div>
                   <h2>Documentos</h2>
                   <p>Links e materiais úteis</p>
-                </div>
-              </div>
-              <div class="filters">
-                <div class="field">
-                  <label for="parentDocumentClass">Turma</label>
-                  <select id="parentDocumentClass" data-parent-filter="documents"></select>
                 </div>
               </div>
               <div id="parentDocumentsList" class="grid"></div>
@@ -1406,7 +1876,7 @@
               <div class="quick-publish" aria-label="Atalhos de publicação">
                 <button class="btn btn-muted" type="button" data-quick-create="announcements">Comunicado</button>
                 <button class="btn btn-muted" type="button" data-quick-create="events">Evento</button>
-                <button class="btn btn-muted" type="button" data-quick-create="calendar">Calendário</button>
+                <button class="btn btn-muted" type="button" data-quick-create="calendar">Agenda</button>
                 <button class="btn btn-muted" type="button" data-quick-create="documents">Documento</button>
               </div>
             </div>
@@ -1418,7 +1888,7 @@
               <button type="button" class="active" data-admin-screen="dashboard">Início</button>
               <button type="button" data-admin-screen="announcements">Comunicados</button>
               <button type="button" data-admin-screen="events">Eventos</button>
-              <button type="button" data-admin-screen="calendar">Calendário</button>
+              <button type="button" data-admin-screen="calendar">Agenda</button>
               <button type="button" data-admin-screen="documents">Documentos</button>
               <button type="button" data-admin-screen="settings">Configurações</button>
             </nav>
@@ -1464,8 +1934,8 @@
                         <input id="announcementTitle" name="title" required placeholder="Ex: Reunião de pais">
                       </div>
                       <div class="field">
-                        <label for="announcementClass">Turma</label>
-                        <input id="announcementClass" name="className" required placeholder="Ex: Infantil 3 ou Todas">
+                        <label for="announcementClass">Destino</label>
+                        <select id="announcementClass" name="targetClass" required></select>
                       </div>
                       <div class="field">
                         <label for="announcementPriority">Prioridade</label>
@@ -1490,7 +1960,7 @@
                       </div>
                     </div>
                     <div class="form-actions">
-                      <button class="btn btn-primary" type="submit">Publicar comunicado</button>
+                      <button class="btn btn-primary" type="submit" data-submit-label="Publicar comunicado" data-edit-label="Salvar alterações">Publicar comunicado</button>
                       <button class="btn btn-muted" type="button" data-cancel-form="announcementFormPanel">Cancelar</button>
                     </div>
                   </form>
@@ -1528,8 +1998,8 @@
                         <input id="eventName" name="name" required placeholder="Ex: Festa junina">
                       </div>
                       <div class="field">
-                        <label for="eventClass">Turma</label>
-                        <input id="eventClass" name="className" required placeholder="Ex: Todas">
+                        <label for="eventClass">Destino</label>
+                        <select id="eventClass" name="targetClass" required></select>
                       </div>
                       <div class="field">
                         <label for="eventDate">Data</label>
@@ -1545,7 +2015,7 @@
                       </div>
                     </div>
                     <div class="form-actions">
-                      <button class="btn btn-primary" type="submit">Publicar evento</button>
+                      <button class="btn btn-primary" type="submit" data-submit-label="Publicar evento" data-edit-label="Salvar alterações">Publicar evento</button>
                       <button class="btn btn-muted" type="button" data-cancel-form="eventFormPanel">Cancelar</button>
                     </div>
                   </form>
@@ -1557,7 +2027,7 @@
                 <div class="admin-toolbar">
                   <div class="section-header">
                     <div>
-                      <h2>Calendário</h2>
+                      <h2>Agenda</h2>
                       <p>Organize provas, reuniões, passeios, feriados e atividades.</p>
                     </div>
                     <button class="btn btn-primary btn-small" type="button" data-open-form="calendarFormPanel">+ Nova data</button>
@@ -1583,6 +2053,10 @@
                         <input id="calendarTitle" name="title" required placeholder="Ex: Prova de matemática">
                       </div>
                       <div class="field">
+                        <label for="calendarClass">Destino</label>
+                        <select id="calendarClass" name="targetClass" required></select>
+                      </div>
+                      <div class="field">
                         <label for="calendarDate">Data</label>
                         <input id="calendarDate" name="date" type="date" required>
                       </div>
@@ -1597,17 +2071,13 @@
                           <option value="outro">Outro</option>
                         </select>
                       </div>
-                      <div class="field">
-                        <label for="calendarClass">Turma</label>
-                        <input id="calendarClass" name="className" required placeholder="Ex: 2º ano">
-                      </div>
                       <div class="field full">
                         <label for="calendarDescription">Descrição</label>
                         <textarea id="calendarDescription" name="description" required placeholder="Adicione uma observação para os pais."></textarea>
                       </div>
                     </div>
                     <div class="form-actions">
-                      <button class="btn btn-primary" type="submit">Publicar data</button>
+                      <button class="btn btn-primary" type="submit" data-submit-label="Publicar data" data-edit-label="Salvar alterações">Publicar data</button>
                       <button class="btn btn-muted" type="button" data-cancel-form="calendarFormPanel">Cancelar</button>
                     </div>
                   </form>
@@ -1645,8 +2115,8 @@
                         <input id="documentName" name="name" required placeholder="Ex: Calendário anual">
                       </div>
                       <div class="field">
-                        <label for="documentClass">Turma</label>
-                        <input id="documentClass" name="className" required placeholder="Ex: Todas">
+                        <label for="documentClass">Destino</label>
+                        <select id="documentClass" name="targetClass" required></select>
                       </div>
                       <div class="field full">
                         <label for="documentLink">Link do documento</label>
@@ -1658,7 +2128,7 @@
                       </div>
                     </div>
                     <div class="form-actions">
-                      <button class="btn btn-primary" type="submit">Publicar documento</button>
+                      <button class="btn btn-primary" type="submit" data-submit-label="Publicar documento" data-edit-label="Salvar alterações">Publicar documento</button>
                       <button class="btn btn-muted" type="button" data-cancel-form="documentFormPanel">Cancelar</button>
                     </div>
                   </form>
@@ -1710,6 +2180,14 @@
                         <button class="theme-btn" style="background:#10B981" type="button" data-theme="green">Verde Escola</button>
                         <button class="theme-btn" style="background:#7C3AED" type="button" data-theme="violet">Violeta</button>
                       </div>
+                      <div class="field full class-manager">
+                        <label for="newClassName">Turmas da escola</label>
+                        <div class="class-editor">
+                          <input id="newClassName" type="text" placeholder="Ex: Maternal, 5º ano">
+                          <button id="addClassButton" class="btn btn-primary btn-small" type="button">Adicionar turma</button>
+                        </div>
+                        <div id="classesList" class="class-list" aria-label="Turmas cadastradas"></div>
+                      </div>
                     </div>
                     <div class="form-actions">
                       <button class="btn btn-primary" type="submit">Salvar configurações</button>
@@ -1760,7 +2238,26 @@
     */
 
     const STORAGE_KEY = "hazePortalData";
+    const SELECTED_PARENT_CLASS_KEY = "selectedParentClass";
     const ADMIN_PASSWORD = "haze123";
+    const DEFAULT_CLASSES = [
+      "Todas as turmas",
+      "Infantil 1",
+      "Infantil 2",
+      "Infantil 3",
+      "1º ano",
+      "2º ano",
+      "3º ano",
+      "4º ano",
+      "5º ano",
+      "6º ano",
+      "7º ano",
+      "8º ano",
+      "9º ano",
+      "1º ano Ensino Médio",
+      "2º ano Ensino Médio",
+      "3º ano Ensino Médio"
+    ];
 
     const defaultData = {
       settings: {
@@ -1770,14 +2267,15 @@
         locationLink: "https://maps.google.com",
         primaryColor: "#3B82F6",
         secondaryColor: "#10B981",
-        accentColor: "#F59E0B"
+        accentColor: "#F59E0B",
+        classes: DEFAULT_CLASSES
       },
       announcements: [
         {
           id: createId(),
           title: "Reunião de pais e responsáveis",
           text: "Na próxima quinta-feira teremos reunião para conversar sobre rotina, avaliações e próximos projetos da turma.",
-          className: "Todas",
+          targetClass: "Todas as turmas",
           priority: "importante",
           date: todayOffset(2)
         },
@@ -1785,7 +2283,7 @@
           id: createId(),
           title: "Entrega de autorização para passeio",
           text: "Pedimos que as famílias enviem a autorização assinada até amanhã pela agenda escolar.",
-          className: "Infantil 4",
+          targetClass: "Infantil 1",
           priority: "urgente",
           date: todayOffset(0)
         }
@@ -1796,7 +2294,7 @@
           name: "Mostra Cultural",
           date: todayOffset(8),
           time: "17:30",
-          className: "Todas",
+          targetClass: "Todas as turmas",
           description: "Apresentação dos trabalhos desenvolvidos pelos estudantes ao longo do trimestre."
         }
       ],
@@ -1806,7 +2304,7 @@
           title: "Avaliação de matemática",
           date: todayOffset(5),
           type: "prova",
-          className: "3º ano",
+          targetClass: "3º ano",
           description: "Conteúdo: operações, problemas e leitura de gráficos."
         },
         {
@@ -1814,7 +2312,7 @@
           title: "Feriado municipal",
           date: todayOffset(14),
           type: "feriado",
-          className: "Todas",
+          targetClass: "Todas as turmas",
           description: "Não haverá aula nesta data."
         }
       ],
@@ -1824,20 +2322,24 @@
           name: "Calendário anual",
           link: "https://example.com/calendario",
           description: "Documento com datas letivas, feriados e eventos gerais.",
-          className: "Todas"
+          targetClass: "Todas as turmas"
         },
         {
           id: createId(),
           name: "Lista de materiais",
           link: "https://example.com/materiais",
           description: "Materiais sugeridos para uso dos alunos durante o ano.",
-          className: "Infantil 4"
+          targetClass: "Infantil 1"
         }
       ]
     };
 
     let state = loadState();
     let adminAuthenticated = false;
+    let selectedParentClass = localStorage.getItem(SELECTED_PARENT_CLASS_KEY) || "";
+    let parentAudienceFilter = "mine";
+    let lastChangedItemId = "";
+    let editingClassName = "";
 
     const els = {
       parentView: document.getElementById("parentView"),
@@ -1876,18 +2378,81 @@
       if (saved.settings && saved.settings.schoolName === "Escola Haze Modelo") {
         saved.settings.schoolName = "Escola Haze";
       }
+      const settings = { ...defaultData.settings, ...(saved.settings || {}) };
+      const existingTargets = ["announcements", "events", "calendar", "documents"].flatMap((collection) => (
+        Array.isArray(saved[collection])
+          ? saved[collection].map((item) => item.targetClass || item.className)
+          : []
+      ));
+      settings.classes = normalizeClasses([...DEFAULT_CLASSES, ...settings.classes, ...existingTargets]);
 
       return {
-        settings: { ...defaultData.settings, ...(saved.settings || {}) },
-        announcements: Array.isArray(saved.announcements) ? saved.announcements : [],
-        events: Array.isArray(saved.events) ? saved.events : [],
-        calendar: Array.isArray(saved.calendar) ? saved.calendar : [],
-        documents: Array.isArray(saved.documents) ? saved.documents : []
+        settings,
+        announcements: normalizeCollection(saved.announcements),
+        events: normalizeCollection(saved.events),
+        calendar: normalizeCollection(saved.calendar),
+        documents: normalizeCollection(saved.documents)
       };
     }
 
     function saveState() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function normalizeClasses(classes) {
+      const list = Array.isArray(classes) ? classes : DEFAULT_CLASSES;
+      const normalized = list
+        .map((item) => normalizeClassName(item))
+        .filter(Boolean);
+      return sortClasses(Array.from(new Set(["Todas as turmas", ...normalized])));
+    }
+
+    function sortClasses(classes) {
+      return [...classes].sort((a, b) => {
+        const orderA = classSortRank(a);
+        const orderB = classSortRank(b);
+        if (orderA !== orderB) return orderA - orderB;
+        return a.localeCompare(b, "pt-BR", { numeric: true, sensitivity: "base" });
+      });
+    }
+
+    function classSortRank(className) {
+      const name = normalizeClassName(className).toLowerCase();
+      if (name === "todas as turmas") return 0;
+
+      const infant = name.match(/^infantil\s+(\d+)/);
+      if (infant) return 10 + Number(infant[1]);
+
+      const highSchool = name.match(/^(\d+)[ºªoa]?\s*ano\s+ensino\s+m[ée]dio/);
+      if (highSchool) return 200 + Number(highSchool[1]);
+
+      const elementary = name.match(/^(\d+)[ºªoa]?\s*ano$/);
+      if (elementary) return 100 + Number(elementary[1]);
+
+      return 1000;
+    }
+
+    function normalizeCollection(collection) {
+      return Array.isArray(collection)
+        ? collection.map((item) => {
+          const normalized = {
+            ...item,
+            targetClass: normalizeClassName(item.targetClass || item.className || "Todas as turmas")
+          };
+          delete normalized.className;
+          return normalized;
+        })
+        : [];
+    }
+
+    function normalizeClassName(value) {
+      const name = String(value || "").trim();
+      if (!name || name === "Todas") return "Todas as turmas";
+      const highSchoolShort = name.match(/^([123])\s*(?:º|ª|o|a)?$/i);
+      if (highSchoolShort) return `${highSchoolShort[1]}º ano Ensino Médio`;
+      const highSchoolLong = name.match(/^([123])\s*(?:º|ª|o|a)?\s*(?:ano)?\s*(?:ensino\s*)?m[eé]dio$/i);
+      if (highSchoolLong) return `${highSchoolLong[1]}º ano Ensino Médio`;
+      return name;
     }
 
     function bindEvents() {
@@ -1919,7 +2484,10 @@
       });
 
       document.querySelectorAll("[data-parent-filter]").forEach((input) => {
-        input.addEventListener("change", renderParentLists);
+        input.addEventListener("change", () => {
+          updatePriorityButtons();
+          renderParentLists();
+        });
       });
 
       document.querySelectorAll("[data-admin-filter]").forEach((input) => {
@@ -1935,13 +2503,47 @@
       });
 
       document.getElementById("parentGlobalClass").addEventListener("change", () => {
-        syncParentClassFilters(document.getElementById("parentGlobalClass").value);
+        selectedParentClass = document.getElementById("parentGlobalClass").value;
+        localStorage.setItem(SELECTED_PARENT_CLASS_KEY, selectedParentClass);
+        ensureParentAudienceAvailability();
+        updateAudienceButtons();
+        syncParentClassFilters(selectedParentClass);
         renderParentLists();
       });
 
+      document.getElementById("parentAudienceFilter").addEventListener("change", () => {
+        parentAudienceFilter = document.getElementById("parentAudienceFilter").value;
+        updateAudienceButtons();
+        renderParentLists();
+      });
+
+      document.querySelectorAll("[data-parent-audience]").forEach((button) => {
+        button.addEventListener("click", () => {
+          if (button.disabled) return;
+          parentAudienceFilter = button.dataset.parentAudience;
+          document.getElementById("parentAudienceFilter").value = parentAudienceFilter;
+          updateAudienceButtons();
+          renderParentLists();
+        });
+      });
+
+      document.querySelectorAll("[data-priority-filter]").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.getElementById("parentAnnouncementPriority").value = button.dataset.priorityFilter;
+          updatePriorityButtons();
+          renderParentLists();
+        });
+      });
+
       document.getElementById("clearParentFilters").addEventListener("click", () => {
+        selectedParentClass = "";
+        parentAudienceFilter = "mine";
+        localStorage.setItem(SELECTED_PARENT_CLASS_KEY, selectedParentClass);
         document.getElementById("parentGlobalClass").value = "";
+        ensureParentAudienceAvailability();
+        updateAudienceButtons();
         document.getElementById("parentAnnouncementPriority").value = "";
+        updatePriorityButtons();
         syncParentClassFilters("");
         renderParentLists();
       });
@@ -1957,6 +2559,14 @@
 
       document.querySelectorAll("[data-theme]").forEach((button) => {
         button.addEventListener("click", () => applyThemePreset(button.dataset.theme));
+      });
+
+      document.getElementById("addClassButton").addEventListener("click", addClassFromInput);
+      document.getElementById("newClassName").addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          addClassFromInput();
+        }
       });
 
       document.querySelectorAll("#settingsForm input").forEach((input) => {
@@ -1989,7 +2599,11 @@
       });
 
       document.getElementById("resetDemoButton").addEventListener("click", () => {
+        const confirmed = window.confirm("Restaurar os dados de exemplo? Isso substitui as informações salvas neste navegador.");
+        if (!confirmed) return;
         state = structuredClone(defaultData);
+        selectedParentClass = "";
+        localStorage.setItem(SELECTED_PARENT_CLASS_KEY, selectedParentClass);
         saveState();
         applyTheme();
         renderAll();
@@ -2014,7 +2628,7 @@
 
       document.getElementById("announcementForm").addEventListener("submit", async (event) => {
         event.preventDefault();
-        const data = formToObject(event.target, ["id", "title", "text", "className", "priority", "date", "imageData"]);
+        const data = formToObject(event.target, ["id", "title", "text", "targetClass", "priority", "date", "imageData"]);
         const file = event.target.elements.announcementImage.files[0];
         if (file) {
           data.imageData = await fileToDataUrl(file);
@@ -2025,25 +2639,27 @@
 
       document.getElementById("eventForm").addEventListener("submit", (event) => {
         event.preventDefault();
-        upsertItem("events", formToObject(event.target, ["id", "name", "date", "time", "className", "description"]));
+        upsertItem("events", formToObject(event.target, ["id", "name", "date", "time", "targetClass", "description"]));
         closeFormPanel("eventFormPanel");
       });
 
       document.getElementById("calendarForm").addEventListener("submit", (event) => {
         event.preventDefault();
-        upsertItem("calendar", formToObject(event.target, ["id", "title", "date", "type", "className", "description"]));
+        upsertItem("calendar", formToObject(event.target, ["id", "title", "date", "type", "targetClass", "description"]));
         closeFormPanel("calendarFormPanel");
       });
 
       document.getElementById("documentForm").addEventListener("submit", (event) => {
         event.preventDefault();
-        upsertItem("documents", formToObject(event.target, ["id", "name", "link", "description", "className"]));
+        upsertItem("documents", formToObject(event.target, ["id", "name", "link", "description", "targetClass"]));
         closeFormPanel("documentFormPanel");
       });
 
       document.getElementById("settingsForm").addEventListener("submit", (event) => {
         event.preventDefault();
-        state.settings = formToObject(event.target, [
+        state.settings = {
+          ...state.settings,
+          ...formToObject(event.target, [
           "schoolName",
           "whatsapp",
           "address",
@@ -2051,7 +2667,9 @@
           "primaryColor",
           "secondaryColor",
           "accentColor"
-        ]);
+          ])
+        };
+        state.settings.classes = normalizeClasses(state.settings.classes);
         saveState();
         applyTheme();
         renderAll();
@@ -2115,9 +2733,13 @@
       const form = panel.querySelector("form");
       form.reset();
       form.elements.id.value = "";
+      if (form.elements.targetClass) form.elements.targetClass.value = "Todas as turmas";
       setDefaultDates(form);
+      setFormSubmitMode(form, false);
+      panel.dataset.panelTitle = formPanelTitle(panelId, "new");
       panel.classList.add("active");
       panel.scrollIntoView({ behavior: "smooth", block: "start" });
+      focusFirstField(form);
     }
 
     function closeFormPanel(panelId) {
@@ -2125,6 +2747,7 @@
       const form = panel.querySelector("form");
       form.reset();
       if (form.elements.id) form.elements.id.value = "";
+      setFormSubmitMode(form, false);
       panel.classList.remove("active");
     }
 
@@ -2138,9 +2761,11 @@
         state[collection].unshift(cleanItem);
       }
 
+      lastChangedItemId = cleanItem.id;
       saveState();
       renderAll();
-      showToast(isEditing ? "Informação atualizada." : "Informação publicada.");
+      scrollToChangedItem();
+      showToast(feedbackMessage(collection, cleanItem, isEditing));
     }
 
     function normalizeItem(item) {
@@ -2148,6 +2773,8 @@
       Object.keys(normalized).forEach((key) => {
         if (typeof normalized[key] === "string") normalized[key] = normalized[key].trim();
       });
+      normalized.targetClass = normalizeClassName(normalized.targetClass || normalized.className || "Todas as turmas");
+      delete normalized.className;
       return normalized;
     }
 
@@ -2174,8 +2801,11 @@
       Object.entries(item).forEach(([key, value]) => {
         if (form.elements[key]) form.elements[key].value = value;
       });
+      setFormSubmitMode(form, true);
+      panel.dataset.panelTitle = formPanelTitle(panelMap[collection], "edit");
       panel.classList.add("active");
       panel.scrollIntoView({ behavior: "smooth", block: "start" });
+      focusFirstField(form);
     }
 
     function deleteItem(collection, id) {
@@ -2193,9 +2823,11 @@
         if (entry.id !== id) return entry;
         return { ...entry, priority: "urgente" };
       });
+      lastChangedItemId = id;
       saveState();
       renderAll();
-      showToast("Comunicado marcado como urgente.");
+      const item = state.announcements.find((entry) => entry.id === id);
+      showToast(`Comunicado marcado como urgente para ${normalizeClassName(item?.targetClass)}.`);
     }
 
     function duplicateItem(collection, id) {
@@ -2209,9 +2841,11 @@
       if (copy.title) copy.title = `${copy.title} (cópia)`;
       if (copy.name) copy.name = `${copy.name} (cópia)`;
       state[collection].unshift(copy);
+      lastChangedItemId = copy.id;
       saveState();
       renderAll();
-      showToast("Informação duplicada.");
+      editItem(collection, copy.id);
+      showToast("Cópia criada. Revise e salve as alterações.");
     }
 
     function clearAdminFilters(collection) {
@@ -2235,6 +2869,76 @@
           select.value = value;
         }
       });
+    }
+
+    function updateAudienceButtons() {
+      const hasClass = Boolean(selectedParentClass);
+      if (!hasClass && parentAudienceFilter === "mine") {
+        parentAudienceFilter = "general";
+        document.getElementById("parentAudienceFilter").value = parentAudienceFilter;
+      }
+      document.querySelectorAll("[data-parent-audience]").forEach((button) => {
+        if (button.dataset.parentAudience === "mine") button.disabled = !hasClass;
+        button.classList.toggle("active", button.dataset.parentAudience === parentAudienceFilter);
+      });
+    }
+
+    function ensureParentAudienceAvailability() {
+      if (!selectedParentClass && parentAudienceFilter === "mine") {
+        parentAudienceFilter = "general";
+      }
+      const select = document.getElementById("parentAudienceFilter");
+      if (select) select.value = parentAudienceFilter;
+    }
+
+    function updatePriorityButtons() {
+      const value = document.getElementById("parentAnnouncementPriority").value;
+      document.querySelectorAll("[data-priority-filter]").forEach((button) => {
+        button.classList.toggle("active", button.dataset.priorityFilter === value);
+      });
+    }
+
+    function formPanelTitle(panelId, mode) {
+      const action = mode === "edit" ? "Editando" : "Nova publicação";
+      const labels = {
+        announcementFormPanel: "comunicado",
+        eventFormPanel: "evento",
+        calendarFormPanel: "data da agenda",
+        documentFormPanel: "documento"
+      };
+      return `${action}: ${labels[panelId] || "informação"}`;
+    }
+
+    function feedbackMessage(collection, item, isEditing) {
+      const labels = {
+        announcements: "Comunicado",
+        events: "Evento",
+        calendar: "Agenda",
+        documents: "Documento"
+      };
+      const action = isEditing ? "atualizado" : "publicado";
+      return `${labels[collection] || "Informação"} ${action} para ${normalizeClassName(item.targetClass)}.`;
+    }
+
+    function setFormSubmitMode(form, isEditing) {
+      const button = form.querySelector("[type='submit']");
+      if (!button) return;
+      button.textContent = isEditing
+        ? button.dataset.editLabel || "Salvar alterações"
+        : button.dataset.submitLabel || "Publicar";
+    }
+
+    function focusFirstField(form) {
+      window.setTimeout(() => {
+        const field = Array.from(form.elements).find((element) => (
+          !element.disabled &&
+          !element.readOnly &&
+          element.type !== "hidden" &&
+          element.type !== "file" &&
+          element.offsetParent !== null
+        ));
+        if (field) field.focus();
+      }, 80);
     }
 
     function applyThemePreset(theme) {
@@ -2271,10 +2975,14 @@
       document.getElementById("detailKind").textContent = collectionLabel(collection);
       document.getElementById("detailTitle").textContent = title;
       document.getElementById("detailBody").innerHTML = `
-        <p>${escapeHtml(text)}</p>
-        ${imageHtml(item)}
-        ${metaRow(item)}
-        ${collection === "documents" ? `<div class="meta-row"><a class="btn btn-primary" href="${escapeAttribute(item.link)}" target="_blank" rel="noopener">Abrir documento</a></div>` : ""}
+        <div class="detail-content">
+          <div class="detail-summary">
+            ${detailBadges(item)}
+          </div>
+          <p class="detail-text">${escapeHtml(text)}</p>
+          ${imageHtml(item, "detail")}
+          ${collection === "documents" ? `<div class="meta-row"><a class="btn btn-primary" href="${escapeAttribute(item.link)}" target="_blank" rel="noopener">Abrir documento</a></div>` : ""}
+        </div>
       `;
       document.getElementById("detailModal").classList.add("show");
     }
@@ -2286,6 +2994,7 @@
     function renderAll() {
       populateClassFilters();
       populateSettingsForm();
+      renderClassesList();
       renderBranding();
       renderSummary();
       renderParentLists();
@@ -2332,13 +3041,13 @@
       const cards = [
         ["Comunicados", state.announcements.length, "Recados ativos no portal", "blue"],
         ["Eventos", upcomingEvents, "Programações futuras", "green"],
-        ["Calendário", state.calendar.length, "Datas importantes", "amber"],
+        ["Agenda", state.calendar.length, "Datas importantes", "amber"],
         ["Documentos", state.documents.length, "Links úteis para famílias", "indigo"],
         ["Urgentes", urgent, "Comunicados em destaque", "blue"]
       ];
 
-      document.getElementById("summaryCards").innerHTML = cards.map(([label, value, note, color]) => `
-        <article class="stat-card ${color}">
+      document.getElementById("summaryCards").innerHTML = cards.map(([label, value, note, color], index) => `
+        <article class="stat-card ${color}" style="${cardDelay(index)}">
           <span class="stat-value">${value}</span>
           <span class="stat-label">${escapeHtml(label)}</span>
           <p class="side-copy">${escapeHtml(note)}</p>
@@ -2348,15 +3057,22 @@
 
     function renderParentLists() {
       renderParentOverview();
-      const globalClass = document.getElementById("parentGlobalClass").value;
+      renderParentScopeNotice();
+      const visibleAnnouncements = sortByDateDesc(state.announcements).filter(matchesParentAudience);
+      const visibleEvents = getUpcoming(state.events, "date").filter(matchesParentAudience);
+      const visibleCalendar = getUpcoming(state.calendar, "date").filter(matchesParentAudience);
+      const visibleDocuments = state.documents.filter(matchesParentAudience);
+      const generalAnnouncements = sortByDateDesc(state.announcements)
+        .filter((item) => normalizeClassName(item.targetClass || item.className) === "Todas as turmas");
+      const classAnnouncements = sortByDateDesc(state.announcements)
+        .filter((item) => Boolean(selectedParentClass) && normalizeClassName(item.targetClass || item.className) === normalizeClassName(selectedParentClass));
 
-      const urgent = sortByDateDesc(state.announcements)
+      const urgent = visibleAnnouncements
         .filter((item) => item.priority === "urgente")
-        .filter((item) => matchesClass(item, globalClass))
         .slice(0, 2);
       document.getElementById("urgentHighlights").innerHTML = urgent.length
-        ? urgent.map((item) => `
-          <article class="card item-card urgent">
+        ? urgent.map((item, index) => `
+          <article class="${cardClasses(item, "announcements")}" style="${cardDelay(index)}">
             ${dateTile(item)}
             <div class="item-body">
               <span class="item-kind">Urgente</span>
@@ -2369,52 +3085,55 @@
         `).join("")
         : "";
 
-      renderList("homeAnnouncements", sortByDateDesc(state.announcements).filter((item) => matchesClass(item, globalClass)).slice(0, 3), "announcements", "Nenhum comunicado publicado ainda");
-      renderList("homeEvents", getUpcoming(state.events, "date").filter((item) => matchesClass(item, globalClass)).slice(0, 3), "events", "Nenhum evento cadastrado");
-      renderList("homeCalendar", getUpcoming(state.calendar, "date").filter((item) => matchesClass(item, globalClass)).slice(0, 3), "calendar", "Nenhuma data importante cadastrada");
-      renderList("homeDocuments", state.documents.filter((item) => matchesClass(item, globalClass)).slice(0, 3), "documents", "Nenhum documento disponível");
+      document.getElementById("homeClassSubtitle").textContent = selectedParentClass
+        ? `Recados específicos de ${selectedParentClass}`
+        : "Escolha a turma acompanhada para ver os recados específicos";
+      document.getElementById("homeGeneralCount").textContent = generalAnnouncements.length;
+      document.getElementById("homeClassCount").textContent = classAnnouncements.length;
+      renderList("homeGeneralAnnouncements", generalAnnouncements.slice(0, 3), "announcements", "Nenhum comunicado geral publicado ainda", "Quando a escola publicar para todas as turmas, aparecerá aqui.");
+      renderList("homeClassAnnouncements", classAnnouncements.slice(0, 3), "announcements", "Nenhum comunicado da turma publicado ainda", selectedParentClass ? `Não há comunicados para ${selectedParentClass} no momento.` : "Escolha a turma acompanhada para ver os recados específicos.");
+      renderList("homeEvents", visibleEvents.slice(0, 3), "events", "Nenhum evento cadastrado", parentEmptyMessage("eventos"));
+      renderList("homeCalendar", visibleCalendar.slice(0, 3), "calendar", "Nenhuma data importante cadastrada", parentEmptyMessage("datas importantes"));
+      renderList("homeDocuments", visibleDocuments.slice(0, 3), "documents", "Nenhum documento disponível", parentEmptyMessage("documentos"));
 
-      const announcementClass = document.getElementById("parentAnnouncementClass").value;
       const announcementPriority = document.getElementById("parentAnnouncementPriority").value;
-      const filteredAnnouncements = sortByDateDesc(state.announcements)
-        .filter((item) => matchesClass(item, announcementClass))
+      const filteredAnnouncements = visibleAnnouncements
         .filter((item) => !announcementPriority || item.priority === announcementPriority);
-      renderList("parentAnnouncementsList", filteredAnnouncements, "announcements", "Nenhum comunicado publicado ainda");
+      renderList("parentAnnouncementsList", filteredAnnouncements, "announcements", "Nenhum comunicado publicado ainda", announcementPriority ? `Nenhum comunicado com prioridade ${announcementPriority} neste filtro.` : parentEmptyMessage("comunicados"));
 
-      const eventClass = document.getElementById("parentEventClass").value;
-      renderList("parentEventsList", getUpcoming(state.events, "date").filter((item) => matchesClass(item, eventClass)), "events", "Nenhum evento cadastrado");
-
-      const calendarClass = document.getElementById("parentCalendarClass").value;
-      renderList("parentCalendarList", sortByDate(state.calendar).filter((item) => matchesClass(item, calendarClass)), "calendar", "Nenhuma data importante cadastrada");
-
-      const documentClass = document.getElementById("parentDocumentClass").value;
-      renderList("parentDocumentsList", state.documents.filter((item) => matchesClass(item, documentClass)), "documents", "Nenhum documento disponível");
+      renderList("parentEventsList", visibleEvents, "events", "Nenhum evento cadastrado", parentEmptyMessage("eventos"));
+      renderList("parentCalendarList", sortByDate(state.calendar).filter(matchesParentAudience), "calendar", "Nenhuma data importante cadastrada", parentEmptyMessage("datas importantes"));
+      renderList("parentDocumentsList", visibleDocuments, "documents", "Nenhum documento disponível", parentEmptyMessage("documentos"));
     }
 
     function renderParentOverview() {
-      const urgentCount = state.announcements.filter((item) => item.priority === "urgente").length;
-      const nextEvents = getUpcoming(state.events, "date").length;
-      const nextDates = getUpcoming(state.calendar, "date").length;
+      const visibleAnnouncements = state.announcements.filter(matchesParentAudience);
+      const visibleEvents = getUpcoming(state.events, "date").filter(matchesParentAudience);
+      const visibleCalendar = getUpcoming(state.calendar, "date").filter(matchesParentAudience);
+      const visibleDocuments = state.documents.filter(matchesParentAudience);
+      const urgentCount = visibleAnnouncements.filter((item) => item.priority === "urgente").length;
+      const nextEvents = visibleEvents.length;
+      const nextDates = visibleCalendar.length;
       const metrics = [
-        [urgentCount, "Avisos urgentes", "blue"],
+        [urgentCount, "Comunicados urgentes", "blue"],
         [nextEvents, "Eventos próximos", "green"],
-        [state.documents.length, "Documentos", "amber"]
+        [visibleDocuments.length, "Documentos", "amber"]
       ];
       const status = [
-        [state.announcements.length, "Comunicados", "blue"],
+        [visibleAnnouncements.length, "Comunicados", "blue"],
         [nextDates, "Datas importantes", "green"],
-        [state.documents.length, "Links úteis", "amber"]
+        [visibleDocuments.length, "Links úteis", "amber"]
       ];
 
-      document.getElementById("parentHeroMetrics").innerHTML = metrics.map(([value, label, color]) => `
-        <div class="stat-card ${color}">
+      document.getElementById("parentHeroMetrics").innerHTML = metrics.map(([value, label, color], index) => `
+        <div class="stat-card ${color}" style="${cardDelay(index)}">
           <span class="stat-value">${value}</span>
           <span class="stat-label">${escapeHtml(label)}</span>
         </div>
       `).join("");
 
-      document.getElementById("parentStatusGrid").innerHTML = status.map(([value, label, color]) => `
-        <div class="stat-card ${color}">
+      document.getElementById("parentStatusGrid").innerHTML = status.map(([value, label, color], index) => `
+        <div class="stat-card ${color}" style="${cardDelay(index)}">
           <span class="stat-value">${value}</span>
           <span class="stat-label">${escapeHtml(label)}</span>
         </div>
@@ -2424,19 +3143,19 @@
     function renderAdminLists() {
       const announcementClass = document.getElementById("adminAnnouncementClassFilter").value;
       const announcementSearch = document.getElementById("adminAnnouncementSearch").value;
-      renderAdminCollection("adminAnnouncementsList", filterBySearch(sortByDateDesc(state.announcements).filter((item) => matchesClass(item, announcementClass)), announcementSearch), "announcements", "Nenhum comunicado publicado ainda");
+      renderAdminCollection("adminAnnouncementsList", filterBySearch(sortByDateDesc(state.announcements).filter((item) => matchesClass(item, announcementClass)), announcementSearch), "announcements", "Nenhum comunicado publicado ainda", adminEmptyMessage(announcementClass, announcementSearch));
 
       const eventClass = document.getElementById("adminEventClassFilter").value;
       const eventSearch = document.getElementById("adminEventSearch").value;
-      renderAdminCollection("adminEventsList", filterBySearch(getUpcoming(state.events, "date").filter((item) => matchesClass(item, eventClass)), eventSearch), "events", "Nenhum evento cadastrado");
+      renderAdminCollection("adminEventsList", filterBySearch(getUpcoming(state.events, "date").filter((item) => matchesClass(item, eventClass)), eventSearch), "events", "Nenhum evento cadastrado", adminEmptyMessage(eventClass, eventSearch));
 
       const calendarClass = document.getElementById("adminCalendarClassFilter").value;
       const calendarSearch = document.getElementById("adminCalendarSearch").value;
-      renderAdminCollection("adminCalendarList", filterBySearch(sortByDate(state.calendar).filter((item) => matchesClass(item, calendarClass)), calendarSearch), "calendar", "Nenhuma data importante cadastrada");
+      renderAdminCollection("adminCalendarList", filterBySearch(sortByDate(state.calendar).filter((item) => matchesClass(item, calendarClass)), calendarSearch), "calendar", "Nenhuma data importante cadastrada", adminEmptyMessage(calendarClass, calendarSearch));
 
       const documentClass = document.getElementById("adminDocumentClassFilter").value;
       const documentSearch = document.getElementById("adminDocumentSearch").value;
-      renderAdminCollection("adminDocumentsList", filterBySearch(state.documents.filter((item) => matchesClass(item, documentClass)), documentSearch), "documents", "Nenhum documento disponível");
+      renderAdminCollection("adminDocumentsList", filterBySearch(state.documents.filter((item) => matchesClass(item, documentClass)), documentSearch), "documents", "Nenhum documento disponível", adminEmptyMessage(documentClass, documentSearch));
     }
 
     function renderDashboard() {
@@ -2455,11 +3174,11 @@
         return;
       }
 
-      container.innerHTML = items.map((item) => {
+      container.innerHTML = items.map((item, index) => {
         const title = item.title || item.name;
         const text = item.text || item.description || "";
         return `
-          <article class="card item-card ${item.priority === "urgente" ? "urgent" : ""}">
+          <article class="${cardClasses(item, item.collection)}" style="${cardDelay(index)}">
             ${dateTile(item)}
             <div class="item-body">
               <span class="item-kind">${escapeHtml(item.dashboardType)}</span>
@@ -2473,14 +3192,14 @@
       }).join("");
     }
 
-    function renderAdminCollection(containerId, items, collection, emptyMessage) {
+    function renderAdminCollection(containerId, items, collection, emptyMessage, emptyDetail = "Quando a escola publicar, tudo aparecerá aqui.") {
       const container = document.getElementById(containerId);
       if (!items.length) {
-        container.innerHTML = emptyState(emptyMessage, "Quando a escola publicar, tudo aparecerá aqui.");
+        container.innerHTML = emptyState(emptyMessage, emptyDetail);
         return;
       }
 
-      container.innerHTML = items.map((item) => {
+      container.innerHTML = items.map((item, index) => {
         const title = item.title || item.name;
         const text = item.text || item.description || "";
         const urgentButton = collection === "announcements" && item.priority !== "urgente"
@@ -2488,7 +3207,7 @@
           : "";
 
         return `
-          <article class="card item-card ${item.priority === "urgente" ? "urgent" : ""}">
+          <article class="${cardClasses(item, collection)}" style="${cardDelay(index)}">
             ${dateTile(item)}
             <div class="item-body">
               <span class="item-kind">${escapeHtml(collectionLabel(collection))}</span>
@@ -2501,8 +3220,8 @@
               ${metaRow(item)}
               ${collection === "documents" ? `<div class="meta-row"><a class="btn btn-primary btn-small" href="${escapeAttribute(item.link)}" target="_blank" rel="noopener">Abrir link</a></div>` : ""}
               <div class="admin-list-actions">
+                <button class="btn btn-small action-primary" type="button" data-edit="${collection}:${item.id}">Editar</button>
                 <button class="btn btn-muted btn-small" type="button" data-detail="${collection}:${item.id}">Ver</button>
-                <button class="btn btn-muted btn-small" type="button" data-edit="${collection}:${item.id}">Editar</button>
                 <button class="btn btn-muted btn-small" type="button" data-duplicate="${collection}:${item.id}">Duplicar</button>
                 ${urgentButton}
                 <button class="btn btn-danger btn-small" type="button" data-delete="${collection}:${item.id}">Excluir</button>
@@ -2545,14 +3264,14 @@
       });
     }
 
-    function renderList(containerId, items, collection, emptyMessage) {
+    function renderList(containerId, items, collection, emptyMessage, emptyDetail = "A escola ainda não publicou informações nesta área.") {
       const container = document.getElementById(containerId);
       if (!items.length) {
-        container.innerHTML = emptyState(emptyMessage, "A escola ainda não publicou informações nesta área.");
+        container.innerHTML = emptyState(emptyMessage, emptyDetail);
         return;
       }
 
-      container.innerHTML = items.map((item) => {
+      container.innerHTML = items.map((item, index) => {
         const title = item.title || item.name;
         const text = item.text || item.description || "";
         const documentLink = collection === "documents"
@@ -2560,7 +3279,7 @@
           : "";
 
         return `
-          <article class="card item-card ${item.priority === "urgente" ? "urgent" : ""}">
+          <article class="${cardClasses(item, collection)}" style="${cardDelay(index)}">
             ${dateTile(item)}
             <div class="item-body">
               <span class="item-kind">${escapeHtml(collectionLabel(collection))}</span>
@@ -2589,23 +3308,196 @@
     }
 
     function populateClassFilters() {
-      const allClasses = new Set(["Todas"]);
-      ["announcements", "events", "calendar", "documents"].forEach((collection) => {
-        state[collection].forEach((item) => {
-          if (item.className) allClasses.add(item.className);
-        });
-      });
-
-      const options = `<option value="">Todas as turmas</option>${Array.from(allClasses).sort().map((className) => (
+      state.settings.classes = normalizeClasses(state.settings.classes);
+      const classes = state.settings.classes;
+      const publicationOptions = classes.map((className) => (
+        `<option value="${escapeAttribute(className)}">${escapeHtml(className)}</option>`
+      )).join("");
+      const filterOptions = `<option value="">Todos</option>${classes.map((className) => (
+        `<option value="${escapeAttribute(className)}">${escapeHtml(className)}</option>`
+      )).join("")}`;
+      const parentOptions = `<option value="">Selecione a turma</option>${classes.filter((className) => className !== "Todas as turmas").map((className) => (
         `<option value="${escapeAttribute(className)}">${escapeHtml(className)}</option>`
       )).join("")}`;
 
-      document.querySelectorAll("select[data-parent-filter], select[data-admin-filter], #parentGlobalClass").forEach((select) => {
+      document.querySelectorAll("#announcementClass, #eventClass, #calendarClass, #documentClass").forEach((select) => {
         const previous = select.value;
-        if (select.id === "parentAnnouncementPriority") return;
-        select.innerHTML = options;
+        select.innerHTML = publicationOptions;
+        select.value = Array.from(select.options).some((option) => option.value === previous) ? previous : "Todas as turmas";
+      });
+
+      document.querySelectorAll("select[data-admin-filter]").forEach((select) => {
+        const previous = select.value;
+        select.innerHTML = filterOptions;
         select.value = Array.from(select.options).some((option) => option.value === previous) ? previous : "";
       });
+
+      const parentSelect = document.getElementById("parentGlobalClass");
+      parentSelect.innerHTML = parentOptions;
+      parentSelect.value = Array.from(parentSelect.options).some((option) => option.value === selectedParentClass) ? selectedParentClass : "";
+      selectedParentClass = parentSelect.value;
+      localStorage.setItem(SELECTED_PARENT_CLASS_KEY, selectedParentClass);
+      ensureParentAudienceAvailability();
+
+      const audienceSelect = document.getElementById("parentAudienceFilter");
+      if (audienceSelect) audienceSelect.value = parentAudienceFilter;
+      updateAudienceButtons();
+      updatePriorityButtons();
+    }
+
+    function renderClassesList() {
+      const list = document.getElementById("classesList");
+      if (!list) return;
+      const classes = normalizeClasses(state.settings.classes);
+      list.innerHTML = classes.map((className) => {
+        const locked = className === "Todas as turmas";
+        if (editingClassName === className && !locked) {
+          return `
+            <div class="class-row editing">
+              <input value="${escapeAttribute(className)}" aria-label="Editar turma ${escapeAttribute(className)}" data-class-edit-input="${escapeAttribute(className)}">
+              <div class="class-actions">
+                <button class="btn btn-primary btn-small" type="button" data-save-class="${escapeAttribute(className)}">Salvar</button>
+                <button class="btn btn-muted btn-small" type="button" data-cancel-class-edit>Cancelar</button>
+              </div>
+            </div>
+          `;
+        }
+        return `
+          <div class="class-row">
+            <span>${escapeHtml(className)} ${locked ? `<small>Destino padrão</small>` : ""}</span>
+            <div class="class-actions">
+              <button class="btn btn-muted btn-small" type="button" data-edit-class="${escapeAttribute(className)}" ${locked ? "disabled" : ""}>Editar</button>
+              <button class="btn btn-danger btn-small" type="button" data-delete-class="${escapeAttribute(className)}" ${locked ? "disabled" : ""}>Excluir</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      list.querySelectorAll("[data-edit-class]").forEach((button) => {
+        button.addEventListener("click", () => startClassEdit(button.dataset.editClass));
+      });
+
+      list.querySelectorAll("[data-delete-class]").forEach((button) => {
+        button.addEventListener("click", () => deleteClass(button.dataset.deleteClass));
+      });
+
+      list.querySelectorAll("[data-save-class]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const input = list.querySelector("[data-class-edit-input]");
+          editClass(button.dataset.saveClass, input ? input.value : "");
+        });
+      });
+
+      list.querySelectorAll("[data-cancel-class-edit]").forEach((button) => {
+        button.addEventListener("click", () => {
+          editingClassName = "";
+          renderClassesList();
+        });
+      });
+
+      list.querySelectorAll("[data-class-edit-input]").forEach((input) => {
+        input.focus();
+        input.select();
+        input.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") editClass(input.dataset.classEditInput, input.value);
+          if (event.key === "Escape") {
+            editingClassName = "";
+            renderClassesList();
+          }
+        });
+      });
+    }
+
+    function addClassFromInput() {
+      const input = document.getElementById("newClassName");
+      const className = normalizeClassName(input.value);
+      if (!className || className === "Todas as turmas") {
+        showToast("Informe uma turma válida.");
+        return;
+      }
+
+      const classes = normalizeClasses([...state.settings.classes, className]);
+      if (classes.length === state.settings.classes.length) {
+        showToast("Essa turma já existe.");
+        return;
+      }
+
+      state.settings.classes = classes;
+      input.value = "";
+      saveState();
+      populateClassFilters();
+      renderClassesList();
+      renderAll();
+      showToast("Turma adicionada.");
+    }
+
+    function startClassEdit(className) {
+      const current = normalizeClassName(className);
+      if (current === "Todas as turmas") return;
+      editingClassName = current;
+      renderClassesList();
+    }
+
+    function editClass(oldClassName, nextValue) {
+      const current = normalizeClassName(oldClassName);
+      if (current === "Todas as turmas") return;
+
+      const next = normalizeClassName(nextValue);
+      if (!next || next === "Todas as turmas") return;
+      if (state.settings.classes.includes(next) && next !== current) {
+        showToast("Essa turma já existe.");
+        return;
+      }
+
+      const affected = countClassReferences(current);
+      state.settings.classes = normalizeClasses(state.settings.classes.map((className) => (
+        className === current ? next : className
+      )));
+      updateClassReferences(current, next);
+      if (selectedParentClass === current) {
+        selectedParentClass = next;
+        localStorage.setItem(SELECTED_PARENT_CLASS_KEY, selectedParentClass);
+      }
+      editingClassName = "";
+      saveState();
+      renderAll();
+      showToast(`Turma atualizada em ${affected} publicação${affected === 1 ? "" : "ões"}.`);
+    }
+
+    function deleteClass(className) {
+      const target = normalizeClassName(className);
+      if (target === "Todas as turmas") return;
+      const affected = countClassReferences(target);
+      const confirmed = window.confirm(`Excluir a turma "${target}"? ${affected} publicação${affected === 1 ? "" : "ões"} será${affected === 1 ? "" : "ão"} movida${affected === 1 ? "" : "s"} para Todas as turmas.`);
+      if (!confirmed) return;
+
+      state.settings.classes = normalizeClasses(state.settings.classes.filter((item) => item !== target));
+      updateClassReferences(target, "Todas as turmas");
+      if (selectedParentClass === target) {
+        selectedParentClass = "";
+        localStorage.setItem(SELECTED_PARENT_CLASS_KEY, selectedParentClass);
+      }
+      editingClassName = "";
+      saveState();
+      renderAll();
+      showToast(`Turma excluída. ${affected} publicação${affected === 1 ? "" : "ões"} movida${affected === 1 ? "" : "s"} para Todas as turmas.`);
+    }
+
+    function updateClassReferences(oldClassName, newClassName) {
+      ["announcements", "events", "calendar", "documents"].forEach((collection) => {
+        state[collection] = state[collection].map((item) => (
+          normalizeClassName(item.targetClass || item.className) === oldClassName
+            ? { ...item, targetClass: newClassName }
+            : item
+        ));
+      });
+    }
+
+    function countClassReferences(className) {
+      const target = normalizeClassName(className);
+      return ["announcements", "events", "calendar", "documents"].reduce((total, collection) => (
+        total + state[collection].filter((item) => normalizeClassName(item.targetClass || item.className) === target).length
+      ), 0);
     }
 
     function populateSettingsForm() {
@@ -2661,7 +3553,72 @@
 
     function matchesClass(item, selectedClass) {
       if (!selectedClass) return true;
-      return item.className === selectedClass || item.className === "Todas";
+      return normalizeClassName(item.targetClass || item.className) === normalizeClassName(selectedClass);
+    }
+
+    function matchesParentAudience(item) {
+      const target = normalizeClassName(item.targetClass || item.className || "Todas as turmas");
+      const selected = normalizeClassName(selectedParentClass);
+      if (parentAudienceFilter === "general") return target === "Todas as turmas";
+      return Boolean(selected) && target === selected;
+    }
+
+    function renderParentScopeNotice() {
+      const notice = document.getElementById("parentScopeNotice");
+      if (!notice) return;
+      const selected = normalizeClassName(selectedParentClass);
+      const labels = {
+        general: "Mostrando apenas publicações gerais da escola.",
+        mine: selected ? `Mostrando apenas publicações da turma ${selected}.` : "Escolha uma turma para ver as publicações específicas."
+      };
+      notice.textContent = labels[parentAudienceFilter] || labels.mine;
+      notice.classList.add("show");
+    }
+
+    function parentEmptyMessage(itemLabel) {
+      const selected = normalizeClassName(selectedParentClass);
+      if (parentAudienceFilter === "general") {
+        return `Não há ${itemLabel} gerais publicados no momento.`;
+      }
+      return selected
+        ? `Não há ${itemLabel} para ${selected} no momento.`
+        : "Escolha a turma acompanhada para ver as publicações específicas.";
+    }
+
+    function adminEmptyMessage(selectedClass, search) {
+      const hasClass = Boolean(selectedClass);
+      const hasSearch = Boolean(String(search || "").trim());
+      if (hasClass && hasSearch) return `Nenhum resultado para essa busca em ${normalizeClassName(selectedClass)}.`;
+      if (hasClass) return `Nenhuma publicação encontrada para ${normalizeClassName(selectedClass)}.`;
+      if (hasSearch) return "Nenhum resultado para essa busca.";
+      return "Quando a escola publicar, tudo aparecerá aqui.";
+    }
+
+    function cardClasses(item, collection) {
+      const collectionClass = {
+        announcements: "announcement",
+        events: "event",
+        calendar: "calendar",
+        documents: "document"
+      }[collection] || "";
+      return [
+        "card",
+        "item-card",
+        collectionClass,
+        item.priority === "urgente" ? "urgent" : "",
+        item.id === lastChangedItemId ? "saved" : ""
+      ].filter(Boolean).join(" ");
+    }
+
+    function cardDelay(index) {
+      return `--delay:${Math.min(index, 8) * 45}ms`;
+    }
+
+    function scrollToChangedItem() {
+      window.setTimeout(() => {
+        const card = document.querySelector(".item-card.saved");
+        if (card) card.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 60);
     }
 
     function priorityBadge(item) {
@@ -2674,7 +3631,7 @@
       const labels = {
         announcements: "Comunicado",
         events: "Evento",
-        calendar: "Calendário",
+        calendar: "Agenda",
         documents: "Documento"
       };
       return labels[collection] || "Informação";
@@ -2704,15 +3661,30 @@
       const parts = [];
       if (item.date) parts.push(formatDate(item.date));
       if (item.time) parts.push(item.time);
-      if (item.className) parts.push(item.className);
+      if (item.targetClass || item.className) parts.push({ label: normalizeClassName(item.targetClass || item.className), className: "target" });
       if (item.type) parts.push(item.type);
       if (!parts.length) return "";
-      return `<div class="meta-row">${parts.map((part) => `<span class="badge">${escapeHtml(part)}</span>`).join("")}</div>`;
+      return `<div class="meta-row">${parts.map((part) => {
+        const value = typeof part === "string" ? part : part.label;
+        const className = typeof part === "string" ? "" : part.className;
+        return `<span class="badge ${escapeAttribute(className)}">${escapeHtml(value)}</span>`;
+      }).join("")}</div>`;
     }
 
-    function imageHtml(item) {
+    function detailBadges(item) {
+      const badges = [];
+      if (item.priority) badges.push({ label: item.priority.charAt(0).toUpperCase() + item.priority.slice(1), className: item.priority });
+      if (item.type) badges.push({ label: item.type, className: "" });
+      if (item.date) badges.push({ label: formatDate(item.date), className: "" });
+      if (item.time) badges.push({ label: item.time, className: "" });
+      badges.push({ label: normalizeClassName(item.targetClass || item.className || "Todas as turmas"), className: "target" });
+      return badges.map((badge) => `<span class="badge ${escapeAttribute(badge.className)}">${escapeHtml(badge.label)}</span>`).join("");
+    }
+
+    function imageHtml(item, variant = "card") {
       if (!item.imageData) return "";
-      return `<img class="card-image" src="${escapeAttribute(item.imageData)}" alt="Imagem do aviso">`;
+      const className = variant === "detail" ? "detail-image" : "card-image";
+      return `<img class="${className}" src="${escapeAttribute(item.imageData)}" alt="Imagem do aviso">`;
     }
 
     function fileToDataUrl(file) {
