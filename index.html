@@ -2592,6 +2592,157 @@
       background: #ffffff;
     }
 
+    #adminView .item-card {
+      grid-template-columns: minmax(0, 1fr) 62px;
+      gap: 14px;
+      align-items: start;
+      padding: 20px;
+      text-align: left;
+    }
+
+    #adminView .item-card::before {
+      display: none;
+    }
+
+    #adminView .item-card::after {
+      top: 18px;
+      right: 18px;
+      background: rgba(183, 198, 194, 0.55);
+      opacity: 1;
+      transform: none;
+    }
+
+    #adminView .item-card.urgent {
+      background: #ffffff;
+      box-shadow:
+        inset 4px 0 0 #ca0013,
+        0 20px 50px -30px rgba(23, 30, 25, 0.24);
+    }
+
+    #adminView .item-card.urgent::after {
+      background: rgba(202, 0, 19, 0.36);
+    }
+
+    #adminView .item-card.event::after {
+      background: rgba(183, 198, 194, 0.72);
+    }
+
+    #adminView .item-card.calendar::after {
+      background: rgba(183, 198, 194, 0.72);
+    }
+
+    #adminView .item-card.document::after {
+      background: rgba(183, 198, 194, 0.72);
+    }
+
+    #adminView .item-card > .date-tile {
+      order: 2;
+      justify-self: end;
+    }
+
+    #adminView .item-card > .item-body {
+      order: 1;
+      display: grid;
+      min-width: 0;
+      gap: 8px;
+      text-align: left;
+    }
+
+    #adminView .date-tile {
+      width: 58px;
+      height: 62px;
+      border-radius: 18px;
+      background: rgba(183, 198, 194, 0.2);
+    }
+
+    #adminView .date-tile span {
+      color: #ca0013;
+      font-size: 0.64rem;
+      font-weight: 900;
+    }
+
+    #adminView .date-tile strong {
+      color: #171e19;
+      font-size: 1.18rem;
+      font-weight: 900;
+    }
+
+    #adminView .item-kind {
+      width: fit-content;
+      margin: 0;
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      color: #8a9993;
+      font-size: 0.64rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+    }
+
+    #adminView .card-title {
+      display: grid;
+      justify-items: start;
+      gap: 8px;
+      min-width: 0;
+      margin: 0;
+    }
+
+    #adminView .card-title h3 {
+      width: 100%;
+      color: #171e19;
+      font-size: 1.08rem;
+      font-weight: 900;
+      line-height: 1.2;
+      overflow-wrap: anywhere;
+    }
+
+    #adminView .card p {
+      color: #68766f;
+      font-weight: 700;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+
+    #adminView .meta-row {
+      justify-content: flex-start;
+    }
+
+    #adminView .badge {
+      max-width: 100%;
+      min-height: 28px;
+      border-radius: 999px;
+      background: rgba(183, 198, 194, 0.2);
+      color: #171e19;
+      font-size: 0.7rem;
+      font-weight: 900;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    #adminView .badge.urgente {
+      background: #ca0013;
+      color: #ffffff;
+    }
+
+    #adminView .badge.importante,
+    #adminView .badge.target {
+      background: rgba(183, 198, 194, 0.24);
+      color: #171e19;
+    }
+
+    #adminView .admin-list-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-start;
+      margin-top: 4px;
+    }
+
+    #adminView .admin-list-actions .btn-danger {
+      margin-left: auto;
+    }
+
     #adminView .stat-value {
       color: #171e19;
       font-weight: 900;
@@ -3774,15 +3925,15 @@
       }
 
       #parentView .tabs {
-        right: 8px;
+        right: 10px;
         bottom: calc(8px + env(safe-area-inset-bottom));
-        left: 8px;
+        left: 10px;
         z-index: 90;
         grid-template-columns: repeat(5, minmax(0, 1fr));
         align-items: center;
         height: 64px;
-        overflow: visible;
-        padding: 8px 10px;
+        overflow: hidden;
+        padding: 7px 8px;
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 999px;
         background: #171e19;
@@ -3795,12 +3946,18 @@
         min-width: 0;
         min-height: 48px;
         place-items: center;
-        padding: 0 4px;
+        padding: 0 2px;
         border-radius: 999px;
         background: transparent;
         color: #b7c6c2;
-        font-size: 0.66rem;
+        font-size: clamp(0.5rem, 2.45vw, 0.62rem);
         font-weight: 900;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        overflow: hidden;
+        text-align: center;
+        text-overflow: clip;
+        white-space: nowrap;
       }
 
       #parentView .tabs button::before {
@@ -3878,6 +4035,10 @@
 
     #parentView #parentStatusGrid {
       display: none !important;
+    }
+
+    #parentView .mobile-flow-guard {
+      display: none;
     }
 
     #parentView #parentHeroMetrics {
@@ -4181,18 +4342,19 @@
       }
 
       #parentView .tabs {
-        right: 12px;
+        right: 10px;
         bottom: calc(12px + env(safe-area-inset-bottom));
-        left: 12px;
+        left: 10px;
         height: 58px;
         min-height: 58px;
-        padding: 6px 8px;
+        overflow: hidden;
+        padding: 6px 7px;
       }
 
       #parentView .tabs button {
         min-height: 46px;
-        padding: 0 4px;
-        font-size: 0.66rem;
+        padding: 0 1px;
+        font-size: clamp(0.5rem, 2.45vw, 0.62rem);
       }
 
       #parentView .tabs button[data-parent-screen="events"] {
@@ -4200,7 +4362,7 @@
         height: auto;
         min-height: 46px;
         margin: 0;
-        padding: 0 4px;
+        padding: 0 1px;
         border: 0;
         background: transparent;
         box-shadow: none;
@@ -4229,15 +4391,18 @@
       }
 
       @media (max-width: 360px) {
+        body[data-active-mode="admin"] .topbar-inner,
         body[data-active-mode="parent"] .topbar-inner {
           gap: 8px;
           padding-inline: 8px;
         }
 
+        body[data-active-mode="admin"] .brand,
         body[data-active-mode="parent"] .brand {
           gap: 7px;
         }
 
+        body[data-active-mode="admin"] .brand-mark,
         body[data-active-mode="parent"] .brand-mark {
           width: 36px;
           height: 36px;
@@ -4245,15 +4410,101 @@
           border-radius: 14px;
         }
 
+        body[data-active-mode="admin"] .brand-title,
         body[data-active-mode="parent"] .brand-title {
           font-size: 0.72rem;
         }
 
+        body[data-active-mode="admin"] .mode-switch button,
         body[data-active-mode="parent"] .mode-switch button {
           min-height: 36px;
           padding: 0 8px;
           font-size: 0.72rem;
         }
+      }
+
+      body[data-active-mode="admin"] .topbar-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        padding: 9px 10px 8px;
+      }
+
+      body[data-active-mode="admin"] .brand {
+        min-width: 0;
+        gap: 8px;
+      }
+
+      body[data-active-mode="admin"] .brand-mark {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+        border-radius: 16px;
+      }
+
+      body[data-active-mode="admin"] .brand-mark svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      body[data-active-mode="admin"] .brand-title {
+        max-width: none;
+        color: #171e19;
+        font-size: clamp(0.78rem, 3.55vw, 0.9rem);
+        font-weight: 900;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+      }
+
+      body[data-active-mode="admin"] .mode-switch {
+        flex: 0 0 auto;
+        padding: 4px;
+      }
+
+      body[data-active-mode="admin"] .mode-switch button {
+        min-height: 38px;
+        padding: 0 11px;
+        font-size: 0.78rem;
+      }
+
+      #parentView .layout {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0 !important;
+      }
+
+      #parentView .side-panel {
+        position: relative !important;
+        z-index: 1;
+        margin: -42px 0 0 !important;
+        flex: 0 0 auto;
+      }
+
+      #parentView .mobile-flow-guard {
+        display: block !important;
+        height: 42px;
+        flex: 0 0 42px;
+        clear: both;
+      }
+
+      #parentView .work-panel {
+        position: relative !important;
+        z-index: 0;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+        flex: 0 0 auto;
+        transform: none !important;
+      }
+
+      #parentView .screen.active {
+        overflow: visible !important;
+      }
+
+      #parentView #parentHeroMetrics {
+        margin-top: 0 !important;
+        position: relative;
+        z-index: 0;
       }
     }
 
@@ -4322,6 +4573,8 @@
             <div id="parentScopeNotice" class="scope-notice"></div>
             <div id="selectedClassChip" class="selected-class-chip"></div>
           </aside>
+
+          <div class="mobile-flow-guard" aria-hidden="true"></div>
 
           <div class="work-panel">
             <nav id="parentBottomNav" class="tabs parent-only" aria-label="Menu do portal dos pais">
