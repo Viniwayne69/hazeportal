@@ -31,6 +31,7 @@
       --indigo-soft: #e0e7ff;
       --radius: 8px;
       --page-max: 1720px;
+      --motion: cubic-bezier(0.2, 0.8, 0.2, 1);
       color-scheme: light;
     }
 
@@ -45,7 +46,10 @@
     body {
       margin: 0;
       min-height: 100vh;
-      background: var(--bg);
+      background:
+        radial-gradient(circle at 8% 18%, rgba(59, 130, 246, 0.08) 0 120px, transparent 121px),
+        radial-gradient(circle at 96% 12%, rgba(16, 185, 129, 0.08) 0 150px, transparent 151px),
+        linear-gradient(180deg, #ffffff 0%, #ffffff 42%, #f8fafc 100%);
       color: var(--text);
       font-family: Outfit, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       font-weight: 400;
@@ -81,8 +85,39 @@
     }
 
     .app {
+      position: relative;
+      overflow-x: hidden;
       min-height: 100vh;
       padding-bottom: 24px;
+    }
+
+    .app::before,
+    .app::after {
+      position: fixed;
+      z-index: -1;
+      pointer-events: none;
+      content: "";
+    }
+
+    .app::before {
+      right: -80px;
+      top: 22%;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background: rgba(245, 158, 11, 0.12);
+      animation: softFloat 8s var(--motion) infinite alternate;
+    }
+
+    .app::after {
+      left: -70px;
+      bottom: 10%;
+      width: 160px;
+      height: 160px;
+      border-radius: 28px;
+      background: rgba(59, 130, 246, 0.08);
+      transform: rotate(14deg);
+      animation: softFloat 9s var(--motion) infinite alternate-reverse;
     }
 
     .topbar {
@@ -90,7 +125,9 @@
       top: 0;
       z-index: 40;
       border-bottom: 1px solid var(--border);
-      background: var(--bg);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+      animation: slideDown 0.38s var(--motion) both;
     }
 
     .topbar-inner {
@@ -118,11 +155,23 @@
       place-items: center;
       border-radius: var(--radius);
       background: var(--primary);
+      transition: transform 0.22s var(--motion), background 0.22s ease;
+      animation: popIn 0.45s var(--motion) both;
     }
 
     .brand-mark svg {
       width: 26px;
       height: 26px;
+      transition: transform 0.24s var(--motion);
+    }
+
+    .brand:hover .brand-mark {
+      transform: rotate(-4deg) scale(1.06);
+      background: var(--primary-dark);
+    }
+
+    .brand:hover .brand-mark svg {
+      transform: translateY(-1px);
     }
 
     .brand-title {
@@ -163,7 +212,7 @@
       color: var(--muted);
       font-size: 0.86rem;
       font-weight: 800;
-      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+      transition: transform 0.2s var(--motion), background 0.2s ease, color 0.2s ease;
     }
 
     .mode-switch button:hover {
@@ -173,6 +222,7 @@
     .mode-switch button.active {
       background: var(--primary);
       color: #ffffff;
+      animation: activePop 0.26s var(--motion) both;
     }
 
     .main {
@@ -187,6 +237,7 @@
 
     .view.active {
       display: block;
+      animation: fadeSlideUp 0.28s var(--motion) both;
     }
 
     .layout {
@@ -213,6 +264,7 @@
       display: grid;
       gap: 16px;
       padding: clamp(24px, 2vw, 34px);
+      animation: sideEnter 0.42s var(--motion) both;
     }
 
     .side-title {
@@ -294,7 +346,7 @@
       color: var(--muted);
       font-size: 0.78rem;
       font-weight: 900;
-      transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+      transition: transform 0.18s var(--motion), background 0.18s ease, color 0.18s ease;
     }
 
     .audience-tabs button:hover {
@@ -305,6 +357,7 @@
     .audience-tabs button.active {
       background: var(--primary);
       color: #ffffff;
+      animation: activePop 0.24s var(--motion) both;
     }
 
     .audience-tabs button:disabled {
@@ -363,7 +416,7 @@
       color: var(--muted);
       font-size: 0.76rem;
       font-weight: 900;
-      transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+      transition: transform 0.18s var(--motion), background 0.18s ease, color 0.18s ease;
     }
 
     .priority-tabs button:hover {
@@ -374,6 +427,7 @@
     .priority-tabs button.active {
       background: var(--text);
       color: #ffffff;
+      animation: activePop 0.24s var(--motion) both;
     }
 
     .scope-notice {
@@ -392,6 +446,30 @@
       animation: fadeSlideUp 0.35s ease both;
     }
 
+    .selected-class-chip {
+      display: none;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: var(--text);
+      color: #ffffff;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .selected-class-chip.show {
+      display: block;
+      animation: fadeSlideUp 0.35s ease both;
+    }
+
+    .selected-class-chip span {
+      display: block;
+      margin-bottom: 3px;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
     .quick-publish {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -407,7 +485,9 @@
     }
 
     .btn {
+      position: relative;
       display: inline-flex;
+      overflow: hidden;
       min-height: 48px;
       align-items: center;
       justify-content: center;
@@ -419,15 +499,32 @@
       color: var(--text);
       font-weight: 800;
       text-align: center;
-      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+      isolation: isolate;
+      transition: transform 0.2s var(--motion), background 0.2s ease, color 0.2s ease;
+    }
+
+    .btn::after {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.22);
+      content: "";
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-100%);
+      transition: transform 0.28s var(--motion), opacity 0.2s ease;
     }
 
     .btn:hover {
-      transform: scale(1.03);
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    .btn:hover::after {
+      opacity: 1;
+      transform: translateX(0);
     }
 
     .btn:active {
-      transform: scale(0.98);
+      transform: translateY(1px) scale(0.985);
     }
 
     .btn:disabled {
@@ -476,13 +573,14 @@
       padding: 16px;
       border-radius: var(--radius);
       background: var(--bg);
-      animation: cardEnter 0.4s ease both;
+      animation: cardEnter 0.46s var(--motion) both;
       animation-delay: var(--delay, 0ms);
-      transition: transform 0.2s ease;
+      transition: transform 0.22s var(--motion), filter 0.22s ease;
     }
 
     .stat-card:hover {
-      transform: translateY(-2px);
+      transform: translateY(-4px) scale(1.012);
+      filter: saturate(1.06);
     }
 
     .stat-card.blue {
@@ -521,10 +619,23 @@
     }
 
     .work-panel {
+      position: relative;
       display: grid;
       gap: 20px;
       padding: clamp(20px, 1.6vw, 30px);
       background: var(--bg);
+      animation: fadeSlideUp 0.38s var(--motion) both;
+    }
+
+    .work-panel::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+      content: "";
+      opacity: 0.9;
     }
 
     .parent-top {
@@ -580,7 +691,7 @@
       background: transparent;
       color: var(--muted);
       font-weight: 800;
-      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+      transition: transform 0.2s var(--motion), background 0.2s ease, color 0.2s ease;
     }
 
     .tabs button:hover {
@@ -591,6 +702,7 @@
     .tabs button.active {
       background: var(--bg);
       color: var(--primary);
+      animation: activePop 0.24s var(--motion) both;
     }
 
     .screen {
@@ -600,6 +712,7 @@
     .screen.active {
       display: grid;
       gap: 20px;
+      animation: fadeSlideUp 0.26s var(--motion) both;
     }
 
     .summary-grid {
@@ -643,6 +756,8 @@
       padding: 14px;
       border-radius: var(--radius);
       background: var(--surface);
+      animation: cardEnter 0.44s var(--motion) both;
+      animation-delay: var(--delay, 0ms);
     }
 
     .feed-head {
@@ -653,6 +768,12 @@
       padding: 16px;
       border-radius: var(--radius);
       color: #ffffff;
+      transition: transform 0.22s var(--motion), filter 0.22s ease;
+    }
+
+    .feed-column:hover .feed-head {
+      transform: translateY(-2px);
+      filter: saturate(1.06);
     }
 
     .feed-head span {
@@ -689,6 +810,7 @@
       color: #ffffff;
       font-size: 1.3rem;
       font-weight: 900;
+      animation: countPop 0.42s var(--motion) both;
     }
 
     .feed-general .feed-head {
@@ -738,9 +860,9 @@
       position: relative;
       overflow: hidden;
       padding: 16px;
-      animation: cardEnter 0.42s ease both;
+      animation: cardEnter 0.48s var(--motion) both;
       animation-delay: var(--delay, 0ms);
-      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+      transition: transform 0.22s var(--motion), background 0.2s ease, color 0.2s ease, filter 0.2s ease;
     }
 
     .card::before {
@@ -751,13 +873,34 @@
       content: "";
     }
 
+    .card::after {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: var(--primary);
+      content: "";
+      opacity: 0.16;
+      pointer-events: none;
+      transform: scale(0.8);
+      transition: transform 0.22s var(--motion), opacity 0.22s ease;
+    }
+
     .card:hover {
-      transform: translateY(-3px) scale(1.01);
+      transform: translateY(-5px) scale(1.012);
       background: var(--surface-strong);
+      filter: saturate(1.04);
+    }
+
+    .card:hover::after {
+      opacity: 0.32;
+      transform: scale(1.8);
     }
 
     .card.saved {
-      animation: savedPulse 1.1s ease both;
+      animation: savedPulse 1.2s var(--motion) both;
       background: var(--blue-soft);
     }
 
@@ -776,6 +919,10 @@
       background: var(--danger);
     }
 
+    .item-card.urgent::after {
+      background: var(--danger);
+    }
+
     .item-card.urgent:hover {
       background: #fecaca;
     }
@@ -784,11 +931,23 @@
       background: var(--secondary);
     }
 
+    .item-card.event::after {
+      background: var(--secondary);
+    }
+
     .item-card.calendar::before {
       background: var(--accent);
     }
 
+    .item-card.calendar::after {
+      background: var(--accent);
+    }
+
     .item-card.document::before {
+      background: #6366f1;
+    }
+
+    .item-card.document::after {
       background: #6366f1;
     }
 
@@ -801,6 +960,12 @@
       background: var(--bg);
       text-align: center;
       font-weight: 800;
+      transition: transform 0.22s var(--motion), background 0.22s ease;
+    }
+
+    .card:hover .date-tile {
+      transform: translateY(-2px) rotate(-1deg);
+      background: #ffffff;
     }
 
     .date-tile span {
@@ -824,6 +989,9 @@
     .item-kind {
       display: inline-flex;
       margin-bottom: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--blue-soft);
       color: var(--primary);
       font-size: 0.72rem;
       font-weight: 800;
@@ -852,6 +1020,10 @@
       margin-bottom: 0;
       color: var(--muted);
       line-height: 1.5;
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
     }
 
     .card-image {
@@ -863,10 +1035,16 @@
       object-fit: cover;
       object-position: center;
       background: var(--surface-strong);
+      transition: transform 0.32s var(--motion), filter 0.25s ease;
     }
 
     .item-card .card-image {
       max-height: 150px;
+    }
+
+    .card:hover .card-image {
+      transform: scale(1.035);
+      filter: saturate(1.08);
     }
 
     .meta-row {
@@ -886,6 +1064,11 @@
       color: var(--muted);
       font-size: 0.74rem;
       font-weight: 800;
+      transition: transform 0.18s var(--motion), background 0.18s ease;
+    }
+
+    .card:hover .badge {
+      transform: translateY(-1px);
     }
 
     .badge.importante {
@@ -939,6 +1122,7 @@
       outline: none;
       background: var(--bg);
       color: var(--text);
+      transition: background 0.18s ease, border 0.18s ease, transform 0.18s var(--motion);
     }
 
     .field textarea {
@@ -951,6 +1135,11 @@
     .field select:focus {
       border: 2px solid var(--primary);
       background: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .field:focus-within label {
+      color: var(--primary-dark);
     }
 
     .field.full {
@@ -965,7 +1154,20 @@
       background: var(--surface);
       color: var(--muted);
       text-align: left;
-      animation: fadeSlideUp 0.35s ease both;
+      animation: fadeSlideUp 0.35s var(--motion) both;
+    }
+
+    .empty-state::before {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--blue-soft);
+      color: var(--primary);
+      content: "!";
+      font-weight: 900;
+      animation: softBounce 1.8s var(--motion) infinite;
     }
 
     .empty-state strong {
@@ -1010,6 +1212,7 @@
       height: 220px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.16);
+      animation: softFloat 7s var(--motion) infinite alternate;
     }
 
     .login-intro::after {
@@ -1020,6 +1223,7 @@
       border-radius: 16px;
       background: var(--accent);
       transform: rotate(12deg);
+      animation: rotateFloat 8s var(--motion) infinite alternate;
     }
 
     .login-mark {
@@ -1149,7 +1353,7 @@
       background: transparent;
       color: var(--muted);
       font-weight: 800;
-      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+      transition: transform 0.2s var(--motion), background 0.2s ease, color 0.2s ease;
     }
 
     .admin-nav button:hover {
@@ -1160,6 +1364,7 @@
     .admin-nav button.active {
       background: var(--primary);
       color: #ffffff;
+      animation: activePop 0.24s var(--motion) both;
     }
 
     .admin-screen {
@@ -1169,6 +1374,7 @@
     .admin-screen.active {
       display: grid;
       gap: 16px;
+      animation: fadeSlideUp 0.28s var(--motion) both;
     }
 
     .admin-toolbar {
@@ -1189,7 +1395,7 @@
     .form-panel.active {
       display: grid;
       gap: 14px;
-      animation: fadeSlideUp 0.28s ease both;
+      animation: formOpen 0.32s var(--motion) both;
     }
 
     .form-panel.active::before {
@@ -1245,17 +1451,27 @@
       display: none;
       max-width: 460px;
       margin: 0 auto;
-      padding: 12px 14px;
+      overflow: hidden;
+      padding: 14px 16px;
       border-radius: var(--radius);
       background: var(--text);
       color: #ffffff;
+      box-shadow: 0 16px 44px rgba(17, 24, 39, 0.24);
       text-align: center;
       font-weight: 700;
     }
 
+    .toast::before {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 6px;
+      background: linear-gradient(180deg, var(--primary), var(--secondary), var(--accent));
+      content: "";
+    }
+
     .toast.show {
       display: block;
-      animation: toastIn 0.22s ease both;
+      animation: toastIn 0.28s var(--motion) both;
     }
 
     .modal {
@@ -1271,6 +1487,7 @@
 
     .modal.show {
       display: flex;
+      animation: fadeIn 0.2s ease both;
     }
 
     .modal-card {
@@ -1280,6 +1497,7 @@
       padding: 22px;
       border-radius: var(--radius);
       background: var(--bg);
+      animation: modalPop 0.28s var(--motion) both;
     }
 
     .modal-head {
@@ -1316,6 +1534,8 @@
       color: var(--muted);
       line-height: 1.65;
       white-space: pre-wrap;
+      display: block;
+      overflow: visible;
     }
 
     .detail-image {
@@ -1346,11 +1566,12 @@
       border-radius: var(--radius);
       color: #ffffff;
       font-weight: 800;
-      transition: transform 0.2s ease;
+      transition: transform 0.2s var(--motion), filter 0.2s ease;
     }
 
     .theme-btn:hover {
-      transform: scale(1.03);
+      transform: translateY(-2px) scale(1.03);
+      filter: saturate(1.12);
     }
 
     .class-manager {
@@ -1417,6 +1638,18 @@
       text-transform: uppercase;
     }
 
+    .class-count {
+      display: inline-flex;
+      width: fit-content;
+      margin-top: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 900;
+    }
+
     .class-actions {
       display: flex;
       gap: 6px;
@@ -1453,7 +1686,7 @@
     @keyframes cardEnter {
       from {
         opacity: 0;
-        transform: translateY(12px) scale(0.985);
+        transform: translateY(16px) scale(0.98);
       }
       to {
         opacity: 1;
@@ -1472,15 +1705,96 @@
       }
     }
 
-    @keyframes savedPulse {
-      0% {
-        background: var(--accent);
-        transform: translateY(0) scale(1);
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
       }
-      45% {
-        transform: translateY(-2px) scale(1.015);
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes sideEnter {
+      from {
+        opacity: 0;
+        transform: translateX(-14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes popIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.82) rotate(-8deg);
+      }
+      70% {
+        opacity: 1;
+        transform: scale(1.08) rotate(2deg);
       }
       100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+      }
+    }
+
+    @keyframes activePop {
+      0% {
+        transform: scale(0.96);
+      }
+      65% {
+        transform: scale(1.035);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes countPop {
+      from {
+        transform: scale(0.88);
+      }
+      to {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes formOpen {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.99);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes savedPulse {
+      0% {
+        outline: 0 solid rgba(59, 130, 246, 0);
+        background: var(--accent);
+        transform: translateY(0) scale(0.995);
+      }
+      45% {
+        outline: 6px solid rgba(59, 130, 246, 0.12);
+        transform: translateY(-4px) scale(1.018);
+      }
+      100% {
+        outline: 0 solid rgba(59, 130, 246, 0);
         background: var(--blue-soft);
         transform: translateY(0) scale(1);
       }
@@ -1489,11 +1803,50 @@
     @keyframes toastIn {
       from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(14px) scale(0.98);
       }
       to {
         opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes modalPop {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes softFloat {
+      from {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+      }
+      to {
+        transform: translate3d(12px, -16px, 0) rotate(8deg);
+      }
+    }
+
+    @keyframes rotateFloat {
+      from {
+        transform: rotate(12deg) translateY(0);
+      }
+      to {
+        transform: rotate(24deg) translateY(-10px);
+      }
+    }
+
+    @keyframes softBounce {
+      0%,
+      100% {
         transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-3px);
       }
     }
 
@@ -1549,25 +1902,62 @@
     }
 
     @media (max-width: 720px) {
+      html,
+      body {
+        width: 100%;
+        overflow-x: hidden;
+      }
+
       .app {
-        padding-bottom: 82px;
+        padding-bottom: calc(88px + env(safe-area-inset-bottom));
       }
 
       .topbar-inner {
-        align-items: stretch;
-        flex-direction: column;
-        padding: 12px 14px;
+        align-items: center;
+        flex-direction: row;
+        gap: 10px;
+        padding: 10px 12px;
+      }
+
+      .brand {
+        min-width: 0;
+        gap: 8px;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+      }
+
+      .brand-title {
+        max-width: 160px;
+        font-size: 0.9rem;
+      }
+
+      .brand-subtitle {
+        display: none;
+      }
+
+      .mode-switch {
+        flex: 0 0 auto;
+      }
+
+      .mode-switch button {
+        min-height: 36px;
+        padding: 0 12px;
+        font-size: 0.8rem;
       }
 
       .main {
-        padding: 14px;
+        padding: 12px 10px;
       }
 
       .layout,
       .work-panel,
       .screen.active,
       .admin-screen.active {
-        gap: 14px;
+        gap: 12px;
       }
 
       .side-panel,
@@ -1577,7 +1967,44 @@
       .form-panel,
       .login-intro,
       .login-card {
-        padding: 22px;
+        padding: 14px;
+      }
+
+      .side-panel {
+        gap: 12px;
+      }
+
+      .side-title {
+        font-size: clamp(2rem, 14vw, 3rem);
+      }
+
+      .quick-actions {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .quick-actions .btn {
+        min-height: 46px;
+        padding: 0 10px;
+        font-size: 0.88rem;
+      }
+
+      .compact-tools {
+        padding: 10px;
+      }
+
+      .audience-tabs button,
+      .priority-tabs button {
+        font-size: 0.75rem;
+      }
+
+      .scope-notice {
+        padding: 10px;
+        font-size: 0.8rem;
+      }
+
+      .selected-class-chip {
+        padding: 11px;
+        font-size: 0.9rem;
       }
 
       .quick-actions,
@@ -1597,6 +2024,41 @@
       .priority-tabs,
       .class-editor {
         grid-template-columns: 1fr;
+      }
+
+      .feed-column {
+        padding: 10px;
+      }
+
+      .feed-head {
+        padding: 12px;
+      }
+
+      .feed-head h2 {
+        font-size: 1.05rem;
+      }
+
+      .feed-head p {
+        font-size: 0.8rem;
+      }
+
+      .feed-head strong {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+      }
+
+      .stat-card {
+        min-height: 78px;
+        padding: 12px;
+      }
+
+      .stat-value {
+        font-size: 1.55rem;
+      }
+
+      .stat-label {
+        font-size: 0.7rem;
       }
 
       .login-box {
@@ -1626,28 +2088,824 @@
         bottom: calc(10px + env(safe-area-inset-bottom));
         left: 10px;
         z-index: 60;
-        grid-template-columns: repeat(5, minmax(68px, 1fr));
+        grid-template-columns: repeat(5, minmax(64px, 1fr));
         overflow-x: auto;
+        padding: 6px;
+        box-shadow: 0 -12px 30px rgba(17, 24, 39, 0.12);
       }
 
       .tabs button {
-        min-width: 68px;
+        min-width: 64px;
         min-height: 52px;
-        font-size: 0.75rem;
+        padding: 0 6px;
+        font-size: 0.7rem;
       }
 
       .item-card {
-        grid-template-columns: 52px minmax(0, 1fr);
-        gap: 12px;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 14px;
       }
 
       .date-tile {
-        width: 50px;
+        width: 54px;
         height: 58px;
+      }
+
+      .card-title {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .card-title h3 {
+        font-size: 0.98rem;
+      }
+
+      .card p {
+        font-size: 0.9rem;
+      }
+
+      .card-image,
+      .item-card .card-image {
+        max-height: 150px;
+      }
+
+      .meta-row {
+        gap: 6px;
+      }
+
+      .badge {
+        font-size: 0.68rem;
+      }
+
+      .section-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .section-header h2 {
+        font-size: 1.1rem;
+      }
+
+      .admin-top h1 {
+        font-size: 2rem;
+      }
+
+      .admin-nav {
+        gap: 8px;
+        padding-bottom: 4px;
+      }
+
+      .admin-nav button {
+        min-height: 42px;
+        padding: 0 12px;
+        font-size: 0.82rem;
+      }
+
+      .admin-list-actions {
+        gap: 7px;
+      }
+
+      .admin-list-actions .btn {
+        width: 100%;
       }
 
       .admin-list-actions .btn-danger {
         justify-self: stretch;
+      }
+
+      .modal {
+        align-items: flex-end;
+        padding: 8px;
+      }
+
+      .modal-card {
+        width: 100%;
+        max-height: 88vh;
+        padding: 16px;
+        border-radius: 16px 16px 8px 8px;
+      }
+
+      .modal-head {
+        gap: 10px;
+      }
+
+      .modal-head h2 {
+        font-size: 1.25rem;
+      }
+
+      .detail-image {
+        max-height: 280px;
+      }
+
+      .class-row,
+      .class-row.editing {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+      }
+
+      .class-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation-duration: 0.25s;
+        animation-timing-function: ease-in-out;
+      }
+
+      body:has(#parentView.active) {
+        background: #eeebe3;
+        color: #171e19;
+        font-family: Nunito, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      body:has(#parentView.active) .app {
+        padding-bottom: calc(156px + env(safe-area-inset-bottom));
+      }
+
+      body:has(#parentView.active) .topbar {
+        border-bottom: 0;
+        background: rgba(238, 235, 227, 0.94);
+        backdrop-filter: blur(18px);
+      }
+
+      body:has(#parentView.active) .topbar-inner {
+        padding: 12px 18px 0;
+      }
+
+      body:has(#parentView.active) .brand-mark {
+        width: 44px;
+        height: 44px;
+        flex-basis: 44px;
+        border: 2px solid #ffffff;
+        border-radius: 18px;
+        background: #171e19;
+      }
+
+      body:has(#parentView.active) .brand-mark svg circle {
+        fill: #ca0013;
+      }
+
+      body:has(#parentView.active) .brand-title {
+        color: #171e19;
+        font-weight: 900;
+      }
+
+      body:has(#parentView.active) .mode-switch {
+        border: 1px solid rgba(183, 198, 194, 0.3);
+        border-radius: 999px;
+        background: #ffffff;
+      }
+
+      body:has(#parentView.active) .mode-switch button {
+        min-height: 38px;
+        border-radius: 999px;
+        color: #68766f;
+      }
+
+      body:has(#parentView.active) .mode-switch button.active {
+        background: #171e19;
+        color: #ffffff;
+      }
+
+      #parentView {
+        --bg: #eeebe3;
+        --surface: #ffffff;
+        --surface-strong: #f6f3eb;
+        --text: #171e19;
+        --muted: #68766f;
+        --border: rgba(183, 198, 194, 0.3);
+        --primary: #ca0013;
+        --primary-dark: #a90010;
+        --secondary: #171e19;
+        --accent: #b7c6c2;
+        --danger: #ca0013;
+        --danger-soft: rgba(202, 0, 19, 0.1);
+        --warning-soft: rgba(183, 198, 194, 0.2);
+        --blue-soft: rgba(183, 198, 194, 0.2);
+        --green-soft: rgba(183, 198, 194, 0.24);
+        --indigo-soft: rgba(183, 198, 194, 0.2);
+        font-family: Nunito, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      #parentView .layout {
+        display: block;
+      }
+
+      #parentView .side-panel {
+        position: relative;
+        gap: 18px;
+        margin: 8px 4px 18px;
+        padding: 56px 20px 20px;
+        overflow: hidden;
+        border: 1px solid rgba(183, 198, 194, 0.3);
+        border-radius: 40px;
+        background: #ffffff;
+        box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.08);
+      }
+
+      #parentView .side-panel::before {
+        position: absolute;
+        top: -42px;
+        right: -34px;
+        width: 150px;
+        height: 150px;
+        border-radius: 999px;
+        background: rgba(183, 198, 194, 0.22);
+        content: "";
+      }
+
+      #parentView .side-panel::after {
+        position: absolute;
+        top: 24px;
+        right: 22px;
+        display: grid;
+        width: 48px;
+        height: 48px;
+        place-items: center;
+        border: 2px solid #ffffff;
+        border-radius: 999px;
+        background:
+          radial-gradient(circle at 86% 86%, #ca0013 0 7px, transparent 8px),
+          #171e19;
+        color: #ffffff;
+        content: "H";
+        font-weight: 900;
+      }
+
+      #parentView .kicker {
+        min-height: 0;
+        padding: 0;
+        border-radius: 0;
+        background: transparent;
+        color: #8a9993;
+        font-size: 0.72rem;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+      }
+
+      #parentView .side-title {
+        max-width: calc(100% - 72px);
+        margin-bottom: 10px;
+        color: #171e19;
+        font-size: 1.9rem;
+        font-weight: 900;
+        letter-spacing: -0.04em;
+        line-height: 0.98;
+      }
+
+      #parentView .side-copy {
+        max-width: 94%;
+        color: #68766f;
+        font-size: 0.98rem;
+        font-weight: 700;
+      }
+
+      #parentView .quick-actions {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      #parentView .btn {
+        min-height: 52px;
+        border-radius: 24px;
+        font-weight: 900;
+      }
+
+      #parentView .btn-primary {
+        background: #ca0013;
+        color: #ffffff;
+      }
+
+      #parentView .btn-primary:hover {
+        background: #a90010;
+      }
+
+      #parentView .btn-secondary,
+      #parentView .btn-muted {
+        border: 1px solid rgba(183, 198, 194, 0.45);
+        background: #ffffff;
+        color: #171e19;
+      }
+
+      #parentView .compact-tools {
+        gap: 12px;
+        padding: 14px;
+        border: 1px solid rgba(183, 198, 194, 0.25);
+        border-radius: 24px;
+        background: #f6f3eb;
+      }
+
+      #parentView .field label {
+        color: #171e19;
+        font-size: 0.62rem;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      #parentView .field input,
+      #parentView .field textarea,
+      #parentView .field select {
+        min-height: 54px;
+        border: 1px solid rgba(183, 198, 194, 0.3);
+        border-radius: 20px;
+        background: #ffffff;
+        color: #171e19;
+        font-weight: 800;
+      }
+
+      #parentView .field input:focus,
+      #parentView .field textarea:focus,
+      #parentView .field select:focus {
+        border-color: #ca0013;
+        transform: translateY(-1px);
+      }
+
+      #parentView .audience-tabs {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding: 0;
+        background: transparent;
+        scroll-snap-type: x mandatory;
+      }
+
+      #parentView .audience-tabs button {
+        display: inline-grid;
+        grid-template-columns: 34px 1fr;
+        flex: 0 0 112px;
+        min-height: 56px;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        border: 1px solid rgba(183, 198, 194, 0.3);
+        border-radius: 16px;
+        background: #ffffff;
+        color: #171e19;
+        font-size: 0.78rem;
+        scroll-snap-align: start;
+      }
+
+      #parentView .audience-tabs button::before {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border-radius: 999px;
+        background: rgba(183, 198, 194, 0.25);
+        color: #171e19;
+        content: "•";
+        font-size: 1rem;
+      }
+
+      #parentView .audience-tabs button[data-parent-audience="general"]::before {
+        content: "G";
+      }
+
+      #parentView .audience-tabs button[data-parent-audience="mine"]::before {
+        content: "T";
+      }
+
+      #parentView .audience-tabs button.active {
+        flex-basis: 160px;
+        border-color: #171e19;
+        background: #171e19;
+        color: #ffffff;
+      }
+
+      #parentView .audience-tabs button.active::before {
+        background: #ca0013;
+        color: #ffffff;
+      }
+
+      #parentView .scope-notice,
+      #parentView .selected-class-chip {
+        border-radius: 24px;
+        background: rgba(183, 198, 194, 0.2);
+        color: #171e19;
+      }
+
+      #parentView .selected-class-chip span {
+        color: #68766f;
+      }
+
+      #parentView .work-panel {
+        gap: 18px;
+        padding: 0 4px calc(128px + env(safe-area-inset-bottom));
+        overflow: visible;
+        background: transparent;
+      }
+
+      #parentView .work-panel::before {
+        display: none;
+      }
+
+      #parentView .screen.active {
+        gap: 18px;
+        padding-bottom: calc(128px + env(safe-area-inset-bottom));
+        animation: mobileViewFade 0.25s ease-in-out both;
+      }
+
+      #parentView .summary-grid,
+      #parentView .stat-list {
+        display: flex;
+        grid-template-columns: none;
+        gap: 12px;
+        overflow-x: auto;
+        padding: 2px 2px 8px;
+        scroll-snap-type: x mandatory;
+      }
+
+      #parentView .stat-card,
+      #parentView .stat-card.blue,
+      #parentView .stat-card.green,
+      #parentView .stat-card.amber,
+      #parentView .stat-card.indigo {
+        flex: 0 0 154px;
+        min-height: 118px;
+        padding: 16px;
+        border: 1px solid rgba(183, 198, 194, 0.3);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.82);
+        box-shadow: 0 20px 50px -28px rgba(0, 0, 0, 0.22);
+        scroll-snap-align: start;
+      }
+
+      #parentView .stat-value {
+        color: #171e19;
+        font-size: 2rem;
+        font-weight: 900;
+      }
+
+      #parentView .stat-label {
+        color: #68766f;
+        font-size: 0.62rem;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+      }
+
+      #parentView .section-header h2 {
+        color: #171e19;
+        font-size: 1.25rem;
+        font-weight: 900;
+      }
+
+      #parentView .section-header p {
+        color: #68766f;
+        font-weight: 700;
+      }
+
+      #parentView .feed-split {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      #parentView .feed-column {
+        min-height: auto;
+        padding: 12px;
+        border: 1px solid rgba(183, 198, 194, 0.25);
+        border-radius: 32px;
+        background: rgba(255, 255, 255, 0.54);
+        box-shadow: 0 20px 50px -30px rgba(0, 0, 0, 0.25);
+      }
+
+      #parentView .feed-head {
+        align-items: center;
+        padding: 16px;
+        border-radius: 24px;
+        background: #171e19;
+        color: #ffffff;
+      }
+
+      #parentView .feed-class .feed-head {
+        background: #b7c6c2;
+        color: #171e19;
+      }
+
+      #parentView .feed-head h2 {
+        font-size: 1.22rem;
+        font-weight: 900;
+      }
+
+      #parentView .feed-head p,
+      #parentView .feed-head span {
+        color: rgba(255, 255, 255, 0.72);
+      }
+
+      #parentView .feed-class .feed-head p,
+      #parentView .feed-class .feed-head span {
+        color: rgba(23, 30, 25, 0.68);
+      }
+
+      #parentView .feed-head strong {
+        width: 46px;
+        height: 46px;
+        flex-basis: 46px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      #parentView .feed-class .feed-head strong {
+        background: rgba(255, 255, 255, 0.45);
+        color: #171e19;
+      }
+
+      #parentView #urgentHighlights .card {
+        grid-template-columns: 64px minmax(0, 1fr);
+        gap: 16px;
+        padding: 22px;
+        border-radius: 40px;
+        background: #ffffff;
+        box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.08);
+      }
+
+      #parentView #urgentHighlights .card::before {
+        top: -48px;
+        right: -38px;
+        bottom: auto;
+        left: auto;
+        width: 142px;
+        height: 142px;
+        border-radius: 999px;
+        background: rgba(183, 198, 194, 0.2);
+      }
+
+      #parentView .card {
+        padding: 16px;
+        border: 1px solid rgba(183, 198, 194, 0.3);
+        border-radius: 24px;
+        background: #ffffff;
+        box-shadow: 0 20px 50px -28px rgba(0, 0, 0, 0.24);
+      }
+
+      #parentView .card::before {
+        top: 16px;
+        right: 16px;
+        bottom: auto;
+        left: auto;
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: rgba(183, 198, 194, 0.75);
+      }
+
+      #parentView .card::after {
+        display: none;
+      }
+
+      #parentView .item-card {
+        grid-template-columns: 56px minmax(0, 1fr);
+        gap: 12px;
+        align-items: start;
+      }
+
+      #parentView .item-card.urgent {
+        background: #ffffff;
+      }
+
+      #parentView .item-card.urgent::before {
+        background: #ca0013;
+      }
+
+      #parentView .date-tile {
+        width: 56px;
+        height: 56px;
+        border-radius: 18px;
+        background: rgba(183, 198, 194, 0.2);
+      }
+
+      #parentView .date-tile span {
+        color: #68766f;
+        font-size: 0.62rem;
+        font-weight: 900;
+      }
+
+      #parentView .date-tile strong {
+        color: #171e19;
+        font-size: 1.16rem;
+        font-weight: 900;
+      }
+
+      #parentView .item-kind {
+        margin-bottom: 8px;
+        padding: 0;
+        border-radius: 0;
+        background: transparent;
+        color: #8a9993;
+        font-size: 0.62rem;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+      }
+
+      #parentView .card-title {
+        gap: 8px;
+      }
+
+      #parentView .card-title h3 {
+        color: #171e19;
+        font-size: 1.12rem;
+        font-weight: 900;
+        line-height: 1.2;
+      }
+
+      #parentView .card p {
+        color: #68766f;
+        font-weight: 700;
+        line-height: 1.55;
+      }
+
+      #parentView .card-image,
+      #parentView .item-card .card-image {
+        max-height: 210px;
+        border-radius: 22px;
+      }
+
+      #parentView .badge {
+        min-height: 28px;
+        border-radius: 999px;
+        background: rgba(183, 198, 194, 0.2);
+        color: #171e19;
+        font-size: 0.7rem;
+        font-weight: 900;
+      }
+
+      #parentView .badge.target {
+        background: rgba(183, 198, 194, 0.24);
+        color: #171e19;
+      }
+
+      #parentView .badge.importante {
+        background: rgba(183, 198, 194, 0.25);
+        color: #171e19;
+      }
+
+      #parentView .badge.urgente {
+        background: #ca0013;
+        color: #ffffff;
+      }
+
+      #parentView .filters {
+        padding: 12px;
+        border: 1px solid rgba(183, 198, 194, 0.25);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.64);
+      }
+
+      #parentView .priority-tabs {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 0;
+        background: transparent;
+      }
+
+      #parentView .priority-tabs button {
+        flex: 0 0 auto;
+        min-height: 42px;
+        padding: 0 14px;
+        border: 1px solid rgba(183, 198, 194, 0.3);
+        border-radius: 999px;
+        background: #ffffff;
+        color: #171e19;
+        font-size: 0.72rem;
+      }
+
+      #parentView .priority-tabs button.active {
+        border-color: #171e19;
+        background: #171e19;
+        color: #ffffff;
+      }
+
+      #parentView .empty-state {
+        padding: 22px;
+        border: 1px solid rgba(183, 198, 194, 0.28);
+        border-radius: 24px;
+        background: #ffffff;
+        color: #68766f;
+      }
+
+      #parentView .empty-state::before {
+        background: rgba(183, 198, 194, 0.22);
+        color: #171e19;
+      }
+
+      #parentView .tabs {
+        right: 8px;
+        bottom: calc(8px + env(safe-area-inset-bottom));
+        left: 8px;
+        z-index: 90;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        align-items: center;
+        height: 64px;
+        overflow: visible;
+        padding: 8px 10px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 999px;
+        background: #171e19;
+        box-shadow: 0 20px 50px -14px rgba(0, 0, 0, 0.38);
+      }
+
+      #parentView .tabs button {
+        position: relative;
+        display: grid;
+        min-width: 0;
+        min-height: 48px;
+        place-items: center;
+        padding: 18px 2px 0;
+        border-radius: 999px;
+        background: transparent;
+        color: #b7c6c2;
+        font-size: 0.58rem;
+        font-weight: 900;
+      }
+
+      #parentView .tabs button::before {
+        position: absolute;
+        top: 6px;
+        left: 50%;
+        color: currentColor;
+        content: "•";
+        font-size: 1rem;
+        line-height: 1;
+        transform: translateX(-50%);
+      }
+
+      #parentView .tabs button[data-parent-screen="home"]::before {
+        content: "H";
+      }
+
+      #parentView .tabs button[data-parent-screen="announcements"]::before {
+        content: "!";
+      }
+
+      #parentView .tabs button[data-parent-screen="events"]::before {
+        content: "+";
+      }
+
+      #parentView .tabs button[data-parent-screen="calendar"]::before {
+        content: "A";
+      }
+
+      #parentView .tabs button[data-parent-screen="documents"]::before {
+        content: "D";
+      }
+
+      #parentView .tabs button.active {
+        background: transparent;
+        color: #ffffff;
+      }
+
+      #parentView .tabs button[data-parent-screen="events"] {
+        width: 56px;
+        height: 56px;
+        min-height: 56px;
+        margin: -32px auto 0;
+        padding: 30px 0 0;
+        border: 4px solid #eeebe3;
+        background: #ca0013;
+        color: #ffffff;
+        box-shadow: 0 14px 32px rgba(202, 0, 19, 0.3);
+      }
+
+      #parentView .tabs button[data-parent-screen="events"]::before {
+        top: 8px;
+        font-size: 1.45rem;
+      }
+
+      #parentView .modal {
+        background: rgba(23, 30, 25, 0.45);
+      }
+
+      #parentView .modal-card {
+        border-radius: 40px 40px 24px 24px;
+        background: #ffffff;
+      }
+
+      #parentView .detail-summary {
+        border-radius: 24px;
+        background: rgba(183, 198, 194, 0.16);
+      }
+
+      #parentView .detail-image {
+        border-radius: 24px;
+        background: #eeebe3;
+      }
+    }
+
+    @keyframes mobileViewFade {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
   </style>
@@ -1686,7 +2944,6 @@
             </div>
             <div class="quick-actions">
               <a id="whatsappButton" class="btn btn-primary" href="#" target="_blank" rel="noopener">WhatsApp da escola</a>
-              <a id="locationButton" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Ver localização</a>
             </div>
             <div class="compact-tools">
               <div class="field">
@@ -1704,6 +2961,7 @@
               <button id="clearParentFilters" class="btn btn-muted btn-small" type="button">Limpar filtros</button>
             </div>
             <div id="parentScopeNotice" class="scope-notice"></div>
+            <div id="selectedClassChip" class="selected-class-chip"></div>
             <div id="parentHeroMetrics" class="stat-list"></div>
           </aside>
 
@@ -1717,8 +2975,8 @@
             </nav>
 
             <section id="parent-home" class="screen active">
-              <div id="parentStatusGrid" class="summary-grid"></div>
               <div id="urgentHighlights" class="grid"></div>
+              <div id="parentStatusGrid" class="summary-grid"></div>
 
               <div class="feed-split">
                 <section class="feed-column feed-general">
@@ -1811,7 +3069,30 @@
                   <p>Programações e encontros da escola</p>
                 </div>
               </div>
-              <div id="parentEventsList" class="grid"></div>
+              <div class="feed-split">
+                <section class="feed-column feed-general">
+                  <div class="feed-head">
+                    <div>
+                      <span>Gerais</span>
+                      <h2>Eventos gerais</h2>
+                      <p>Programações abertas para todas as turmas</p>
+                    </div>
+                    <strong id="parentGeneralEventsCount">0</strong>
+                  </div>
+                  <div id="parentGeneralEventsList" class="grid"></div>
+                </section>
+                <section class="feed-column feed-class">
+                  <div class="feed-head">
+                    <div>
+                      <span>Turma</span>
+                      <h2>Eventos da turma</h2>
+                      <p id="parentClassEventsSubtitle">Escolha uma turma</p>
+                    </div>
+                    <strong id="parentClassEventsCount">0</strong>
+                  </div>
+                  <div id="parentClassEventsList" class="grid"></div>
+                </section>
+              </div>
             </section>
 
             <section id="parent-calendar" class="screen">
@@ -1821,7 +3102,30 @@
                   <p>Datas importantes para não perder</p>
                 </div>
               </div>
-              <div id="parentCalendarList" class="grid"></div>
+              <div class="feed-split">
+                <section class="feed-column feed-general">
+                  <div class="feed-head">
+                    <div>
+                      <span>Gerais</span>
+                      <h2>Agenda geral</h2>
+                      <p>Datas importantes para todas as turmas</p>
+                    </div>
+                    <strong id="parentGeneralCalendarCount">0</strong>
+                  </div>
+                  <div id="parentGeneralCalendarList" class="grid"></div>
+                </section>
+                <section class="feed-column feed-class">
+                  <div class="feed-head">
+                    <div>
+                      <span>Turma</span>
+                      <h2>Agenda da turma</h2>
+                      <p id="parentClassCalendarSubtitle">Escolha uma turma</p>
+                    </div>
+                    <strong id="parentClassCalendarCount">0</strong>
+                  </div>
+                  <div id="parentClassCalendarList" class="grid"></div>
+                </section>
+              </div>
             </section>
 
             <section id="parent-documents" class="screen">
@@ -1831,7 +3135,30 @@
                   <p>Links e materiais úteis</p>
                 </div>
               </div>
-              <div id="parentDocumentsList" class="grid"></div>
+              <div class="feed-split">
+                <section class="feed-column feed-general">
+                  <div class="feed-head">
+                    <div>
+                      <span>Gerais</span>
+                      <h2>Documentos gerais</h2>
+                      <p>Links úteis para todas as turmas</p>
+                    </div>
+                    <strong id="parentGeneralDocumentsCount">0</strong>
+                  </div>
+                  <div id="parentGeneralDocumentsList" class="grid"></div>
+                </section>
+                <section class="feed-column feed-class">
+                  <div class="feed-head">
+                    <div>
+                      <span>Turma</span>
+                      <h2>Documentos da turma</h2>
+                      <p id="parentClassDocumentsSubtitle">Escolha uma turma</p>
+                    </div>
+                    <strong id="parentClassDocumentsCount">0</strong>
+                  </div>
+                  <div id="parentClassDocumentsList" class="grid"></div>
+                </section>
+              </div>
             </section>
           </div>
         </div>
@@ -2240,6 +3567,7 @@
     const STORAGE_KEY = "hazePortalData";
     const SELECTED_PARENT_CLASS_KEY = "selectedParentClass";
     const ADMIN_PASSWORD = "haze123";
+    const MAX_IMAGE_DATA_URL_LENGTH = 900000;
     const DEFAULT_CLASSES = [
       "Todas as turmas",
       "Infantil 1",
@@ -2396,7 +3724,12 @@
     }
 
     function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (error) {
+        console.error("Falha ao salvar no localStorage.", error);
+        throw new Error("Nao foi possivel salvar. A imagem pode estar pesada demais para esta versao local.");
+      }
     }
 
     function normalizeClasses(classes) {
@@ -2628,13 +3961,25 @@
 
       document.getElementById("announcementForm").addEventListener("submit", async (event) => {
         event.preventDefault();
-        const data = formToObject(event.target, ["id", "title", "text", "targetClass", "priority", "date", "imageData"]);
-        const file = event.target.elements.announcementImage.files[0];
-        if (file) {
-          data.imageData = await fileToDataUrl(file);
+        const form = event.currentTarget;
+        const submitButton = form.querySelector("[type='submit']");
+        const originalLabel = submitButton ? submitButton.textContent : "";
+
+        try {
+          setSubmitBusy(submitButton, "Publicando...");
+          const data = formToObject(form, ["id", "title", "text", "targetClass", "priority", "date", "imageData"]);
+          const file = form.elements.announcementImage.files[0];
+          if (file) {
+            data.imageData = await prepareAnnouncementImage(file);
+          }
+          upsertItem("announcements", data);
+          closeFormPanel("announcementFormPanel");
+        } catch (error) {
+          console.error("Erro ao publicar comunicado.", error);
+          showToast(error.message || "Nao foi possivel publicar o comunicado.");
+        } finally {
+          clearSubmitBusy(submitButton, originalLabel);
         }
-        upsertItem("announcements", data);
-        closeFormPanel("announcementFormPanel");
       });
 
       document.getElementById("eventForm").addEventListener("submit", (event) => {
@@ -2678,36 +4023,51 @@
     }
 
     function setMode(mode) {
-      document.querySelectorAll("[data-mode]").forEach((button) => {
-        button.classList.toggle("active", button.dataset.mode === mode);
+      runViewTransition(() => {
+        document.querySelectorAll("[data-mode]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.mode === mode);
+        });
+
+        els.parentView.classList.toggle("active", mode === "parent");
+        els.adminView.classList.toggle("active", mode === "admin");
+        els.parentBottomNav.classList.toggle("hidden", mode !== "parent");
+
+        if (mode === "admin" && !adminAuthenticated) {
+          els.loginArea.classList.remove("hidden");
+          els.adminArea.classList.add("hidden");
+        }
       });
-
-      els.parentView.classList.toggle("active", mode === "parent");
-      els.adminView.classList.toggle("active", mode === "admin");
-      els.parentBottomNav.classList.toggle("hidden", mode !== "parent");
-
-      if (mode === "admin" && !adminAuthenticated) {
-        els.loginArea.classList.remove("hidden");
-        els.adminArea.classList.add("hidden");
-      }
     }
 
     function setParentScreen(screen) {
-      document.querySelectorAll(".screen").forEach((section) => {
-        section.classList.toggle("active", section.id === `parent-${screen}`);
-      });
-      document.querySelectorAll("[data-parent-screen]").forEach((button) => {
-        button.classList.toggle("active", button.dataset.parentScreen === screen);
+      runViewTransition(() => {
+        document.querySelectorAll(".screen").forEach((section) => {
+          section.classList.toggle("active", section.id === `parent-${screen}`);
+        });
+        document.querySelectorAll("[data-parent-screen]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.parentScreen === screen);
+        });
       });
     }
 
     function setAdminScreen(screen) {
-      document.querySelectorAll(".admin-screen").forEach((section) => {
-        section.classList.toggle("active", section.id === `admin-${screen}`);
+      runViewTransition(() => {
+        document.querySelectorAll(".admin-screen").forEach((section) => {
+          section.classList.toggle("active", section.id === `admin-${screen}`);
+        });
+        document.querySelectorAll("[data-admin-screen]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.adminScreen === screen);
+        });
       });
-      document.querySelectorAll("[data-admin-screen]").forEach((button) => {
-        button.classList.toggle("active", button.dataset.adminScreen === screen);
-      });
+    }
+
+    function runViewTransition(callback) {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!document.startViewTransition || reduceMotion) {
+        callback();
+        return;
+      }
+      document.startViewTransition(callback);
     }
 
     function openQuickCreate(collection) {
@@ -2754,6 +4114,7 @@
     function upsertItem(collection, item) {
       const isEditing = Boolean(item.id);
       const cleanItem = normalizeItem(item);
+      const previousItems = state[collection];
       if (isEditing) {
         state[collection] = state[collection].map((current) => current.id === cleanItem.id ? cleanItem : current);
       } else {
@@ -2762,7 +4123,12 @@
       }
 
       lastChangedItemId = cleanItem.id;
-      saveState();
+      try {
+        saveState();
+      } catch (error) {
+        state[collection] = previousItems;
+        throw error;
+      }
       renderAll();
       scrollToChangedItem();
       showToast(feedbackMessage(collection, cleanItem, isEditing));
@@ -2928,6 +4294,20 @@
         : button.dataset.submitLabel || "Publicar";
     }
 
+    function setSubmitBusy(button, label) {
+      if (!button) return;
+      button.disabled = true;
+      button.dataset.busyLabel = button.textContent;
+      button.textContent = label;
+    }
+
+    function clearSubmitBusy(button, fallbackLabel) {
+      if (!button) return;
+      button.disabled = false;
+      button.textContent = button.dataset.busyLabel || fallbackLabel || button.textContent;
+      delete button.dataset.busyLabel;
+    }
+
     function focusFirstField(form) {
       window.setTimeout(() => {
         const field = Array.from(form.elements).find((element) => (
@@ -3018,21 +4398,21 @@
 
     function renderBranding() {
       const settings = state.settings;
-      document.getElementById("heroSchoolName").textContent = settings.schoolName || "Haze - Portal dos Pais";
-      document.getElementById("homeSchoolName").textContent = settings.schoolName || "Olá, famílias";
-      document.getElementById("schoolInitial").textContent = (settings.schoolName || "H").trim().charAt(0).toUpperCase();
-      document.getElementById("homeGreeting").textContent = settings.address
-        ? `Acompanhe os recados e informações de ${settings.address}.`
-        : "Acompanhe os recados importantes da escola.";
+      setTextIfExists("heroSchoolName", settings.schoolName || "Haze - Portal dos Pais");
+      setTextIfExists("homeSchoolName", settings.schoolName || "Olá, famílias");
+      setTextIfExists("schoolInitial", (settings.schoolName || "H").trim().charAt(0).toUpperCase());
+      setTextIfExists(
+        "homeGreeting",
+        settings.address
+          ? `Acompanhe os recados e informações de ${settings.address}.`
+          : "Acompanhe os recados importantes da escola."
+      );
 
       const cleanPhone = (settings.whatsapp || "").replace(/\D/g, "");
       const whatsappButton = document.getElementById("whatsappButton");
       whatsappButton.href = cleanPhone ? `https://wa.me/${cleanPhone}` : "#";
       whatsappButton.classList.toggle("hidden", !cleanPhone);
 
-      const locationButton = document.getElementById("locationButton");
-      locationButton.href = settings.locationLink || "#";
-      locationButton.classList.toggle("hidden", !settings.locationLink);
     }
 
     function renderSummary() {
@@ -3065,6 +4445,18 @@
       const generalAnnouncements = sortByDateDesc(state.announcements)
         .filter((item) => normalizeClassName(item.targetClass || item.className) === "Todas as turmas");
       const classAnnouncements = sortByDateDesc(state.announcements)
+        .filter((item) => Boolean(selectedParentClass) && normalizeClassName(item.targetClass || item.className) === normalizeClassName(selectedParentClass));
+      const generalEvents = getUpcoming(state.events, "date")
+        .filter((item) => normalizeClassName(item.targetClass || item.className) === "Todas as turmas");
+      const classEvents = getUpcoming(state.events, "date")
+        .filter((item) => Boolean(selectedParentClass) && normalizeClassName(item.targetClass || item.className) === normalizeClassName(selectedParentClass));
+      const generalCalendar = sortByDate(state.calendar)
+        .filter((item) => normalizeClassName(item.targetClass || item.className) === "Todas as turmas");
+      const classCalendar = sortByDate(state.calendar)
+        .filter((item) => Boolean(selectedParentClass) && normalizeClassName(item.targetClass || item.className) === normalizeClassName(selectedParentClass));
+      const generalDocuments = state.documents
+        .filter((item) => normalizeClassName(item.targetClass || item.className) === "Todas as turmas");
+      const classDocuments = state.documents
         .filter((item) => Boolean(selectedParentClass) && normalizeClassName(item.targetClass || item.className) === normalizeClassName(selectedParentClass));
 
       const urgent = visibleAnnouncements
@@ -3101,9 +4493,18 @@
         .filter((item) => !announcementPriority || item.priority === announcementPriority);
       renderList("parentAnnouncementsList", filteredAnnouncements, "announcements", "Nenhum comunicado publicado ainda", announcementPriority ? `Nenhum comunicado com prioridade ${announcementPriority} neste filtro.` : parentEmptyMessage("comunicados"));
 
-      renderList("parentEventsList", visibleEvents, "events", "Nenhum evento cadastrado", parentEmptyMessage("eventos"));
-      renderList("parentCalendarList", sortByDate(state.calendar).filter(matchesParentAudience), "calendar", "Nenhuma data importante cadastrada", parentEmptyMessage("datas importantes"));
-      renderList("parentDocumentsList", visibleDocuments, "documents", "Nenhum documento disponível", parentEmptyMessage("documentos"));
+      renderSplitLists("Events", generalEvents, classEvents, "events", "Nenhum evento geral cadastrado", "Nenhum evento da turma cadastrado");
+      renderSplitLists("Calendar", generalCalendar, classCalendar, "calendar", "Nenhuma data geral cadastrada", "Nenhuma data da turma cadastrada");
+      renderSplitLists("Documents", generalDocuments, classDocuments, "documents", "Nenhum documento geral disponível", "Nenhum documento da turma disponível");
+    }
+
+    function renderSplitLists(suffix, generalItems, classItems, collection, generalEmpty, classEmpty) {
+      document.getElementById(`parentGeneral${suffix}Count`).textContent = generalItems.length;
+      document.getElementById(`parentClass${suffix}Count`).textContent = classItems.length;
+      const subtitle = document.getElementById(`parentClass${suffix}Subtitle`);
+      if (subtitle) subtitle.textContent = selectedParentClass ? `Conteúdos de ${selectedParentClass}` : "Escolha uma turma";
+      renderList(`parentGeneral${suffix}List`, generalItems, collection, generalEmpty, "Quando a escola publicar para todas as turmas, aparecerá aqui.");
+      renderList(`parentClass${suffix}List`, classItems, collection, classEmpty, selectedParentClass ? `Nada publicado para ${selectedParentClass} no momento.` : "Escolha a turma acompanhada para ver os conteúdos específicos.");
     }
 
     function renderParentOverview() {
@@ -3364,7 +4765,11 @@
         }
         return `
           <div class="class-row">
-            <span>${escapeHtml(className)} ${locked ? `<small>Destino padrão</small>` : ""}</span>
+            <span>
+              ${escapeHtml(className)}
+              ${locked ? `<small>Destino padrão</small>` : ""}
+              <em class="class-count">${classPublicationText(className)}</em>
+            </span>
             <div class="class-actions">
               <button class="btn btn-muted btn-small" type="button" data-edit-class="${escapeAttribute(className)}" ${locked ? "disabled" : ""}>Editar</button>
               <button class="btn btn-danger btn-small" type="button" data-delete-class="${escapeAttribute(className)}" ${locked ? "disabled" : ""}>Excluir</button>
@@ -3500,6 +4905,11 @@
       ), 0);
     }
 
+    function classPublicationText(className) {
+      const count = countClassReferences(className);
+      return count === 1 ? "1 publicação" : `${count} publicações`;
+    }
+
     function populateSettingsForm() {
       const form = document.getElementById("settingsForm");
       Object.entries(state.settings).forEach(([key, value]) => {
@@ -3521,6 +4931,11 @@
         item[field] = form.elements[field] ? form.elements[field].value : "";
         return item;
       }, {});
+    }
+
+    function setTextIfExists(id, value) {
+      const element = document.getElementById(id);
+      if (element) element.textContent = value;
     }
 
     function setDefaultDates(form) {
@@ -3573,6 +4988,19 @@
       };
       notice.textContent = labels[parentAudienceFilter] || labels.mine;
       notice.classList.add("show");
+      renderSelectedClassChip();
+    }
+
+    function renderSelectedClassChip() {
+      const chip = document.getElementById("selectedClassChip");
+      if (!chip) return;
+      if (!selectedParentClass) {
+        chip.classList.remove("show");
+        chip.innerHTML = "";
+        return;
+      }
+      chip.innerHTML = `<span>Acompanhando</span><strong>${escapeHtml(selectedParentClass)}</strong>`;
+      chip.classList.add("show");
     }
 
     function parentEmptyMessage(itemLabel) {
@@ -3687,12 +5115,49 @@
       return `<img class="${className}" src="${escapeAttribute(item.imageData)}" alt="Imagem do aviso">`;
     }
 
+    async function prepareAnnouncementImage(file) {
+      if (!file.type || !file.type.startsWith("image/")) {
+        throw new Error("Escolha um arquivo de imagem valido.");
+      }
+
+      const dataUrl = await fileToDataUrl(file);
+      if (dataUrl.length <= MAX_IMAGE_DATA_URL_LENGTH) return dataUrl;
+
+      const compressed = await compressImageDataUrl(dataUrl, 1400, 0.82);
+      if (compressed.length <= MAX_IMAGE_DATA_URL_LENGTH) return compressed;
+
+      const smaller = await compressImageDataUrl(dataUrl, 900, 0.72);
+      if (smaller.length <= MAX_IMAGE_DATA_URL_LENGTH) return smaller;
+
+      throw new Error("A imagem ainda ficou pesada demais. Use uma imagem menor para publicar nesta versao local.");
+    }
+
     function fileToDataUrl(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = () => resolve(reader.result);
         reader.onerror = reject;
         reader.readAsDataURL(file);
+      });
+    }
+
+    function compressImageDataUrl(dataUrl, maxSize, quality) {
+      return new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => {
+          const largestSide = Math.max(image.width, image.height);
+          const scale = largestSide > maxSize ? maxSize / largestSide : 1;
+          const width = Math.max(1, Math.round(image.width * scale));
+          const height = Math.max(1, Math.round(image.height * scale));
+          const canvas = document.createElement("canvas");
+          const context = canvas.getContext("2d");
+          canvas.width = width;
+          canvas.height = height;
+          context.drawImage(image, 0, 0, width, height);
+          resolve(canvas.toDataURL("image/jpeg", quality));
+        };
+        image.onerror = () => reject(new Error("Nao foi possivel processar a imagem escolhida."));
+        image.src = dataUrl;
       });
     }
 
