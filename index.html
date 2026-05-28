@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#3B82F6">
+  <meta name="theme-color" content="#eeebe3">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Haze Portal">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="description" content="Haze - Portal dos Pais: comunicacao escolar organizada para familias.">
-  <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="%233B82F6"/><path d="M16 43V16h8v11h16V16h8v27h-8V34H24v9z" fill="white"/><circle cx="48" cy="16" r="5" fill="%23F59E0B"/></svg>'>
+  <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="%23171e19"/><path d="M16 43V16h8v11h16V16h8v27h-8V34H24v9z" fill="white"/><circle cx="49" cy="46" r="7" fill="%23ca0013"/></svg>'>
   <title>Haze - Portal dos Pais</title>
   <style>
     :root {
@@ -2262,6 +2262,508 @@
     body[data-active-mode="parent"] .mode-switch button.active {
       background: #171e19;
       color: #ffffff;
+    }
+
+    body[data-active-mode="admin"] {
+      --bg: #eeebe3;
+      --surface: #ffffff;
+      --surface-strong: #f6f3eb;
+      --text: #171e19;
+      --muted: #68766f;
+      --border: rgba(183, 198, 194, 0.3);
+      --primary: #ca0013;
+      --primary-dark: #a90010;
+      --secondary: #171e19;
+      --secondary-dark: #111713;
+      --accent: #b7c6c2;
+      --danger: #ca0013;
+      --danger-soft: rgba(202, 0, 19, 0.1);
+      --warning-soft: rgba(183, 198, 194, 0.2);
+      --blue-soft: rgba(183, 198, 194, 0.2);
+      --green-soft: rgba(183, 198, 194, 0.22);
+      --indigo-soft: rgba(238, 235, 227, 0.88);
+      --radius: 40px;
+      background:
+        radial-gradient(circle at -4% 20%, rgba(183, 198, 194, 0.26) 0 150px, transparent 152px),
+        radial-gradient(circle at 101% 10%, rgba(183, 198, 194, 0.2) 0 130px, transparent 132px),
+        #eeebe3;
+      color: #171e19;
+      font-family: Nunito, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body[data-active-mode="admin"] .app {
+      padding-bottom: 42px;
+    }
+
+    body[data-active-mode="admin"] .app::before {
+      background: rgba(183, 198, 194, 0.24);
+    }
+
+    body[data-active-mode="admin"] .app::after {
+      background: rgba(202, 0, 19, 0.08);
+    }
+
+    body[data-active-mode="admin"] .topbar {
+      border-bottom: 1px solid rgba(183, 198, 194, 0.24);
+      background: rgba(238, 235, 227, 0.94);
+      backdrop-filter: blur(18px);
+    }
+
+    body[data-active-mode="admin"] .brand-mark {
+      border: 2px solid #ffffff;
+      border-radius: 18px;
+      background: #171e19;
+    }
+
+    body[data-active-mode="admin"] .brand-mark svg circle {
+      fill: #ca0013;
+    }
+
+    body[data-active-mode="admin"] .brand-title {
+      color: #171e19;
+      font-weight: 900;
+    }
+
+    body[data-active-mode="admin"] .brand-subtitle {
+      color: #68766f;
+      font-weight: 700;
+    }
+
+    body[data-active-mode="admin"] .mode-switch {
+      border: 1px solid rgba(183, 198, 194, 0.3);
+      border-radius: 999px;
+      background: #ffffff;
+    }
+
+    body[data-active-mode="admin"] .mode-switch button {
+      border-radius: 999px;
+      color: #68766f;
+      font-weight: 900;
+    }
+
+    body[data-active-mode="admin"] .mode-switch button.active {
+      background: #171e19;
+      color: #ffffff;
+    }
+
+    #adminView {
+      --bg: #eeebe3;
+      --surface: #ffffff;
+      --surface-strong: #f6f3eb;
+      --text: #171e19;
+      --muted: #68766f;
+      --border: rgba(183, 198, 194, 0.3);
+      --primary: #ca0013;
+      --primary-dark: #a90010;
+      --secondary: #171e19;
+      --secondary-dark: #111713;
+      --accent: #b7c6c2;
+      --danger: #ca0013;
+      --danger-soft: rgba(202, 0, 19, 0.1);
+      --warning-soft: rgba(183, 198, 194, 0.2);
+      --blue-soft: rgba(183, 198, 194, 0.2);
+      --green-soft: rgba(183, 198, 194, 0.22);
+      --indigo-soft: rgba(238, 235, 227, 0.88);
+    }
+
+    #adminView .login-box {
+      position: relative;
+      grid-template-columns: minmax(330px, 0.92fr) minmax(360px, 1fr);
+      width: min(1080px, calc(100vw - 64px));
+      min-height: 560px;
+      margin: clamp(44px, 6vh, 74px) auto 0;
+      border: 1px solid rgba(183, 198, 194, 0.28);
+      border-radius: 40px;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 28px 70px -32px rgba(23, 30, 25, 0.28);
+    }
+
+    #adminView .login-box::before {
+      position: absolute;
+      top: -86px;
+      right: -70px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: rgba(183, 198, 194, 0.18);
+      content: "";
+      pointer-events: none;
+    }
+
+    #adminView .login-intro {
+      min-height: 560px;
+      padding: clamp(32px, 4vw, 52px);
+      border-radius: 40px;
+      background: #171e19;
+      color: #ffffff;
+      isolation: isolate;
+    }
+
+    #adminView .login-intro::before {
+      right: -72px;
+      bottom: -82px;
+      width: 260px;
+      height: 260px;
+      background: rgba(183, 198, 194, 0.16);
+    }
+
+    #adminView .login-intro::after {
+      top: 78px;
+      right: 52px;
+      width: 112px;
+      height: 112px;
+      border-radius: 28px;
+      background: #ca0013;
+      box-shadow: 0 24px 60px rgba(202, 0, 19, 0.2);
+    }
+
+    #adminView .login-mark {
+      width: 72px;
+      height: 72px;
+      border: 2px solid rgba(255, 255, 255, 0.72);
+      border-radius: 24px;
+      background: #ffffff;
+      color: #171e19;
+      font-weight: 900;
+    }
+
+    #adminView .login-mark::after {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ca0013;
+      content: "";
+    }
+
+    #adminView .login-intro h2 {
+      max-width: 310px;
+      color: #ffffff;
+      font-size: clamp(3.4rem, 5.8vw, 6rem);
+      font-weight: 900;
+      letter-spacing: -0.07em;
+    }
+
+    #adminView .login-intro p {
+      max-width: 330px;
+      color: rgba(255, 255, 255, 0.74);
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    #adminView .login-card {
+      position: relative;
+      min-height: 560px;
+      padding: clamp(34px, 4.5vw, 62px);
+      background: transparent;
+    }
+
+    #adminView .login-card::before {
+      position: absolute;
+      top: 36px;
+      right: 36px;
+      width: 78px;
+      height: 78px;
+      border-radius: 999px;
+      background: rgba(183, 198, 194, 0.18);
+      content: "";
+    }
+
+    #adminView .login-card h3 {
+      max-width: 360px;
+      color: #171e19;
+      font-size: clamp(2rem, 3vw, 3rem);
+      font-weight: 900;
+      letter-spacing: -0.05em;
+    }
+
+    #adminView .login-card p {
+      max-width: 430px;
+      color: #68766f;
+      font-size: 1.03rem;
+      font-weight: 700;
+    }
+
+    #adminView .login-card .field {
+      gap: 10px;
+    }
+
+    #adminView .login-card .field label {
+      color: #171e19;
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    #adminView .login-card .field input {
+      min-height: 64px;
+      padding: 0 18px;
+      border: 1px solid rgba(183, 198, 194, 0.34);
+      border-radius: 22px;
+      background: #f6f3eb;
+      color: #171e19;
+      font-weight: 800;
+    }
+
+    #adminView .login-card .field input:focus {
+      border-color: #ca0013;
+      background: #ffffff;
+    }
+
+    #adminView .login-card .btn {
+      min-height: 64px;
+      border-radius: 22px;
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    #adminView .btn-primary,
+    #adminView .admin-list-actions .action-primary {
+      background: #ca0013;
+      color: #ffffff;
+    }
+
+    #adminView .btn-primary:hover,
+    #adminView .admin-list-actions .action-primary:hover {
+      background: #a90010;
+    }
+
+    #adminView .btn-secondary {
+      background: #171e19;
+      color: #ffffff;
+    }
+
+    #adminView .btn-muted {
+      border: 1px solid rgba(183, 198, 194, 0.3);
+      background: #ffffff;
+      color: #171e19;
+    }
+
+    #adminView .btn-muted:hover {
+      background: #f6f3eb;
+    }
+
+    #adminView .kicker {
+      background: rgba(183, 198, 194, 0.22);
+      color: #68766f;
+      font-weight: 900;
+    }
+
+    #adminView .admin-top,
+    #adminView .admin-toolbar,
+    #adminView .form-panel,
+    #adminView .preview-card,
+    #adminView .feed-column,
+    #adminView .empty-state,
+    #adminView .card {
+      border: 1px solid rgba(183, 198, 194, 0.28);
+      border-radius: 32px;
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: 0 20px 50px -30px rgba(23, 30, 25, 0.24);
+    }
+
+    #adminView .admin-top {
+      overflow: hidden;
+      padding: clamp(20px, 2vw, 30px);
+    }
+
+    #adminView .admin-top h1,
+    #adminView .section-header h2 {
+      color: #171e19;
+      font-weight: 900;
+    }
+
+    #adminView .admin-top p,
+    #adminView .section-header p {
+      color: #68766f;
+      font-weight: 700;
+    }
+
+    #adminView .summary-grid .stat-card {
+      border: 1px solid rgba(183, 198, 194, 0.3);
+      border-radius: 24px;
+      background: #ffffff;
+    }
+
+    #adminView .stat-value {
+      color: #171e19;
+      font-weight: 900;
+    }
+
+    #adminView .stat-label {
+      color: #68766f;
+      font-weight: 900;
+    }
+
+    #adminView .admin-layout {
+      grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+    }
+
+    #adminView .admin-nav {
+      gap: 8px;
+      padding: 10px;
+      border: 1px solid rgba(183, 198, 194, 0.28);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 20px 50px -34px rgba(23, 30, 25, 0.22);
+    }
+
+    #adminView .admin-nav button {
+      min-height: 50px;
+      border-radius: 18px;
+      color: #68766f;
+      font-weight: 900;
+    }
+
+    #adminView .admin-nav button:hover {
+      background: #f6f3eb;
+      color: #171e19;
+    }
+
+    #adminView .admin-nav button.active {
+      background: #171e19;
+      color: #ffffff;
+    }
+
+    #adminView .field label {
+      color: #171e19;
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+    }
+
+    #adminView .field input,
+    #adminView .field textarea,
+    #adminView .field select {
+      border: 1px solid rgba(183, 198, 194, 0.28);
+      border-radius: 18px;
+      background: #ffffff;
+      color: #171e19;
+      font-weight: 700;
+    }
+
+    #adminView .field input:focus,
+    #adminView .field textarea:focus,
+    #adminView .field select:focus {
+      border-color: #ca0013;
+      background: #ffffff;
+    }
+
+    #adminView .form-panel.active::before {
+      background: rgba(183, 198, 194, 0.22);
+      color: #68766f;
+    }
+
+    #adminView .class-row,
+    #adminView .compact-tools {
+      border: 1px solid rgba(183, 198, 194, 0.26);
+      border-radius: 24px;
+      background: #f6f3eb;
+      color: #171e19;
+    }
+
+    #adminView .class-row.editing {
+      background: rgba(183, 198, 194, 0.22);
+    }
+
+    #adminView .preview-banner {
+      border-radius: 24px;
+      background: #171e19;
+      color: #ffffff;
+    }
+
+    #adminView .preview-pill {
+      background: #ca0013;
+      color: #ffffff;
+    }
+
+    @media (max-width: 720px) {
+      body[data-active-mode="admin"] .main {
+        padding: 14px 10px calc(24px + env(safe-area-inset-bottom));
+      }
+
+      #adminView .login-box {
+        grid-template-columns: 1fr;
+        width: 100%;
+        min-height: auto;
+        margin: 14px auto 0;
+        padding: 8px;
+        border-radius: 34px;
+      }
+
+      #adminView .login-box::before,
+      #adminView .login-card::before {
+        display: none;
+      }
+
+      #adminView .login-intro {
+        min-height: 310px;
+        padding: 24px;
+        border-radius: 30px;
+      }
+
+      #adminView .login-intro::after {
+        top: 64px;
+        right: 28px;
+        width: 78px;
+        height: 78px;
+        border-radius: 22px;
+      }
+
+      #adminView .login-mark {
+        width: 58px;
+        height: 58px;
+        border-radius: 20px;
+      }
+
+      #adminView .login-intro h2 {
+        font-size: clamp(3rem, 17vw, 4.4rem);
+      }
+
+      #adminView .login-card {
+        min-height: auto;
+        padding: 20px 8px 8px;
+      }
+
+      #adminView .login-card h3 {
+        font-size: clamp(1.9rem, 9vw, 2.5rem);
+      }
+
+      #adminView .login-card p {
+        font-size: 0.96rem;
+      }
+
+      #adminView .login-card .field input,
+      #adminView .login-card .btn {
+        min-height: 58px;
+      }
+
+      #adminView .admin-top,
+      #adminView .admin-toolbar,
+      #adminView .form-panel,
+      #adminView .preview-card,
+      #adminView .card {
+        border-radius: 28px;
+      }
+
+      #adminView .admin-layout,
+      #adminView .admin-top {
+        grid-template-columns: 1fr;
+      }
+
+      #adminView .admin-nav {
+        position: static;
+        display: flex;
+        overflow-x: auto;
+        border-radius: 24px;
+      }
+
+      #adminView .admin-nav button {
+        flex: 0 0 auto;
+      }
     }
 
     #parentView {
