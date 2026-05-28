@@ -3846,6 +3846,200 @@
       }
     }
 
+    #parentView #parentStatusGrid {
+      display: none !important;
+    }
+
+    #parentView #parentHeroMetrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      align-items: stretch;
+      overflow: visible;
+      padding: 0;
+    }
+
+    #parentView #parentHeroMetrics .stat-card {
+      width: 100%;
+      min-width: 0;
+      min-height: 106px;
+      align-content: start;
+      padding: 16px;
+    }
+
+    #parentView .item-card {
+      grid-template-columns: minmax(0, 1fr) 62px;
+      gap: 14px;
+      align-items: start;
+      text-align: left;
+    }
+
+    #parentView .item-card::before {
+      display: none;
+    }
+
+    #parentView .item-card.urgent {
+      box-shadow:
+        inset 4px 0 0 #ca0013,
+        0 20px 50px -28px rgba(0, 0, 0, 0.24);
+    }
+
+    #parentView .item-card > .date-tile {
+      order: 2;
+      justify-self: end;
+    }
+
+    #parentView .item-card > .item-body {
+      order: 1;
+      text-align: left;
+    }
+
+    #parentView .card-title {
+      display: grid;
+      justify-items: start;
+      gap: 8px;
+    }
+
+    #parentView .card-title h3 {
+      width: 100%;
+    }
+
+    #parentView .meta-row {
+      justify-content: flex-start;
+    }
+
+    #parentView .item-card .btn {
+      width: fit-content;
+      justify-self: start;
+    }
+
+    #parentView .empty-state {
+      min-height: auto;
+    }
+
+    @media (max-width: 720px) {
+      body[data-active-mode="parent"] .app {
+        padding-bottom: calc(96px + env(safe-area-inset-bottom));
+      }
+
+      #parentView .work-panel {
+        padding-bottom: calc(82px + env(safe-area-inset-bottom));
+      }
+
+      #parentView .screen.active {
+        padding-bottom: calc(82px + env(safe-area-inset-bottom));
+      }
+
+      #parentView .side-panel {
+        padding-bottom: 22px;
+      }
+
+      #parentView #parentHeroMetrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      #parentView #parentHeroMetrics .stat-card {
+        min-height: 96px;
+        padding: 14px;
+        border-radius: 22px;
+      }
+
+      #parentView #parentHeroMetrics .stat-value {
+        font-size: 1.8rem;
+        line-height: 1;
+      }
+
+      #parentView #parentHeroMetrics .stat-label {
+        font-size: 0.58rem;
+        line-height: 1.35;
+      }
+
+      #parentView .item-card {
+        grid-template-columns: minmax(0, 1fr) 56px;
+        gap: 12px;
+        padding: 18px 16px;
+      }
+
+      #parentView .date-tile {
+        width: 54px;
+        height: 58px;
+        border-radius: 18px;
+      }
+
+      #parentView .item-kind {
+        margin-bottom: 2px;
+      }
+
+      #parentView .card-title {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      #parentView .card-title h3 {
+        font-size: 1.08rem;
+      }
+
+      #parentView .card p {
+        display: block;
+        overflow: visible;
+        font-size: 0.95rem;
+        -webkit-line-clamp: unset;
+      }
+
+      #parentView .meta-row {
+        gap: 8px;
+      }
+
+      #parentView .item-card .btn {
+        min-height: 44px;
+        padding: 0 18px;
+      }
+
+      #parentView .empty-state {
+        padding: 18px;
+        border-radius: 24px;
+      }
+
+      #parentView .tabs {
+        right: 12px;
+        bottom: calc(12px + env(safe-area-inset-bottom));
+        left: 12px;
+        height: 58px;
+        min-height: 58px;
+        padding: 6px 8px;
+      }
+
+      #parentView .tabs button {
+        min-height: 46px;
+        padding: 18px 2px 0;
+        font-size: 0.55rem;
+      }
+
+      #parentView .tabs button[data-parent-screen="events"] {
+        width: auto;
+        height: auto;
+        min-height: 46px;
+        margin: 0;
+        padding: 18px 2px 0;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+        color: #b7c6c2;
+      }
+
+      #parentView .tabs button[data-parent-screen="events"]::before {
+        top: 6px;
+        content: "E";
+        font-size: 1rem;
+      }
+
+      #parentView .tabs button[data-parent-screen="events"].active {
+        background: transparent;
+        color: #ffffff;
+      }
+    }
+
     @keyframes mobileViewFade {
       from {
         opacity: 0;
@@ -5465,9 +5659,7 @@
       const metrics = [
         [urgentCount, "Comunicados urgentes", "blue"],
         [nextEvents, "Eventos próximos", "green"],
-        [visibleDocuments.length, "Documentos", "amber"]
-      ];
-      const status = [
+        [visibleDocuments.length, "Documentos", "amber"],
         [visibleAnnouncements.length, "Comunicados", "blue"],
         [nextDates, "Datas importantes", "green"],
         [visibleDocuments.length, "Links úteis", "amber"]
@@ -5480,12 +5672,7 @@
         </div>
       `).join("");
 
-      document.getElementById("parentStatusGrid").innerHTML = status.map(([value, label, color], index) => `
-        <div class="stat-card ${color}" style="${cardDelay(index)}">
-          <span class="stat-value">${value}</span>
-          <span class="stat-label">${escapeHtml(label)}</span>
-        </div>
-      `).join("");
+      document.getElementById("parentStatusGrid").innerHTML = "";
     }
 
     function renderAdminLists() {
