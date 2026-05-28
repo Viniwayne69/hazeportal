@@ -3,12 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#eeebe3">
+  <meta name="theme-color" content="#171e19">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Haze Portal">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="description" content="Haze - Portal dos Pais: comunicacao escolar organizada para familias.">
-  <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="%23171e19"/><path d="M16 43V16h8v11h16V16h8v27h-8V34H24v9z" fill="white"/><circle cx="49" cy="46" r="7" fill="%23ca0013"/></svg>'>
+  <meta name="msapplication-TileColor" content="#171e19">
+  <link rel="icon" type="image/svg+xml" sizes="any" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="128" fill="%23171e19"/%3E%3Cpath d="M132 360V132h68v86h112v-86h68v228h-68v-88H200v88z" fill="%23fff"/%3E%3Ccircle cx="419" cy="419" r="42" fill="%23ca0013"/%3E%3C/svg%3E'>
+  <link rel="apple-touch-icon" sizes="512x512" href="data:image/png;base64,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">
+  <link rel="manifest" href='data:application/manifest+json,%7B%22theme_color%22%3A%22%23171e19%22%2C%22name%22%3A%22Haze%20-%20Portal%20dos%20Pais%22%2C%22display%22%3A%22standalone%22%2C%22short_name%22%3A%22Haze%22%2C%22background_color%22%3A%22%23eeebe3%22%2C%22start_url%22%3A%22.%22%2C%22icons%22%3A%5B%7B%22purpose%22%3A%22any%20maskable%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22sizes%22%3A%22512x512%22%2C%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%253D%2522http%253A%252F%252Fwww.w3.org%252F2000%252Fsvg%2522%2520viewBox%253D%25220%25200%2520512%2520512%2522%253E%253Crect%2520width%253D%2522512%2522%2520height%253D%2522512%2522%2520rx%253D%2522128%2522%2520fill%253D%2522%2523171e19%2522%252F%253E%253Cpath%2520d%253D%2522M132%2520360V132h68v86h112v-86h68v228h-68v-88H200v88z%2522%2520fill%253D%2522%2523fff%2522%252F%253E%253Ccircle%2520cx%253D%2522419%2522%2520cy%253D%2522419%2522%2520r%253D%252242%2522%2520fill%253D%2522%2523ca0013%2522%252F%253E%253C%252Fsvg%253E%22%7D%5D%7D'>
   <title>Haze - Portal dos Pais</title>
   <style>
     :root {
@@ -3166,6 +3170,10 @@
         padding-bottom: calc(156px + env(safe-area-inset-bottom));
       }
 
+      body[data-active-mode="parent"] .main {
+        padding-top: 4px;
+      }
+
       body[data-active-mode="parent"] .topbar {
         border-bottom: 0;
         background: rgba(238, 235, 227, 0.94);
@@ -3173,16 +3181,29 @@
       }
 
       body[data-active-mode="parent"] .topbar-inner {
-        padding: 12px 18px 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 8px;
+        padding: 8px 10px 6px;
+      }
+
+      body[data-active-mode="parent"] .brand {
+        min-width: 0;
+        gap: 7px;
       }
 
       body[data-active-mode="parent"] .brand-mark {
-        width: 44px;
-        height: 44px;
-        flex-basis: 44px;
+        width: 34px;
+        height: 34px;
+        flex-basis: 34px;
         border: 2px solid #ffffff;
-        border-radius: 18px;
+        border-radius: 14px;
         background: #171e19;
+      }
+
+      body[data-active-mode="parent"] .brand-mark svg {
+        width: 21px;
+        height: 21px;
       }
 
       body[data-active-mode="parent"] .brand-mark svg circle {
@@ -3190,20 +3211,28 @@
       }
 
       body[data-active-mode="parent"] .brand-title {
+        max-width: none;
         color: #171e19;
+        font-size: clamp(0.68rem, 3vw, 0.78rem);
         font-weight: 900;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
       }
 
       body[data-active-mode="parent"] .mode-switch {
+        flex: 0 0 auto;
+        padding: 3px;
         border: 1px solid rgba(183, 198, 194, 0.3);
         border-radius: 999px;
         background: #ffffff;
       }
 
       body[data-active-mode="parent"] .mode-switch button {
-        min-height: 38px;
+        min-height: 34px;
+        padding: 0 9px;
         border-radius: 999px;
         color: #68766f;
+        font-size: 0.72rem;
       }
 
       body[data-active-mode="parent"] .mode-switch button.active {
@@ -3238,11 +3267,11 @@
       #parentView .side-panel {
         position: relative;
         gap: 18px;
-        margin: 8px 4px 18px;
-        padding: 56px 20px 20px;
+        margin: 2px 0 14px;
+        padding: 42px 16px 18px;
         overflow: hidden;
         border: 1px solid rgba(183, 198, 194, 0.3);
-        border-radius: 40px;
+        border-radius: 34px;
         background: #ffffff;
         box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.08);
       }
@@ -3260,11 +3289,11 @@
 
       #parentView .side-panel::after {
         position: absolute;
-        top: 24px;
-        right: 22px;
+        top: 18px;
+        right: 18px;
         display: grid;
-        width: 48px;
-        height: 48px;
+        width: 44px;
+        height: 44px;
         place-items: center;
         border: 2px solid #ffffff;
         border-radius: 999px;
@@ -3291,7 +3320,7 @@
         max-width: calc(100% - 72px);
         margin-bottom: 10px;
         color: #171e19;
-        font-size: 1.9rem;
+        font-size: 1.82rem;
         font-weight: 900;
         letter-spacing: -0.04em;
         line-height: 0.98;
@@ -3765,11 +3794,11 @@
         min-width: 0;
         min-height: 48px;
         place-items: center;
-        padding: 18px 2px 0;
+        padding: 0 4px;
         border-radius: 999px;
         background: transparent;
         color: #b7c6c2;
-        font-size: 0.58rem;
+        font-size: 0.66rem;
         font-weight: 900;
       }
 
@@ -3852,11 +3881,12 @@
 
     #parentView #parentHeroMetrics {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
       align-items: stretch;
       overflow: visible;
       padding: 0;
+      margin: 0 0 6px;
     }
 
     #parentView #parentHeroMetrics .stat-card {
@@ -3865,6 +3895,116 @@
       min-height: 106px;
       align-content: start;
       padding: 16px;
+    }
+
+    body[data-active-mode="parent"] .modal {
+      z-index: 120;
+      padding: clamp(12px, 3vw, 24px);
+      background: rgba(23, 30, 25, 0.56);
+    }
+
+    body[data-active-mode="parent"] .modal-card {
+      display: grid;
+      gap: 18px;
+      width: min(780px, 100%);
+      max-height: min(760px, calc(100vh - 28px));
+      padding: clamp(16px, 3vw, 28px);
+      border: 1px solid rgba(183, 198, 194, 0.32);
+      border-radius: 40px;
+      background: #eeebe3;
+      box-shadow: 0 28px 80px -24px rgba(23, 30, 25, 0.5);
+    }
+
+    body[data-active-mode="parent"] .modal-head {
+      align-items: flex-start;
+      gap: 16px;
+      margin: 0;
+      padding: 18px;
+      border: 1px solid rgba(183, 198, 194, 0.28);
+      border-radius: 30px;
+      background: #ffffff;
+    }
+
+    body[data-active-mode="parent"] #detailKind {
+      display: block;
+      width: fit-content;
+      margin: 0 0 10px;
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      color: #8a9993;
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    body[data-active-mode="parent"] .modal-head h2 {
+      max-width: 560px;
+      color: #171e19;
+      font-size: clamp(1.7rem, 4vw, 2.45rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.02;
+      overflow-wrap: anywhere;
+    }
+
+    body[data-active-mode="parent"] #closeDetailModal {
+      flex: 0 0 auto;
+      min-height: 46px;
+      border: 1px solid rgba(183, 198, 194, 0.38);
+      border-radius: 999px;
+      background: #171e19;
+      color: #ffffff;
+      font-size: 0.84rem;
+      font-weight: 900;
+    }
+
+    body[data-active-mode="parent"] #detailBody {
+      min-width: 0;
+    }
+
+    body[data-active-mode="parent"] .detail-content {
+      gap: 16px;
+    }
+
+    body[data-active-mode="parent"] .detail-summary {
+      gap: 8px;
+      padding: 14px;
+      border: 1px solid rgba(183, 198, 194, 0.24);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.68);
+    }
+
+    body[data-active-mode="parent"] .detail-summary .badge {
+      min-height: 30px;
+      border-radius: 999px;
+      background: rgba(183, 198, 194, 0.22);
+      color: #171e19;
+      font-size: 0.76rem;
+      font-weight: 900;
+    }
+
+    body[data-active-mode="parent"] .detail-summary .badge.urgente {
+      background: #ca0013;
+      color: #ffffff;
+    }
+
+    body[data-active-mode="parent"] .detail-text {
+      padding: 18px;
+      border: 1px solid rgba(183, 198, 194, 0.22);
+      border-radius: 28px;
+      background: #ffffff;
+      color: #68766f;
+      font-size: 1.04rem;
+      font-weight: 700;
+      line-height: 1.65;
+      overflow-wrap: anywhere;
+    }
+
+    body[data-active-mode="parent"] .detail-image {
+      border-radius: 28px;
+      background: #ffffff;
     }
 
     #parentView .item-card {
@@ -3937,6 +4077,8 @@
       #parentView #parentHeroMetrics {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
+        margin: 0 0 16px;
+        padding: 0 2px;
       }
 
       #parentView #parentHeroMetrics .stat-card {
@@ -3953,6 +4095,39 @@
       #parentView #parentHeroMetrics .stat-label {
         font-size: 0.58rem;
         line-height: 1.35;
+      }
+
+      body[data-active-mode="parent"] .modal {
+        align-items: flex-end;
+        padding: 10px;
+      }
+
+      body[data-active-mode="parent"] .modal-card {
+        max-height: calc(100vh - 20px);
+        padding: 12px;
+        border-radius: 32px 32px 24px 24px;
+      }
+
+      body[data-active-mode="parent"] .modal-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        padding: 16px;
+        border-radius: 26px;
+      }
+
+      body[data-active-mode="parent"] .modal-head h2 {
+        font-size: 1.55rem;
+      }
+
+      body[data-active-mode="parent"] #closeDetailModal {
+        min-height: 42px;
+        padding: 0 14px;
+      }
+
+      body[data-active-mode="parent"] .detail-text {
+        padding: 16px;
+        border-radius: 24px;
+        font-size: 0.98rem;
       }
 
       #parentView .item-card {
@@ -4012,8 +4187,8 @@
 
       #parentView .tabs button {
         min-height: 46px;
-        padding: 18px 2px 0;
-        font-size: 0.55rem;
+        padding: 0 4px;
+        font-size: 0.66rem;
       }
 
       #parentView .tabs button[data-parent-screen="events"] {
@@ -4021,7 +4196,7 @@
         height: auto;
         min-height: 46px;
         margin: 0;
-        padding: 18px 2px 0;
+        padding: 0 4px;
         border: 0;
         background: transparent;
         box-shadow: none;
@@ -4037,6 +4212,16 @@
       #parentView .tabs button[data-parent-screen="events"].active {
         background: transparent;
         color: #ffffff;
+      }
+
+      #parentView .tabs button::before,
+      #parentView .tabs button[data-parent-screen="home"]::before,
+      #parentView .tabs button[data-parent-screen="announcements"]::before,
+      #parentView .tabs button[data-parent-screen="events"]::before,
+      #parentView .tabs button[data-parent-screen="calendar"]::before,
+      #parentView .tabs button[data-parent-screen="documents"]::before {
+        display: none;
+        content: none;
       }
     }
 
@@ -4104,7 +4289,6 @@
             </div>
             <div id="parentScopeNotice" class="scope-notice"></div>
             <div id="selectedClassChip" class="selected-class-chip"></div>
-            <div id="parentHeroMetrics" class="stat-list"></div>
           </aside>
 
           <div class="work-panel">
@@ -4118,7 +4302,8 @@
 
             <section id="parent-home" class="screen active">
               <div id="urgentHighlights" class="grid"></div>
-              <div id="parentStatusGrid" class="summary-grid"></div>
+              <div id="parentHeroMetrics" class="summary-grid parent-metrics-grid"></div>
+              <div id="parentStatusGrid" class="summary-grid" hidden></div>
 
               <div class="feed-split">
                 <section class="feed-column feed-general">
