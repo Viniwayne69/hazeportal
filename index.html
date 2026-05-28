@@ -2218,27 +2218,27 @@
         animation-timing-function: ease-in-out;
       }
 
-      body:has(#parentView.active) {
+      body[data-active-mode="parent"] {
         background: #eeebe3;
         color: #171e19;
         font-family: Nunito, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       }
 
-      body:has(#parentView.active) .app {
+      body[data-active-mode="parent"] .app {
         padding-bottom: calc(156px + env(safe-area-inset-bottom));
       }
 
-      body:has(#parentView.active) .topbar {
+      body[data-active-mode="parent"] .topbar {
         border-bottom: 0;
         background: rgba(238, 235, 227, 0.94);
         backdrop-filter: blur(18px);
       }
 
-      body:has(#parentView.active) .topbar-inner {
+      body[data-active-mode="parent"] .topbar-inner {
         padding: 12px 18px 0;
       }
 
-      body:has(#parentView.active) .brand-mark {
+      body[data-active-mode="parent"] .brand-mark {
         width: 44px;
         height: 44px;
         flex-basis: 44px;
@@ -2247,28 +2247,28 @@
         background: #171e19;
       }
 
-      body:has(#parentView.active) .brand-mark svg circle {
+      body[data-active-mode="parent"] .brand-mark svg circle {
         fill: #ca0013;
       }
 
-      body:has(#parentView.active) .brand-title {
+      body[data-active-mode="parent"] .brand-title {
         color: #171e19;
         font-weight: 900;
       }
 
-      body:has(#parentView.active) .mode-switch {
+      body[data-active-mode="parent"] .mode-switch {
         border: 1px solid rgba(183, 198, 194, 0.3);
         border-radius: 999px;
         background: #ffffff;
       }
 
-      body:has(#parentView.active) .mode-switch button {
+      body[data-active-mode="parent"] .mode-switch button {
         min-height: 38px;
         border-radius: 999px;
         color: #68766f;
       }
 
-      body:has(#parentView.active) .mode-switch button.active {
+      body[data-active-mode="parent"] .mode-switch button.active {
         background: #171e19;
         color: #ffffff;
       }
@@ -3486,10 +3486,6 @@
                         <label for="schoolAddress">Endereço</label>
                         <input id="schoolAddress" name="address">
                       </div>
-                      <div class="field full">
-                        <label for="schoolLocation">Link de localização</label>
-                        <input id="schoolLocation" name="locationLink" type="url" placeholder="https://maps.google.com/...">
-                      </div>
                       <div class="field">
                         <label for="primaryColor">Cor principal</label>
                         <input id="primaryColor" name="primaryColor" type="color">
@@ -3592,7 +3588,6 @@
         schoolName: "Escola Haze",
         whatsapp: "5585999999999",
         address: "Rua da Educação, 123",
-        locationLink: "https://maps.google.com",
         primaryColor: "#3B82F6",
         secondaryColor: "#10B981",
         accentColor: "#F59E0B",
@@ -3681,6 +3676,7 @@
     document.addEventListener("DOMContentLoaded", init);
 
     function init() {
+      syncActiveMode("parent");
       applyTheme();
       bindEvents();
       renderAll();
@@ -3911,7 +3907,6 @@
               "schoolName",
               "whatsapp",
               "address",
-              "locationLink",
               "primaryColor",
               "secondaryColor",
               "accentColor"
@@ -4008,7 +4003,6 @@
           "schoolName",
           "whatsapp",
           "address",
-          "locationLink",
           "primaryColor",
           "secondaryColor",
           "accentColor"
@@ -4024,6 +4018,7 @@
 
     function setMode(mode) {
       runViewTransition(() => {
+        syncActiveMode(mode);
         document.querySelectorAll("[data-mode]").forEach((button) => {
           button.classList.toggle("active", button.dataset.mode === mode);
         });
@@ -4037,6 +4032,10 @@
           els.adminArea.classList.add("hidden");
         }
       });
+    }
+
+    function syncActiveMode(mode) {
+      document.body.dataset.activeMode = mode;
     }
 
     function setParentScreen(screen) {
