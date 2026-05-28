@@ -2211,6 +2211,442 @@
       }
     }
 
+    body[data-active-mode="parent"] {
+      background: #eeebe3;
+      color: #171e19;
+      font-family: Nunito, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body[data-active-mode="parent"] .app {
+      padding-bottom: 42px;
+    }
+
+    body[data-active-mode="parent"] .topbar {
+      border-bottom: 0;
+      background: rgba(238, 235, 227, 0.94);
+      backdrop-filter: blur(18px);
+    }
+
+    body[data-active-mode="parent"] .brand-mark {
+      border: 2px solid #ffffff;
+      border-radius: 18px;
+      background: #171e19;
+    }
+
+    body[data-active-mode="parent"] .brand-mark svg circle {
+      fill: #ca0013;
+    }
+
+    body[data-active-mode="parent"] .brand-title {
+      color: #171e19;
+      font-weight: 900;
+    }
+
+    body[data-active-mode="parent"] .brand-subtitle {
+      color: #68766f;
+      font-weight: 700;
+    }
+
+    body[data-active-mode="parent"] .mode-switch {
+      border: 1px solid rgba(183, 198, 194, 0.3);
+      border-radius: 999px;
+      background: #ffffff;
+    }
+
+    body[data-active-mode="parent"] .mode-switch button {
+      border-radius: 999px;
+      color: #68766f;
+      font-weight: 900;
+    }
+
+    body[data-active-mode="parent"] .mode-switch button.active {
+      background: #171e19;
+      color: #ffffff;
+    }
+
+    #parentView {
+      --bg: #eeebe3;
+      --surface: #ffffff;
+      --surface-strong: #f6f3eb;
+      --text: #171e19;
+      --muted: #68766f;
+      --border: rgba(183, 198, 194, 0.3);
+      --primary: #ca0013;
+      --primary-dark: #a90010;
+      --secondary: #171e19;
+      --accent: #b7c6c2;
+      --danger: #ca0013;
+      --danger-soft: rgba(202, 0, 19, 0.1);
+      --warning-soft: rgba(183, 198, 194, 0.2);
+      --blue-soft: rgba(183, 198, 194, 0.2);
+      --green-soft: rgba(183, 198, 194, 0.24);
+      --indigo-soft: rgba(183, 198, 194, 0.2);
+      font-family: Nunito, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #parentView .layout {
+      grid-template-columns: minmax(330px, 0.34fr) minmax(0, 1fr);
+      gap: clamp(22px, 2.4vw, 40px);
+    }
+
+    #parentView .side-panel {
+      position: sticky;
+      top: 90px;
+      gap: 18px;
+      padding: clamp(28px, 2.4vw, 42px);
+      overflow: hidden;
+      border: 1px solid rgba(183, 198, 194, 0.3);
+      border-radius: 40px;
+      background: #ffffff;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.08);
+    }
+
+    #parentView .side-panel::before {
+      position: absolute;
+      top: -52px;
+      right: -42px;
+      width: 170px;
+      height: 170px;
+      border-radius: 999px;
+      background: rgba(183, 198, 194, 0.22);
+      content: "";
+    }
+
+    #parentView .side-panel::after {
+      position: absolute;
+      top: 28px;
+      right: 28px;
+      display: grid;
+      width: 52px;
+      height: 52px;
+      place-items: center;
+      border: 2px solid #ffffff;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 86% 86%, #ca0013 0 8px, transparent 9px),
+        #171e19;
+      color: #ffffff;
+      content: "H";
+      font-weight: 900;
+    }
+
+    #parentView .kicker {
+      min-height: 0;
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      color: #8a9993;
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+    }
+
+    #parentView .side-title {
+      max-width: calc(100% - 78px);
+      color: #171e19;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    #parentView .side-copy {
+      color: #68766f;
+      font-weight: 700;
+    }
+
+    #parentView .btn {
+      border-radius: 24px;
+      font-weight: 900;
+    }
+
+    #parentView .btn-primary {
+      background: #ca0013;
+      color: #ffffff;
+    }
+
+    #parentView .btn-primary:hover {
+      background: #a90010;
+    }
+
+    #parentView .btn-secondary,
+    #parentView .btn-muted {
+      border: 1px solid rgba(183, 198, 194, 0.45);
+      background: #ffffff;
+      color: #171e19;
+    }
+
+    #parentView .compact-tools,
+    #parentView .filters {
+      border: 1px solid rgba(183, 198, 194, 0.25);
+      border-radius: 24px;
+      background: #f6f3eb;
+    }
+
+    #parentView .field label {
+      color: #171e19;
+      font-size: 0.64rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    #parentView .field input,
+    #parentView .field textarea,
+    #parentView .field select {
+      min-height: 54px;
+      border: 1px solid rgba(183, 198, 194, 0.3);
+      border-radius: 20px;
+      background: #ffffff;
+      color: #171e19;
+      font-weight: 800;
+    }
+
+    #parentView .work-panel {
+      gap: 20px;
+      padding: clamp(18px, 1.6vw, 28px);
+      overflow: visible;
+      border-radius: 40px;
+      background: rgba(255, 255, 255, 0.46);
+      box-shadow: 0 20px 50px -30px rgba(0, 0, 0, 0.22);
+    }
+
+    #parentView .work-panel::before {
+      display: none;
+    }
+
+    #parentView .tabs {
+      align-items: center;
+      min-height: 64px;
+      padding: 8px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      background: #171e19;
+      box-shadow: 0 20px 50px -22px rgba(0, 0, 0, 0.38);
+    }
+
+    #parentView .tabs button {
+      min-height: 48px;
+      border-radius: 999px;
+      background: transparent;
+      color: #b7c6c2;
+      font-weight: 900;
+    }
+
+    #parentView .tabs button.active {
+      background: transparent;
+      color: #ffffff;
+    }
+
+    #parentView .summary-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    #parentView .stat-list {
+      grid-template-columns: 1fr;
+    }
+
+    #parentView .stat-card,
+    #parentView .stat-card.blue,
+    #parentView .stat-card.green,
+    #parentView .stat-card.amber,
+    #parentView .stat-card.indigo {
+      min-width: 0;
+      border: 1px solid rgba(183, 198, 194, 0.3);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 20px 50px -28px rgba(0, 0, 0, 0.22);
+    }
+
+    #parentView .stat-value {
+      color: #171e19;
+      font-weight: 900;
+    }
+
+    #parentView .stat-label {
+      color: #68766f;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+    }
+
+    #parentView .feed-column {
+      min-height: auto;
+      padding: 12px;
+      border: 1px solid rgba(183, 198, 194, 0.25);
+      border-radius: 32px;
+      background: rgba(255, 255, 255, 0.56);
+      box-shadow: 0 20px 50px -30px rgba(0, 0, 0, 0.25);
+    }
+
+    #parentView .feed-head {
+      align-items: center;
+      border-radius: 24px;
+      background: #171e19;
+    }
+
+    #parentView .feed-class .feed-head {
+      background: #b7c6c2;
+      color: #171e19;
+    }
+
+    #parentView .feed-class .feed-head p,
+    #parentView .feed-class .feed-head span {
+      color: rgba(23, 30, 25, 0.68);
+    }
+
+    #parentView .feed-class .feed-head strong {
+      background: rgba(255, 255, 255, 0.45);
+      color: #171e19;
+    }
+
+    #parentView .card {
+      min-width: 0;
+      border: 1px solid rgba(183, 198, 194, 0.3);
+      border-radius: 24px;
+      background: #ffffff;
+      box-shadow: 0 20px 50px -28px rgba(0, 0, 0, 0.24);
+    }
+
+    #parentView .card:hover {
+      background: #ffffff;
+    }
+
+    #parentView .card::before {
+      top: 16px;
+      right: 16px;
+      bottom: auto;
+      left: auto;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(183, 198, 194, 0.75);
+    }
+
+    #parentView .card::after {
+      display: none;
+    }
+
+    #parentView .item-card {
+      grid-template-columns: 64px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    #parentView .item-card.urgent {
+      background: #ffffff;
+    }
+
+    #parentView .item-card.urgent::before {
+      background: #ca0013;
+    }
+
+    #parentView .date-tile {
+      position: relative;
+      z-index: 1;
+      width: 58px;
+      height: 62px;
+      align-self: start;
+      border-radius: 18px;
+      background: rgba(183, 198, 194, 0.2);
+    }
+
+    #parentView .date-tile span {
+      color: #68766f;
+      font-size: 0.64rem;
+      font-weight: 900;
+    }
+
+    #parentView .date-tile strong {
+      color: #171e19;
+      font-size: 1.18rem;
+      font-weight: 900;
+    }
+
+    #parentView .item-body {
+      display: grid;
+      min-width: 0;
+      gap: 8px;
+    }
+
+    #parentView .item-kind {
+      width: fit-content;
+      margin: 0;
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      color: #8a9993;
+      font-size: 0.64rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+    }
+
+    #parentView .card-title {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      min-width: 0;
+      margin: 0;
+    }
+
+    #parentView .card-title h3 {
+      min-width: 0;
+      color: #171e19;
+      font-size: 1.1rem;
+      font-weight: 900;
+      line-height: 1.2;
+      overflow-wrap: anywhere;
+      word-break: normal;
+    }
+
+    #parentView .card p {
+      min-width: 0;
+      color: #68766f;
+      font-weight: 700;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+
+    #parentView .meta-row {
+      min-width: 0;
+    }
+
+    #parentView .badge {
+      max-width: 100%;
+      min-height: 28px;
+      border-radius: 999px;
+      background: rgba(183, 198, 194, 0.2);
+      color: #171e19;
+      font-size: 0.7rem;
+      font-weight: 900;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    #parentView .badge.target,
+    #parentView .badge.importante {
+      background: rgba(183, 198, 194, 0.24);
+      color: #171e19;
+    }
+
+    #parentView .badge.urgente {
+      background: #ca0013;
+      color: #ffffff;
+    }
+
+    #parentView .card-image,
+    #parentView .item-card .card-image {
+      max-height: 230px;
+      border-radius: 22px;
+    }
+
+    #parentView .empty-state {
+      border: 1px solid rgba(183, 198, 194, 0.28);
+      border-radius: 24px;
+      background: #ffffff;
+      color: #68766f;
+    }
+
     @media (max-width: 720px) {
       ::view-transition-old(root),
       ::view-transition-new(root) {
@@ -2514,12 +2950,11 @@
 
       #parentView .summary-grid,
       #parentView .stat-list {
-        display: flex;
-        grid-template-columns: none;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
-        overflow-x: auto;
-        padding: 2px 2px 8px;
-        scroll-snap-type: x mandatory;
+        overflow: visible;
+        padding: 0;
       }
 
       #parentView .stat-card,
@@ -2527,14 +2962,15 @@
       #parentView .stat-card.green,
       #parentView .stat-card.amber,
       #parentView .stat-card.indigo {
-        flex: 0 0 154px;
-        min-height: 118px;
+        width: 100%;
+        min-width: 0;
+        min-height: 116px;
         padding: 16px;
         border: 1px solid rgba(183, 198, 194, 0.3);
         border-radius: 24px;
         background: rgba(255, 255, 255, 0.82);
         box-shadow: 0 20px 50px -28px rgba(0, 0, 0, 0.22);
-        scroll-snap-align: start;
+        overflow: hidden;
       }
 
       #parentView .stat-value {
@@ -2548,6 +2984,7 @@
         font-size: 0.62rem;
         font-weight: 900;
         letter-spacing: 0.12em;
+        overflow-wrap: anywhere;
       }
 
       #parentView .section-header h2 {
@@ -2660,9 +3097,10 @@
       }
 
       #parentView .item-card {
-        grid-template-columns: 56px minmax(0, 1fr);
+        grid-template-columns: 58px minmax(0, 1fr);
         gap: 12px;
         align-items: start;
+        padding: 16px;
       }
 
       #parentView .item-card.urgent {
@@ -2675,7 +3113,8 @@
 
       #parentView .date-tile {
         width: 56px;
-        height: 56px;
+        height: 60px;
+        align-self: start;
         border-radius: 18px;
         background: rgba(183, 198, 194, 0.2);
       }
@@ -2704,7 +3143,11 @@
       }
 
       #parentView .card-title {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
         gap: 8px;
+        min-width: 0;
       }
 
       #parentView .card-title h3 {
@@ -2712,12 +3155,15 @@
         font-size: 1.12rem;
         font-weight: 900;
         line-height: 1.2;
+        overflow-wrap: anywhere;
       }
 
       #parentView .card p {
         color: #68766f;
         font-weight: 700;
         line-height: 1.55;
+        overflow-wrap: anywhere;
+        -webkit-line-clamp: 4;
       }
 
       #parentView .card-image,
