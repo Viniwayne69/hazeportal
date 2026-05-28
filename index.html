@@ -3171,7 +3171,7 @@
       }
 
       body[data-active-mode="parent"] .main {
-        padding-top: 4px;
+        padding-top: 0;
       }
 
       body[data-active-mode="parent"] .topbar {
@@ -3183,27 +3183,27 @@
       body[data-active-mode="parent"] .topbar-inner {
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;
-        gap: 8px;
-        padding: 8px 10px 6px;
+        gap: 10px;
+        padding: 9px 10px 8px;
       }
 
       body[data-active-mode="parent"] .brand {
         min-width: 0;
-        gap: 7px;
+        gap: 8px;
       }
 
       body[data-active-mode="parent"] .brand-mark {
-        width: 34px;
-        height: 34px;
-        flex-basis: 34px;
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
         border: 2px solid #ffffff;
-        border-radius: 14px;
+        border-radius: 16px;
         background: #171e19;
       }
 
       body[data-active-mode="parent"] .brand-mark svg {
-        width: 21px;
-        height: 21px;
+        width: 24px;
+        height: 24px;
       }
 
       body[data-active-mode="parent"] .brand-mark svg circle {
@@ -3213,7 +3213,7 @@
       body[data-active-mode="parent"] .brand-title {
         max-width: none;
         color: #171e19;
-        font-size: clamp(0.68rem, 3vw, 0.78rem);
+        font-size: clamp(0.78rem, 3.55vw, 0.9rem);
         font-weight: 900;
         letter-spacing: -0.01em;
         white-space: nowrap;
@@ -3221,18 +3221,18 @@
 
       body[data-active-mode="parent"] .mode-switch {
         flex: 0 0 auto;
-        padding: 3px;
+        padding: 4px;
         border: 1px solid rgba(183, 198, 194, 0.3);
         border-radius: 999px;
         background: #ffffff;
       }
 
       body[data-active-mode="parent"] .mode-switch button {
-        min-height: 34px;
-        padding: 0 9px;
+        min-height: 38px;
+        padding: 0 11px;
         border-radius: 999px;
         color: #68766f;
-        font-size: 0.72rem;
+        font-size: 0.78rem;
       }
 
       body[data-active-mode="parent"] .mode-switch button.active {
@@ -3267,8 +3267,8 @@
       #parentView .side-panel {
         position: relative;
         gap: 18px;
-        margin: 2px 0 14px;
-        padding: 42px 16px 18px;
+        margin: -42px 0 26px;
+        padding: 42px 16px 26px;
         overflow: hidden;
         border: 1px solid rgba(183, 198, 194, 0.3);
         border-radius: 34px;
@@ -3464,6 +3464,7 @@
 
       #parentView .work-panel {
         gap: 18px;
+        margin-top: 8px;
         padding: 0 4px calc(128px + env(safe-area-inset-bottom));
         overflow: visible;
         background: transparent;
@@ -3499,7 +3500,7 @@
         padding: 16px;
         border: 1px solid rgba(183, 198, 194, 0.3);
         border-radius: 24px;
-        background: rgba(255, 255, 255, 0.82);
+        background: #ffffff;
         box-shadow: 0 20px 50px -28px rgba(0, 0, 0, 0.22);
         overflow: hidden;
       }
@@ -4063,6 +4064,7 @@
       }
 
       #parentView .work-panel {
+        margin-top: 10px;
         padding-bottom: calc(82px + env(safe-area-inset-bottom));
       }
 
@@ -4071,13 +4073,14 @@
       }
 
       #parentView .side-panel {
-        padding-bottom: 22px;
+        margin-bottom: 30px;
+        padding-bottom: 28px;
       }
 
       #parentView #parentHeroMetrics {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
-        margin: 0 0 16px;
+        margin: 0 0 18px;
         padding: 0 2px;
       }
 
@@ -4085,6 +4088,7 @@
         min-height: 96px;
         padding: 14px;
         border-radius: 22px;
+        background: #ffffff;
       }
 
       #parentView #parentHeroMetrics .stat-value {
@@ -4222,6 +4226,34 @@
       #parentView .tabs button[data-parent-screen="documents"]::before {
         display: none;
         content: none;
+      }
+
+      @media (max-width: 360px) {
+        body[data-active-mode="parent"] .topbar-inner {
+          gap: 8px;
+          padding-inline: 8px;
+        }
+
+        body[data-active-mode="parent"] .brand {
+          gap: 7px;
+        }
+
+        body[data-active-mode="parent"] .brand-mark {
+          width: 36px;
+          height: 36px;
+          flex-basis: 36px;
+          border-radius: 14px;
+        }
+
+        body[data-active-mode="parent"] .brand-title {
+          font-size: 0.72rem;
+        }
+
+        body[data-active-mode="parent"] .mode-switch button {
+          min-height: 36px;
+          padding: 0 8px;
+          font-size: 0.72rem;
+        }
       }
     }
 
