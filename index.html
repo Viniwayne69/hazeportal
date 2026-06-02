@@ -832,7 +832,7 @@
 
     .section-header {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: space-between;
       gap: 12px;
     }
@@ -4059,6 +4059,39 @@
       padding: 16px;
     }
 
+    #parentView .selected-class-chip {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 14px;
+      padding: 16px;
+      border: 1px solid rgba(183, 198, 194, 0.28);
+      border-radius: 24px;
+      background: #ffffff;
+      color: #171e19;
+      box-shadow: 0 18px 44px -32px rgba(23, 30, 25, 0.28);
+    }
+
+    #parentView .selected-class-chip.show {
+      display: block;
+      animation: fadeSlideUp 0.28s ease both;
+    }
+
+    #parentView .selected-class-chip span {
+      color: #8a9993;
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    #parentView .selected-class-chip strong {
+      display: block;
+      margin-top: 2px;
+      color: #171e19;
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
     body[data-active-mode="parent"] .modal {
       z-index: 120;
       padding: clamp(12px, 3vw, 24px);
@@ -4243,6 +4276,13 @@
         gap: 12px;
         margin: 0 0 18px;
         padding: 0 2px;
+      }
+
+      #parentView .selected-class-chip {
+        margin: 0 2px 14px;
+        padding: 14px 16px;
+        border-radius: 22px;
+        background: #ffffff;
       }
 
       #parentView #parentHeroMetrics .stat-card {
@@ -4518,6 +4558,1183 @@
         transform: translateY(0);
       }
     }
+    /* Mobile-first app refinement layer */
+    :root {
+      --app-bg: #eeebe3;
+      --app-ink: #171e19;
+      --app-muted: #6f7a73;
+      --app-sage: #b7c6c2;
+      --app-red: #ca0013;
+      --app-card: #ffffff;
+      --app-line: rgba(183, 198, 194, 0.34);
+      --app-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.08);
+      --app-radius-xl: 40px;
+      --app-radius-lg: 24px;
+      --app-radius-md: 16px;
+    }
+
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    body[data-active-mode="parent"] {
+      background:
+        radial-gradient(circle at -8% 24%, rgba(183, 198, 194, 0.32) 0 124px, transparent 126px),
+        radial-gradient(circle at 108% 12%, rgba(202, 0, 19, 0.08) 0 112px, transparent 114px),
+        var(--app-bg);
+      color: var(--app-ink);
+      font-family: Nunito, "Open Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body[data-active-mode="parent"] .topbar {
+      border-bottom: 1px solid rgba(183, 198, 194, 0.28);
+      background: rgba(238, 235, 227, 0.94);
+      backdrop-filter: blur(10px);
+    }
+
+    body[data-active-mode="parent"] .topbar-inner {
+      width: min(100%, 1500px);
+      padding: 10px clamp(10px, 2vw, 28px);
+    }
+
+    body[data-active-mode="parent"] .brand {
+      flex: 1 1 auto;
+      max-width: min(68vw, 520px);
+    }
+
+    body[data-active-mode="parent"] .brand-title {
+      color: var(--app-ink);
+      font-size: clamp(0.82rem, 2vw, 1rem);
+      font-weight: 900;
+      letter-spacing: -0.01em;
+    }
+
+    body[data-active-mode="parent"] .brand-subtitle {
+      display: none;
+    }
+
+    body[data-active-mode="parent"] .brand-mark,
+    .school-logo-display {
+      position: relative;
+      display: grid;
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      place-items: center;
+      overflow: hidden;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      background: var(--app-ink);
+      color: #ffffff;
+      box-shadow: 0 12px 30px -16px rgba(0, 0, 0, 0.5);
+      font-weight: 900;
+    }
+
+    body[data-active-mode="parent"] .brand-mark::after,
+    .school-logo-display::after {
+      position: absolute;
+      right: 3px;
+      bottom: 3px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--app-red);
+      content: "";
+    }
+
+    body[data-active-mode="parent"] .brand-mark img,
+    .school-logo-display img,
+    .logo-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    body[data-active-mode="parent"] .mode-switch {
+      border-radius: 999px;
+      background: #ffffff;
+      box-shadow: none;
+    }
+
+    body[data-active-mode="parent"] .mode-switch button {
+      border-radius: 999px;
+      color: var(--app-muted);
+    }
+
+    body[data-active-mode="parent"] .mode-switch button.active {
+      background: var(--app-ink);
+      color: #ffffff;
+    }
+
+    body[data-active-mode="parent"] .main {
+      padding: clamp(18px, 3vw, 38px) clamp(10px, 2vw, 30px) calc(112px + env(safe-area-inset-bottom));
+    }
+
+    #parentView {
+      width: min(100%, 1480px);
+      margin: 0 auto;
+    }
+
+    #parentView .layout {
+      display: grid;
+      grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+      gap: clamp(18px, 2.3vw, 34px);
+      align-items: start;
+    }
+
+    #parentView .side-panel,
+    #parentView .feed-column,
+    #parentView .form-panel,
+    #parentView .empty-state {
+      border: 1px solid var(--app-line);
+      border-radius: var(--app-radius-xl);
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: var(--app-shadow);
+    }
+
+    #parentView .side-panel {
+      position: sticky;
+      top: 86px;
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      gap: 18px;
+      padding: 30px;
+    }
+
+    #parentView .school-logo-display {
+      position: absolute;
+      right: 26px;
+      top: 26px;
+      width: 54px;
+      height: 54px;
+      flex-basis: 54px;
+    }
+
+    #parentView .kicker,
+    #parentView .item-kind,
+    #parentView .field label,
+    #parentView .stat-label,
+    #parentView .selected-class-chip span,
+    #parentView .feed-head span {
+      color: var(--app-muted);
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    #parentView .side-title {
+      max-width: 260px;
+      margin: 6px 0 8px;
+      color: var(--app-ink);
+      font-size: clamp(2rem, 5.5vw, 4.1rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.035em;
+    }
+
+    #parentView .side-copy,
+    #parentView p {
+      color: var(--app-muted);
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    #parentView .quick-actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    #parentView .btn {
+      min-height: 48px;
+      border: 1px solid var(--app-line);
+      border-radius: 999px;
+      box-shadow: none;
+      font-weight: 900;
+      transition: transform 0.22s var(--motion), background 0.22s ease, color 0.22s ease;
+    }
+
+    #parentView .btn:hover {
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    #parentView .btn-primary {
+      border-color: var(--app-red);
+      background: var(--app-red);
+      color: #ffffff;
+    }
+
+    #parentView .btn-secondary,
+    #parentView .btn-muted {
+      background: #ffffff;
+      color: var(--app-ink);
+    }
+
+    .parent-class-summary {
+      display: grid;
+      gap: 8px;
+      padding: 18px;
+      border: 1px solid var(--app-line);
+      border-radius: var(--app-radius-lg);
+      background: rgba(238, 235, 227, 0.72);
+    }
+
+    .parent-class-summary span {
+      color: var(--app-muted);
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .parent-class-summary strong {
+      color: var(--app-ink);
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+
+    #parentView .parent-class-native {
+      display: none;
+    }
+
+    #parentView .audience-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 6px;
+      border-radius: var(--app-radius-lg);
+      background: rgba(255, 255, 255, 0.64);
+    }
+
+    #parentView .audience-tabs button {
+      min-height: 48px;
+      border: 0;
+      border-radius: 18px;
+      background: transparent;
+      color: var(--app-muted);
+      font-weight: 900;
+    }
+
+    #parentView .audience-tabs button.active {
+      background: var(--app-ink);
+      color: #ffffff;
+    }
+
+    #parentView .audience-tabs button:disabled {
+      opacity: 0.5;
+    }
+
+    #parentView .scope-notice,
+    #parentView .selected-class-chip {
+      display: block;
+      padding: 14px 16px;
+      border: 1px solid var(--app-line);
+      border-radius: var(--app-radius-lg);
+      background: rgba(183, 198, 194, 0.18);
+      color: var(--app-ink);
+      font-weight: 800;
+    }
+
+    #parentView .selected-class-chip {
+      margin-bottom: 14px;
+    }
+
+    #parentView .selected-class-chip:not(.show) {
+      display: none;
+    }
+
+    .school-access-link {
+      align-self: flex-start;
+      border: 0;
+      background: transparent;
+      color: var(--app-muted);
+      font-weight: 900;
+      text-decoration: underline;
+    }
+
+    #parentView .work-panel {
+      min-width: 0;
+      padding: 0 0 16px;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    #parentView .screen.active {
+      display: block;
+      padding-bottom: 24px;
+    }
+
+    .important-notice {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 16px;
+      padding: clamp(22px, 4vw, 34px);
+      border-radius: var(--app-radius-xl);
+      background: var(--app-ink);
+      color: #ffffff;
+      box-shadow: var(--app-shadow);
+      animation: appCardIn 0.42s var(--motion) both;
+      animation-delay: var(--delay, 0ms);
+    }
+
+    .important-notice.importante,
+    .important-notice.normal {
+      background: var(--app-ink);
+    }
+
+    .important-notice.urgente {
+      background: var(--app-red);
+    }
+
+    .important-notice.empty-important {
+      background: #ffffff;
+      color: var(--app-ink);
+    }
+
+    .important-notice span:first-child {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .important-notice.empty-important span:first-child {
+      color: var(--app-muted);
+    }
+
+    .important-notice h2 {
+      margin: 8px 0;
+      color: #ffffff;
+      font-size: clamp(1.35rem, 4vw, 2.1rem);
+      font-weight: 900;
+      line-height: 1.05;
+      overflow-wrap: anywhere;
+    }
+
+    .important-notice p {
+      max-width: 760px;
+      margin-bottom: 14px;
+      color: rgba(255, 255, 255, 0.92);
+      font-weight: 800;
+    }
+
+    .important-notice.empty-important p {
+      color: var(--app-muted);
+    }
+
+    .important-notice .badge {
+      background: rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+    }
+
+    .important-notice .badge.importante {
+      background: rgba(245, 158, 11, 0.34);
+      color: #ffd88a;
+    }
+
+    .important-notice .badge.urgente,
+    .important-notice.urgente .badge.urgente {
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+    }
+
+    .important-notice .badge.target {
+      background: rgba(255, 255, 255, 0.24);
+      color: #ffffff;
+    }
+
+    .parent-quick-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .parent-quick-card {
+      display: grid;
+      min-height: 128px;
+      gap: 4px;
+      align-content: center;
+      justify-items: start;
+      padding: 18px;
+      border: 1px solid var(--app-line);
+      border-radius: var(--app-radius-lg);
+      background: #ffffff;
+      color: var(--app-ink);
+      box-shadow: var(--app-shadow);
+      text-align: left;
+      animation: appCardIn 0.42s var(--motion) both;
+      animation-delay: var(--delay, 0ms);
+    }
+
+    .parent-quick-card:hover {
+      transform: translateY(-2px) scale(1.01);
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    .parent-quick-card strong {
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .parent-quick-card span {
+      font-weight: 900;
+    }
+
+    .parent-quick-card small {
+      color: var(--app-muted);
+      font-weight: 800;
+    }
+
+    #parentView .section {
+      margin-top: 20px;
+    }
+
+    #parentView .section-header {
+      margin-bottom: 12px;
+    }
+
+    #parentView .section-header h2 {
+      margin-bottom: 4px;
+      color: var(--app-ink);
+      font-size: clamp(1.25rem, 3.2vw, 1.7rem);
+      font-weight: 900;
+      letter-spacing: -0.025em;
+    }
+
+    #parentView .section-header p {
+      color: var(--app-muted);
+      font-weight: 800;
+    }
+
+    #parentView .grid,
+    #parentView .compact-feed {
+      display: grid;
+      gap: 12px;
+    }
+
+    #parentView .feed-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    #parentView .feed-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 22px;
+      border-radius: var(--app-radius-lg);
+      background: var(--app-ink);
+      color: #ffffff;
+    }
+
+    #parentView .feed-head h2 {
+      margin: 4px 0;
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+
+    #parentView .feed-head p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    #parentView .feed-head strong {
+      display: grid;
+      min-width: 48px;
+      height: 48px;
+      place-items: center;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      font-size: 1.3rem;
+      font-weight: 900;
+    }
+
+    #parentView .card,
+    #adminView .card {
+      border: 1px solid var(--app-line);
+      border-radius: var(--app-radius-lg);
+      background: #ffffff;
+      box-shadow: var(--app-shadow);
+      animation: appCardIn 0.38s var(--motion) both;
+      animation-delay: var(--delay, 0ms);
+    }
+
+    #parentView .card::before,
+    #parentView .card::after,
+    #adminView .card::before,
+    #adminView .card::after {
+      display: none !important;
+      content: none !important;
+    }
+
+    #parentView .item-card,
+    #adminView .item-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: start;
+      padding: clamp(18px, 3.5vw, 26px);
+      min-width: 0;
+    }
+
+    #parentView .item-card.urgent,
+    #adminView .item-card.urgent {
+      border-color: rgba(202, 0, 19, 0.2);
+      background: #fff6f6;
+    }
+
+    #parentView .item-card > .date-tile,
+    #adminView .item-card > .date-tile {
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: end;
+    }
+
+    #parentView .item-card > .item-body,
+    #adminView .item-card > .item-body {
+      grid-column: 1;
+      grid-row: 1;
+      min-width: 0;
+    }
+
+    #parentView .date-tile,
+    #adminView .date-tile {
+      display: grid;
+      width: 62px;
+      min-width: 62px;
+      height: 64px;
+      place-items: center;
+      border-radius: 18px;
+      background: rgba(183, 198, 194, 0.18);
+      color: var(--app-ink);
+      text-align: center;
+    }
+
+    #parentView .date-tile span,
+    #adminView .date-tile span {
+      color: var(--app-muted);
+      font-size: 0.65rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    #parentView .date-tile strong,
+    #adminView .date-tile strong {
+      font-size: 1.15rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    #parentView .card-title,
+    #adminView .card-title {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: flex-start;
+      margin: 4px 0 8px;
+      min-width: 0;
+    }
+
+    #parentView .card-title h3,
+    #adminView .card-title h3 {
+      flex: 1 1 190px;
+      min-width: 0;
+      margin: 0;
+      color: var(--app-ink);
+      font-size: clamp(1.05rem, 3.2vw, 1.35rem);
+      font-weight: 900;
+      line-height: 1.12;
+      overflow-wrap: anywhere;
+    }
+
+    #parentView .card p,
+    #adminView .card p {
+      margin-bottom: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    #parentView .meta-row,
+    #adminView .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      align-items: center;
+    }
+
+    #parentView .badge,
+    #adminView .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(183, 198, 194, 0.18);
+      color: var(--app-ink);
+      font-size: 0.76rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    #parentView .badge.novo,
+    #adminView .badge.novo {
+      background: var(--app-red);
+      color: #ffffff;
+    }
+
+    #parentView .badge.urgente,
+    #adminView .badge.urgente {
+      background: rgba(202, 0, 19, 0.12);
+      color: var(--app-red);
+    }
+
+    #parentView .badge.importante,
+    #adminView .badge.importante {
+      background: rgba(245, 158, 11, 0.16);
+      color: #9a5d00;
+    }
+
+    #parentView .badge.target,
+    #adminView .badge.target {
+      background: rgba(183, 198, 194, 0.22);
+      color: var(--app-muted);
+    }
+
+    #parentView .card-image,
+    #adminView .card-image {
+      width: 100%;
+      max-height: 260px;
+      margin: 8px 0 12px;
+      border-radius: 18px;
+      object-fit: cover;
+    }
+
+    #parentView .empty-state {
+      display: grid;
+      gap: 8px;
+      padding: 24px;
+    }
+
+    #parentView .empty-state strong {
+      color: var(--app-ink);
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    #parentView .tabs {
+      position: fixed;
+      right: max(8px, env(safe-area-inset-right));
+      bottom: calc(8px + env(safe-area-inset-bottom));
+      left: max(8px, env(safe-area-inset-left));
+      z-index: 60;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      max-width: 720px;
+      height: 64px;
+      margin: 0 auto;
+      padding: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      background: var(--app-ink);
+      box-shadow: 0 20px 45px -16px rgba(0, 0, 0, 0.36);
+    }
+
+    #parentView .tabs button {
+      min-width: 0;
+      min-height: 48px;
+      padding: 0 4px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: clamp(0.62rem, 2.4vw, 0.82rem);
+      font-weight: 900;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    #parentView .tabs button::before,
+    #parentView .tabs button::after {
+      display: none !important;
+      content: none !important;
+    }
+
+    #parentView .tabs button.active {
+      background: #ffffff;
+      color: var(--app-ink);
+    }
+
+    body[data-active-mode="parent"] .modal {
+      display: none;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      padding: 14px;
+      background: rgba(23, 30, 25, 0.38);
+    }
+
+    body[data-active-mode="parent"] .modal.show {
+      display: flex !important;
+    }
+
+    body[data-active-mode="parent"] .modal-card {
+      width: min(100%, 720px);
+      max-height: min(88vh, 760px);
+      margin: 0 auto;
+      overflow-y: auto;
+      border: 1px solid var(--app-line);
+      border-radius: 32px 32px 20px 20px;
+      background: #ffffff;
+      box-shadow: 0 -18px 70px -26px rgba(0, 0, 0, 0.4);
+      animation: bottomSheetIn 0.26s var(--motion) both;
+    }
+
+    body[data-active-mode="parent"] .modal-card.welcome-sheet {
+      margin-bottom: 0;
+    }
+
+    body[data-active-mode="parent"] .modal-head {
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    body[data-active-mode="parent"] .modal-head h2 {
+      color: var(--app-ink);
+      font-size: clamp(1.35rem, 5vw, 2rem);
+      font-weight: 900;
+      line-height: 1.08;
+      overflow-wrap: anywhere;
+    }
+
+    body[data-active-mode="parent"] .detail-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(183, 198, 194, 0.16);
+    }
+
+    body[data-active-mode="parent"] .detail-text {
+      color: var(--app-muted);
+      font-size: 1rem;
+      line-height: 1.65;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .class-choice-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .class-choice-list button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      min-height: 56px;
+      padding: 14px 16px;
+      border: 1px solid var(--app-line);
+      border-radius: 18px;
+      background: #ffffff;
+      color: var(--app-ink);
+      text-align: left;
+    }
+
+    .class-choice-list button.active {
+      background: var(--app-ink);
+      color: #ffffff;
+    }
+
+    .class-choice-list span {
+      font-weight: 900;
+    }
+
+    .class-choice-list small {
+      color: inherit;
+      opacity: 0.72;
+      font-weight: 800;
+    }
+
+    .logo-preview {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .logo-preview img {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: var(--app-ink);
+    }
+
+    .toggle-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(183, 198, 194, 0.16);
+      color: var(--app-ink);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .toggle-line input {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--app-red);
+    }
+
+    @keyframes appCardIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes bottomSheetIn {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 860px) {
+      body[data-active-mode="parent"],
+      body[data-active-mode="parent"] .app,
+      body[data-active-mode="parent"] .main,
+      #parentView,
+      #parentView .layout,
+      #parentView .side-panel,
+      #parentView .work-panel,
+      #parentView .screen,
+      #parentView .section {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+      }
+
+      body[data-active-mode="parent"] .topbar-inner {
+        min-height: 58px;
+      }
+
+      body[data-active-mode="parent"] .brand {
+        max-width: calc(100vw - 122px);
+        gap: 8px;
+      }
+
+      body[data-active-mode="parent"] .brand-mark {
+        width: 34px;
+        height: 34px;
+        flex-basis: 34px;
+        border-width: 2px;
+        font-size: 0.9rem;
+      }
+
+      body[data-active-mode="parent"] .mode-switch {
+        display: none;
+      }
+
+      #parentView .layout {
+        display: block !important;
+        gap: 0 !important;
+      }
+
+      #parentView .side-panel {
+        position: relative !important;
+        top: auto !important;
+        z-index: 1 !important;
+        width: calc(100vw - 20px) !important;
+        margin: 10px 0 18px !important;
+        padding: 26px 18px 20px !important;
+        border-radius: 32px !important;
+        transform: none !important;
+      }
+
+      #parentView .mobile-flow-guard {
+        display: none !important;
+        height: 0 !important;
+      }
+
+      #parentView .work-panel {
+        position: relative !important;
+        z-index: 0 !important;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+        transform: none !important;
+      }
+
+      #parentView .school-logo-display {
+        right: 18px;
+        top: 18px;
+        width: 50px;
+        height: 50px;
+      }
+
+      #parentView .side-title {
+        max-width: calc(100% - 72px);
+        font-size: clamp(1.85rem, 9vw, 3rem);
+      }
+
+      #parentView .side-copy {
+        width: 100% !important;
+        max-width: calc(100vw - 56px) !important;
+        font-size: 0.98rem;
+        display: block !important;
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        overflow-wrap: anywhere;
+        word-break: break-word !important;
+      }
+
+      body[data-active-mode="parent"] .modal-card,
+      body[data-active-mode="parent"] .modal-card p,
+      body[data-active-mode="parent"] .modal-card h2,
+      #parentView .card,
+      #parentView .card p,
+      #parentView .card h3 {
+        max-width: 100% !important;
+        overflow-wrap: anywhere !important;
+        word-break: break-word !important;
+      }
+
+      #parentView .quick-actions {
+        gap: 9px;
+      }
+
+      #parentView .scope-notice {
+        font-size: 0.92rem;
+      }
+
+      .school-access-link {
+        display: inline-flex;
+        min-height: 40px;
+        align-items: center;
+      }
+
+      .important-notice {
+        grid-template-columns: 1fr;
+        border-radius: 32px;
+      }
+
+      .important-notice .btn {
+        width: 100%;
+      }
+
+      .parent-quick-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .parent-quick-card {
+        min-height: 112px;
+        padding: 16px;
+      }
+
+      #parentView .feed-split {
+        grid-template-columns: 1fr;
+      }
+
+      #parentView .item-card,
+      #adminView .item-card {
+        grid-template-columns: minmax(0, 1fr) 58px;
+        gap: 12px;
+        border-radius: 24px;
+      }
+
+      #parentView .date-tile,
+      #adminView .date-tile {
+        width: 54px;
+        min-width: 54px;
+        height: 58px;
+        border-radius: 16px;
+      }
+
+      #parentView .card-title h3,
+      #adminView .card-title h3 {
+        flex-basis: 100%;
+      }
+
+      #parentView .card-image,
+      #adminView .card-image {
+        max-height: 210px;
+      }
+
+      #parentView .tabs {
+        height: 62px;
+        max-width: calc(100vw - 16px);
+      }
+    }
+
+    @media (min-width: 861px) {
+      .school-access-link {
+        display: none;
+      }
+    }
+
+    @media (max-width: 380px) {
+      #parentView .tabs {
+        left: 4px;
+        right: 4px;
+        padding: 5px;
+      }
+
+      #parentView .tabs button {
+        font-size: 0.58rem;
+      }
+
+      #parentView .item-card,
+      #adminView .item-card {
+        grid-template-columns: minmax(0, 1fr) 50px;
+        padding: 16px;
+      }
+
+      #parentView .date-tile,
+      #adminView .date-tile {
+        width: 48px;
+        min-width: 48px;
+        height: 54px;
+      }
+    }
+    /* Correção final de contraste do card de aviso importante */
+    #parentView .important-notice p {
+      color: #f5f7f2 !important;
+      font-weight: 600 !important;
+      opacity: 1 !important;
+    }
+
+    #parentView .important-notice .meta-row {
+      opacity: 1 !important;
+    }
+
+    #parentView .important-notice .badge {
+      background: #eef2ed !important;
+      color: #171e19 !important;
+      font-weight: 900 !important;
+      opacity: 1 !important;
+    }
+
+    #parentView .important-notice .badge.importante {
+      background: #f0b429 !important;
+      color: #171e19 !important;
+    }
+
+    #parentView .important-notice .badge.urgente {
+      background: #ffffff !important;
+      color: #ca0013 !important;
+    }
+
+    #parentView .important-notice .badge.target {
+      background: #dfe8e4 !important;
+      color: #171e19 !important;
+    }
+
+    /* Correção final de contraste dos cabeçalhos Gerais/Turma */
+    #parentView .feed-head {
+      color: #ffffff !important;
+    }
+
+    #parentView .feed-head span {
+      color: rgba(255, 255, 255, 0.8) !important;
+      opacity: 1 !important;
+    }
+
+    #parentView .feed-head h2 {
+      color: #ffffff !important;
+      opacity: 1 !important;
+    }
+
+    #parentView .feed-head p {
+      color: rgba(255, 255, 255, 0.88) !important;
+      font-weight: 700 !important;
+      opacity: 1 !important;
+    }
+
+    #parentView .feed-head strong {
+      background: rgba(255, 255, 255, 0.2) !important;
+      color: #ffffff !important;
+      opacity: 1 !important;
+    }
+
+    #parentView .feed-class .feed-head {
+      background: #b7c6c2 !important;
+      color: #171e19 !important;
+    }
+
+    #parentView .feed-class .feed-head span,
+    #parentView .feed-class .feed-head h2,
+    #parentView .feed-class .feed-head p {
+      color: #171e19 !important;
+      opacity: 1 !important;
+    }
+
+    #parentView .feed-class .feed-head span {
+      color: #4c5c55 !important;
+    }
+
+    #parentView .feed-class .feed-head p {
+      color: #3d4c46 !important;
+      font-weight: 700 !important;
+    }
+
+    #parentView .feed-class .feed-head strong {
+      background: rgba(255, 255, 255, 0.72) !important;
+      color: #171e19 !important;
+      opacity: 1 !important;
+    }
+
+    /* Logo Haze padrão: círculo carvão, H branco e bolinha vermelha */
+    .brand-mark,
+    .school-logo-display {
+      background: #171e19 !important;
+      color: #ffffff !important;
+    }
+
+    .brand-mark::after,
+    .school-logo-display::after {
+      z-index: 3 !important;
+      display: block !important;
+      background: #ca0013 !important;
+      content: "" !important;
+    }
+
+    .brand-mark .haze-logo-svg,
+    .school-logo-display .haze-logo-svg {
+      position: relative !important;
+      z-index: 2 !important;
+      display: block !important;
+      width: 66% !important;
+      height: 66% !important;
+    }
   </style>
 </head>
 <body>
@@ -4548,30 +5765,38 @@
         <div class="layout">
           <aside class="side-panel" aria-label="Resumo da escola">
             <span class="kicker">Portal dos Pais</span>
+            <div id="parentSchoolLogo" class="school-logo-display" aria-hidden="true"></div>
             <div>
               <h1 id="heroSchoolName" class="side-title">Haze - Portal dos Pais</h1>
               <p class="side-copy">A escola publica, os pais acompanham e a comunicação fica organizada.</p>
             </div>
             <div class="quick-actions">
               <a id="whatsappButton" class="btn btn-primary" href="#" target="_blank" rel="noopener">WhatsApp da escola</a>
+              <button id="installAppButton" class="btn btn-secondary" type="button">Instalar no celular</button>
+              <button id="enableNotificationsButton" class="btn btn-muted" type="button">Ativar avisos da escola</button>
             </div>
             <div class="compact-tools">
-              <div class="field">
+              <div class="parent-class-summary">
+                <span>Turma acompanhada</span>
+                <strong id="parentClassDisplay">Escolha a turma</strong>
+                <button id="changeParentClassButton" class="btn btn-muted btn-small" type="button">Trocar turma</button>
+              </div>
+              <div class="field parent-class-native">
                 <label for="parentGlobalClass">Turma acompanhada</label>
                 <select id="parentGlobalClass"></select>
               </div>
               <div class="audience-tabs" aria-label="Filtro de publicações">
-                <button type="button" data-parent-audience="general">Gerais</button>
-                <button class="active" type="button" data-parent-audience="mine" data-disabled-tooltip="Escolha uma turma acima">Turma</button>
+                <button type="button" data-parent-audience="general">Todos</button>
+                <button class="active" type="button" data-parent-audience="mine" data-disabled-tooltip="Escolha uma turma acima">Minha turma</button>
               </div>
               <select id="parentAudienceFilter" class="sr-only" aria-hidden="true" tabindex="-1">
-                <option value="general">Gerais</option>
-                <option value="mine">Turma</option>
+                <option value="general">Todos</option>
+                <option value="mine">Minha turma</option>
               </select>
               <button id="clearParentFilters" class="btn btn-muted btn-small" type="button">Limpar filtros</button>
             </div>
             <div id="parentScopeNotice" class="scope-notice"></div>
-            <div id="selectedClassChip" class="selected-class-chip"></div>
+            <button class="school-access-link" type="button" data-mode="admin">Acesso da escola</button>
           </aside>
 
           <div class="mobile-flow-guard" aria-hidden="true"></div>
@@ -4579,18 +5804,30 @@
           <div class="work-panel">
             <nav id="parentBottomNav" class="tabs parent-only" aria-label="Menu do portal dos pais">
               <button type="button" class="active" data-parent-screen="home">Início</button>
-              <button type="button" data-parent-screen="announcements">Comunicados</button>
+              <button type="button" data-parent-screen="announcements">Avisos</button>
               <button type="button" data-parent-screen="events">Eventos</button>
               <button type="button" data-parent-screen="calendar">Agenda</button>
-              <button type="button" data-parent-screen="documents">Documentos</button>
+              <button type="button" data-parent-screen="documents">Docs</button>
             </nav>
 
             <section id="parent-home" class="screen active">
-              <div id="urgentHighlights" class="grid"></div>
-              <div id="parentHeroMetrics" class="summary-grid parent-metrics-grid"></div>
+              <div id="selectedClassChip" class="selected-class-chip"></div>
+              <div id="parentImportantNotice"></div>
+              <div id="parentQuickCards" class="parent-quick-grid"></div>
+              <div id="parentHeroMetrics" class="summary-grid parent-metrics-grid" hidden></div>
               <div id="parentStatusGrid" class="summary-grid" hidden></div>
 
-              <div class="feed-split">
+              <div class="section parent-feed-section">
+                <div class="section-header">
+                  <div>
+                    <h2>Últimos avisos</h2>
+                    <p>Recados recentes da escola para acompanhar sem procurar.</p>
+                  </div>
+                </div>
+                <div id="homeLatestAnnouncements" class="grid compact-feed"></div>
+              </div>
+
+              <div class="feed-split parent-legacy-feed" hidden>
                 <section class="feed-column feed-general">
                   <div class="feed-head">
                     <div>
@@ -4620,7 +5857,7 @@
                 <div class="section-header">
                   <div>
                     <h2>Próximos eventos</h2>
-                    <p>Datas para a família acompanhar</p>
+                    <p>Eventos e momentos importantes da escola.</p>
                   </div>
                 </div>
                 <div id="homeEvents" class="grid"></div>
@@ -4630,7 +5867,7 @@
                 <div class="section-header">
                   <div>
                     <h2>Hoje e próximos dias</h2>
-                    <p>Agenda escolar em destaque</p>
+                    <p>Provas, reuniões, passeios, feriados e atividades.</p>
                   </div>
                 </div>
                 <div id="homeCalendar" class="grid"></div>
@@ -4639,8 +5876,8 @@
               <div class="section">
                 <div class="section-header">
                   <div>
-                    <h2>Documentos recentes</h2>
-                    <p>Links importantes para consulta rápida</p>
+                    <h2>Documentos úteis</h2>
+                    <p>Calendários, autorizações e arquivos para consultar quando precisar.</p>
                   </div>
                 </div>
                 <div id="homeDocuments" class="grid"></div>
@@ -4650,8 +5887,8 @@
             <section id="parent-announcements" class="screen">
               <div class="section-header">
                 <div>
-                  <h2>Comunicados</h2>
-                  <p>Recados publicados pela escola</p>
+                  <h2>Avisos</h2>
+                  <p>Recados publicados pela escola.</p>
                 </div>
               </div>
               <div class="filters">
@@ -4791,7 +6028,7 @@
           <div class="login-card">
             <div>
               <h3>Acesso da equipe</h3>
-              <p>Entre para administrar comunicados, eventos e documentos.</p>
+              <p>Entre para administrar avisos, eventos e documentos.</p>
             </div>
             <form id="loginForm" class="form-grid">
               <div class="field full">
@@ -4813,10 +6050,10 @@
               <p>Publique informações para as famílias em poucos cliques.</p>
               <button id="newInfoButton" class="btn btn-primary" type="button">+ Publicar nova informação</button>
               <div class="quick-publish" aria-label="Atalhos de publicação">
-                <button class="btn btn-muted" type="button" data-quick-create="announcements">Comunicado</button>
-                <button class="btn btn-muted" type="button" data-quick-create="events">Evento</button>
-                <button class="btn btn-muted" type="button" data-quick-create="calendar">Agenda</button>
-                <button class="btn btn-muted" type="button" data-quick-create="documents">Documento</button>
+                <button class="btn btn-muted" type="button" data-quick-create="announcements">Novo aviso</button>
+                <button class="btn btn-muted" type="button" data-quick-create="events">Novo evento</button>
+                <button class="btn btn-muted" type="button" data-quick-create="calendar">Nova data</button>
+                <button class="btn btn-muted" type="button" data-quick-create="documents">Novo documento</button>
               </div>
             </div>
             <div id="summaryCards" class="summary-grid"></div>
@@ -4825,7 +6062,7 @@
           <div class="admin-layout">
             <nav class="admin-nav" aria-label="Menu do painel da escola">
               <button type="button" class="active" data-admin-screen="dashboard">Início</button>
-              <button type="button" data-admin-screen="announcements">Comunicados</button>
+              <button type="button" data-admin-screen="announcements">Avisos</button>
               <button type="button" data-admin-screen="events">Eventos</button>
               <button type="button" data-admin-screen="calendar">Agenda</button>
               <button type="button" data-admin-screen="documents">Documentos</button>
@@ -4847,10 +6084,10 @@
                 <div class="admin-toolbar">
                   <div class="section-header">
                     <div>
-                      <h2>Comunicados</h2>
-                      <p>Publique recados para uma turma ou para todas.</p>
+                      <h2>Avisos</h2>
+                      <p>Publique recados para uma turma ou para todas as famílias.</p>
                     </div>
-                    <button class="btn btn-primary btn-small" type="button" data-open-form="announcementFormPanel">+ Novo</button>
+                    <button class="btn btn-primary btn-small" type="button" data-open-form="announcementFormPanel">+ Novo aviso</button>
                   </div>
                   <div class="filters three">
                     <div class="field">
@@ -4884,13 +6121,19 @@
                           <option value="urgente">Urgente</option>
                         </select>
                       </div>
+                      <div class="field important-toggle-field">
+                        <label class="toggle-line" for="announcementImportantToggle">
+                          <input id="announcementImportantToggle" type="checkbox">
+                          <span>Enviar como aviso importante</span>
+                        </label>
+                      </div>
                       <div class="field">
                         <label for="announcementDate">Data</label>
                         <input id="announcementDate" name="date" type="date" required>
                       </div>
                       <div class="field full">
                         <label for="announcementText">Texto</label>
-                        <textarea id="announcementText" name="text" required placeholder="Escreva o comunicado de forma clara para as famílias."></textarea>
+                        <textarea id="announcementText" name="text" required placeholder="Escreva o aviso de forma clara para as famílias."></textarea>
                       </div>
                       <div class="field full">
                         <label for="announcementImage">Imagem do aviso</label>
@@ -4899,7 +6142,7 @@
                       </div>
                     </div>
                     <div class="form-actions">
-                      <button class="btn btn-primary" type="submit" data-submit-label="Publicar comunicado" data-edit-label="Salvar alterações">Publicar comunicado</button>
+                      <button class="btn btn-primary" type="submit" data-submit-label="Publicar aviso" data-edit-label="Salvar alterações">Publicar aviso</button>
                       <button class="btn btn-muted" type="button" data-cancel-form="announcementFormPanel">Cancelar</button>
                     </div>
                   </form>
@@ -5098,6 +6341,13 @@
                         <label for="schoolAddress">Endereço</label>
                         <input id="schoolAddress" name="address">
                       </div>
+                      <div class="field full logo-upload-field">
+                        <label for="schoolLogo">Logo da escola</label>
+                        <input id="schoolLogo" name="schoolLogo" type="file" accept="image/*">
+                        <input name="logoData" type="hidden">
+                        <small>Use uma imagem pequena. Ela será salva localmente neste navegador.</small>
+                        <div id="logoPreview" class="logo-preview"></div>
+                      </div>
                       <div class="field">
                         <label for="primaryColor">Cor principal</label>
                         <input id="primaryColor" name="primaryColor" type="color">
@@ -5111,9 +6361,9 @@
                         <input id="accentColor" name="accentColor" type="color">
                       </div>
                       <div class="theme-grid">
-                        <button class="theme-btn" style="background:#3B82F6" type="button" data-theme="classic">Azul Haze</button>
-                        <button class="theme-btn" style="background:#10B981" type="button" data-theme="green">Verde Escola</button>
-                        <button class="theme-btn" style="background:#7C3AED" type="button" data-theme="violet">Violeta</button>
+                        <button class="theme-btn" style="background:#ca0013" type="button" data-theme="classic">Haze</button>
+                        <button class="theme-btn" style="background:#0f8f5f" type="button" data-theme="green">Verde Escola</button>
+                        <button class="theme-btn" style="background:#6d4aff" type="button" data-theme="violet">Violeta</button>
                       </div>
                       <div class="field full class-manager">
                         <label for="newClassName">Turmas da escola</label>
@@ -5160,6 +6410,54 @@
         <div id="detailBody"></div>
       </article>
     </div>
+
+    <div id="classModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="classModalTitle">
+      <article class="modal-card choice-sheet">
+        <div class="modal-head">
+          <div>
+            <span class="item-kind">Turma acompanhada</span>
+            <h2 id="classModalTitle">Escolha a turma do aluno</h2>
+          </div>
+          <button id="closeClassModal" class="btn btn-muted btn-small" type="button">Fechar</button>
+        </div>
+        <div id="classChoiceList" class="class-choice-list"></div>
+      </article>
+    </div>
+
+    <div id="installModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="installModalTitle">
+      <article class="modal-card">
+        <div class="modal-head">
+          <div>
+            <span class="item-kind">App no celular</span>
+            <h2 id="installModalTitle">Instalar o Portal dos Pais</h2>
+          </div>
+          <button id="closeInstallModal" class="btn btn-muted btn-small" type="button">Fechar</button>
+        </div>
+        <div class="detail-content install-copy">
+          <p><strong>Android:</strong> toque no menu do navegador e escolha “Instalar app” ou “Adicionar à tela inicial”.</p>
+          <p><strong>iPhone:</strong> toque no botão de compartilhar do Safari e escolha “Adicionar à Tela de Início”.</p>
+        </div>
+      </article>
+    </div>
+
+    <div id="welcomeModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="welcomeModalTitle">
+      <article class="modal-card welcome-sheet">
+        <div class="modal-head">
+          <div>
+            <span class="item-kind">Primeiro acesso</span>
+            <h2 id="welcomeModalTitle">Bem-vindo ao Portal dos Pais</h2>
+          </div>
+        </div>
+        <div class="detail-content">
+          <p>Escolha a turma do aluno para acompanhar os avisos corretos da escola.</p>
+          <div class="field">
+            <label for="welcomeClassSelect">Turma do aluno</label>
+            <select id="welcomeClassSelect"></select>
+          </div>
+          <button id="welcomeContinueButton" class="btn btn-primary" type="button">Continuar</button>
+        </div>
+      </article>
+    </div>
   </div>
 
   <script>
@@ -5174,8 +6472,13 @@
 
     const STORAGE_KEY = "hazePortalData";
     const SELECTED_PARENT_CLASS_KEY = "selectedParentClass";
+    const READ_ITEMS_KEY = "hazeReadItems";
+    const PWA_INSTALL_SEEN_KEY = "hazeInstallInstructionsSeen";
+    const NOTIFICATIONS_ENABLED_KEY = "hazeNotificationsEnabled";
+    const PARENT_ONBOARDING_KEY = "hazeParentOnboardingDone";
     const ADMIN_PASSWORD = "haze123";
     const MAX_IMAGE_DATA_URL_LENGTH = 900000;
+    const MAX_LOGO_DATA_URL_LENGTH = 350000;
     const DEFAULT_CLASSES = [
       "Todas as turmas",
       "Infantil 1",
@@ -5200,9 +6503,10 @@
         schoolName: "Escola Haze",
         whatsapp: "5585999999999",
         address: "Rua da Educação, 123",
-        primaryColor: "#3B82F6",
-        secondaryColor: "#10B981",
-        accentColor: "#F59E0B",
+        primaryColor: "#ca0013",
+        secondaryColor: "#171e19",
+        accentColor: "#b7c6c2",
+        logoData: "",
         classes: DEFAULT_CLASSES
       },
       announcements: [
@@ -5272,9 +6576,10 @@
     let state = loadState();
     let adminAuthenticated = false;
     let selectedParentClass = localStorage.getItem(SELECTED_PARENT_CLASS_KEY) || "";
-    let parentAudienceFilter = "mine";
+    let parentAudienceFilter = "general";
     let lastChangedItemId = "";
     let editingClassName = "";
+    let deferredInstallPrompt = null;
 
     const els = {
       parentView: document.getElementById("parentView"),
@@ -5288,10 +6593,19 @@
     document.addEventListener("DOMContentLoaded", init);
 
     function init() {
-      syncActiveMode("parent");
+      const initialMode = getInitialMode();
+      syncActiveMode(initialMode);
       applyTheme();
       bindEvents();
       renderAll();
+      setMode(initialMode);
+      maybeShowParentWelcome();
+    }
+
+    function getInitialMode() {
+      const params = new URLSearchParams(window.location.search);
+      const rawMode = (params.get("modo") || window.location.hash.replace("#", "") || "").toLowerCase();
+      return rawMode === "escola" || rawMode === "admin" ? "admin" : "parent";
     }
 
     function loadState() {
@@ -5446,10 +6760,32 @@
       document.getElementById("parentGlobalClass").addEventListener("change", () => {
         selectedParentClass = document.getElementById("parentGlobalClass").value;
         localStorage.setItem(SELECTED_PARENT_CLASS_KEY, selectedParentClass);
+        localStorage.setItem(PARENT_ONBOARDING_KEY, selectedParentClass ? "true" : "");
         ensureParentAudienceAvailability();
         updateAudienceButtons();
         syncParentClassFilters(selectedParentClass);
+        renderParentClassDisplay();
         renderParentLists();
+      });
+
+      document.getElementById("changeParentClassButton").addEventListener("click", openClassModal);
+      document.getElementById("closeClassModal").addEventListener("click", closeClassModal);
+      document.getElementById("classModal").addEventListener("click", (event) => {
+        if (event.target.id === "classModal") closeClassModal();
+      });
+
+      document.getElementById("installAppButton").addEventListener("click", handleInstallClick);
+      document.getElementById("closeInstallModal").addEventListener("click", closeInstallModal);
+      document.getElementById("installModal").addEventListener("click", (event) => {
+        if (event.target.id === "installModal") closeInstallModal();
+      });
+
+      document.getElementById("enableNotificationsButton").addEventListener("click", enableSchoolNotifications);
+      document.getElementById("welcomeContinueButton").addEventListener("click", completeParentWelcome);
+
+      window.addEventListener("beforeinstallprompt", (event) => {
+        event.preventDefault();
+        deferredInstallPrompt = event;
       });
 
       document.getElementById("parentAudienceFilter").addEventListener("change", () => {
@@ -5474,6 +6810,14 @@
           updatePriorityButtons();
           renderParentLists();
         });
+      });
+
+      document.getElementById("announcementImportantToggle").addEventListener("change", (event) => {
+        if (event.target.checked) document.getElementById("announcementPriority").value = "importante";
+      });
+
+      document.getElementById("announcementPriority").addEventListener("change", (event) => {
+        document.getElementById("announcementImportantToggle").checked = event.target.value === "importante";
       });
 
       document.getElementById("clearParentFilters").addEventListener("click", () => {
@@ -5529,6 +6873,8 @@
         });
       });
 
+      document.getElementById("schoolLogo").addEventListener("change", handleLogoUpload);
+
       document.getElementById("closeDetailModal").addEventListener("click", closeDetailModal);
       document.getElementById("detailModal").addEventListener("click", (event) => {
         if (event.target.id === "detailModal") closeDetailModal();
@@ -5582,8 +6928,8 @@
           upsertItem("announcements", data);
           closeFormPanel("announcementFormPanel");
         } catch (error) {
-          console.error("Erro ao publicar comunicado.", error);
-          showToast(error.message || "Nao foi possivel publicar o comunicado.");
+          console.error("Erro ao publicar aviso.", error);
+          showToast(error.message || "Não foi possível publicar o aviso.");
         } finally {
           clearSubmitBusy(submitButton, originalLabel);
         }
@@ -5617,7 +6963,8 @@
           "address",
           "primaryColor",
           "secondaryColor",
-          "accentColor"
+          "accentColor",
+          "logoData"
           ])
         };
         state.settings.classes = normalizeClasses(state.settings.classes);
@@ -5643,6 +6990,7 @@
           els.loginArea.classList.remove("hidden");
           els.adminArea.classList.add("hidden");
         }
+        if (mode === "parent") maybeShowParentWelcome();
       });
     }
 
@@ -5705,6 +7053,7 @@
       form.reset();
       form.elements.id.value = "";
       if (form.elements.targetClass) form.elements.targetClass.value = "Todas as turmas";
+      if (form.elements.announcementImportantToggle) form.elements.announcementImportantToggle.checked = false;
       setDefaultDates(form);
       setFormSubmitMode(form, false);
       panel.dataset.panelTitle = formPanelTitle(panelId, "new");
@@ -5742,6 +7091,7 @@
       }
       renderAll();
       scrollToChangedItem();
+      if (collection === "announcements" && !isEditing) sendLocalNotificationPreview(cleanItem);
       showToast(feedbackMessage(collection, cleanItem, isEditing));
     }
 
@@ -5778,6 +7128,9 @@
       Object.entries(item).forEach(([key, value]) => {
         if (form.elements[key]) form.elements[key].value = value;
       });
+      if (collection === "announcements" && form.elements.announcementImportantToggle) {
+        form.elements.announcementImportantToggle.checked = item.priority === "importante";
+      }
       setFormSubmitMode(form, true);
       panel.dataset.panelTitle = formPanelTitle(panelMap[collection], "edit");
       panel.classList.add("active");
@@ -5878,7 +7231,7 @@
     function formPanelTitle(panelId, mode) {
       const action = mode === "edit" ? "Editando" : "Nova publicação";
       const labels = {
-        announcementFormPanel: "comunicado",
+        announcementFormPanel: "aviso",
         eventFormPanel: "evento",
         calendarFormPanel: "data da agenda",
         documentFormPanel: "documento"
@@ -5888,7 +7241,7 @@
 
     function feedbackMessage(collection, item, isEditing) {
       const labels = {
-        announcements: "Comunicado",
+        announcements: "Aviso",
         events: "Evento",
         calendar: "Agenda",
         documents: "Documento"
@@ -5934,9 +7287,9 @@
 
     function applyThemePreset(theme) {
       const themes = {
-        classic: ["#3B82F6", "#10B981", "#F59E0B"],
-        green: ["#10B981", "#3B82F6", "#F59E0B"],
-        violet: ["#7C3AED", "#10B981", "#F59E0B"]
+        classic: ["#ca0013", "#171e19", "#b7c6c2"],
+        green: ["#0f8f5f", "#171e19", "#b7c6c2"],
+        violet: ["#6d4aff", "#171e19", "#b7c6c2"]
       };
       const colors = themes[theme];
       if (!colors) return;
@@ -5960,6 +7313,7 @@
     function openDetailModal(collection, id) {
       const item = state[collection].find((entry) => entry.id === id);
       if (!item) return;
+      if (collection === "announcements") markAsRead(id);
 
       const title = item.title || item.name || "Informação";
       const text = item.text || item.description || "";
@@ -5994,7 +7348,7 @@
     }
 
     function applyTheme() {
-      const legacyColors = ["#00d9ff", "#8b5cf6", "#ff8a2a", "#1040c0", "#d02020", "#f0c020", "#6c63ff", "#38b2ac", "#8b84ff"];
+      const legacyColors = ["#00d9ff", "#8b5cf6", "#ff8a2a", "#1040c0", "#d02020", "#f0c020", "#6c63ff", "#38b2ac", "#8b84ff", "#3b82f6", "#10b981", "#f59e0b"];
       if (legacyColors.includes(String(state.settings.primaryColor).toLowerCase())) {
         state.settings.primaryColor = defaultData.settings.primaryColor;
         state.settings.secondaryColor = defaultData.settings.secondaryColor;
@@ -6005,6 +7359,9 @@
       document.documentElement.style.setProperty("--primary", state.settings.primaryColor || defaultData.settings.primaryColor);
       document.documentElement.style.setProperty("--secondary", state.settings.secondaryColor || defaultData.settings.secondaryColor);
       document.documentElement.style.setProperty("--accent", state.settings.accentColor || defaultData.settings.accentColor);
+      document.documentElement.style.setProperty("--app-red", state.settings.primaryColor || defaultData.settings.primaryColor);
+      document.documentElement.style.setProperty("--app-ink", state.settings.secondaryColor || defaultData.settings.secondaryColor);
+      document.documentElement.style.setProperty("--app-sage", state.settings.accentColor || defaultData.settings.accentColor);
     }
 
     function renderBranding() {
@@ -6024,17 +7381,41 @@
       whatsappButton.href = cleanPhone ? `https://wa.me/${cleanPhone}` : "#";
       whatsappButton.classList.toggle("hidden", !cleanPhone);
 
+      renderSchoolLogo();
+    }
+
+    function renderSchoolLogo() {
+      const settings = state.settings;
+      const logoHtml = settings.logoData
+        ? `<img src="${escapeAttribute(settings.logoData)}" alt="Logo da escola">`
+        : `
+          <svg class="haze-logo-svg" viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M17 45V15h9v12h18V15h9v30h-9V34H26v11z" fill="#ffffff"></path>
+            <circle cx="49" cy="49" r="6" fill="#ca0013"></circle>
+          </svg>
+        `;
+
+      document.querySelectorAll(".brand-mark").forEach((mark) => {
+        mark.innerHTML = logoHtml;
+        mark.classList.toggle("has-logo", Boolean(settings.logoData));
+      });
+
+      const parentLogo = document.getElementById("parentSchoolLogo");
+      if (parentLogo) {
+        parentLogo.innerHTML = logoHtml;
+        parentLogo.classList.toggle("has-logo", Boolean(settings.logoData));
+      }
     }
 
     function renderSummary() {
       const upcomingEvents = getUpcoming(state.events, "date").length;
       const urgent = state.announcements.filter((item) => item.priority === "urgente").length;
       const cards = [
-        ["Comunicados", state.announcements.length, "Recados ativos no portal", "blue"],
+        ["Avisos", state.announcements.length, "Recados ativos no portal", "blue"],
         ["Eventos", upcomingEvents, "Programações futuras", "green"],
         ["Agenda", state.calendar.length, "Datas importantes", "amber"],
         ["Documentos", state.documents.length, "Links úteis para famílias", "indigo"],
-        ["Urgentes", urgent, "Comunicados em destaque", "blue"]
+        ["Urgentes", urgent, "Avisos em destaque", "blue"]
       ];
 
       document.getElementById("summaryCards").innerHTML = cards.map(([label, value, note, color], index) => `
@@ -6070,31 +7451,22 @@
       const classDocuments = state.documents
         .filter((item) => Boolean(selectedParentClass) && normalizeClassName(item.targetClass || item.className) === normalizeClassName(selectedParentClass));
 
-      const urgent = visibleAnnouncements
-        .filter((item) => item.priority === "urgente")
-        .slice(0, 2);
-      document.getElementById("urgentHighlights").innerHTML = urgent.length
-        ? urgent.map((item, index) => `
-          <article class="${cardClasses(item, "announcements")}" style="${cardDelay(index)}">
-            ${dateTile(item)}
-            <div class="item-body">
-              <span class="item-kind">Urgente</span>
-              <div class="card-title"><h3>${escapeHtml(item.title)}</h3></div>
-              <p>${escapeHtml(item.text)}</p>
-              ${imageHtml(item)}
-              ${metaRow(item)}
-            </div>
-          </article>
-        `).join("")
-        : "";
+      renderImportantNotice(visibleAnnouncements);
+      renderParentQuickCards({
+        announcements: visibleAnnouncements.length,
+        events: visibleEvents.length,
+        calendar: visibleCalendar.length,
+        documents: visibleDocuments.length
+      });
 
-      document.getElementById("homeClassSubtitle").textContent = selectedParentClass
-        ? `Recados específicos de ${selectedParentClass}`
-        : "Escolha a turma acompanhada para ver os recados específicos";
-      document.getElementById("homeGeneralCount").textContent = generalAnnouncements.length;
-      document.getElementById("homeClassCount").textContent = classAnnouncements.length;
-      renderList("homeGeneralAnnouncements", generalAnnouncements.slice(0, 3), "announcements", "Nenhum comunicado geral publicado ainda", "Quando a escola publicar para todas as turmas, aparecerá aqui.");
-      renderList("homeClassAnnouncements", classAnnouncements.slice(0, 3), "announcements", "Nenhum comunicado da turma publicado ainda", selectedParentClass ? `Não há comunicados para ${selectedParentClass} no momento.` : "Escolha a turma acompanhada para ver os recados específicos.");
+      setTextIfExists("homeClassSubtitle", selectedParentClass
+        ? `Avisos específicos de ${selectedParentClass}`
+        : "Escolha a turma acompanhada para ver os avisos específicos");
+      setTextIfExists("homeGeneralCount", generalAnnouncements.length);
+      setTextIfExists("homeClassCount", classAnnouncements.length);
+      renderList("homeLatestAnnouncements", visibleAnnouncements.slice(0, 4), "announcements", "Nenhum aviso publicado ainda", "Quando a escola publicar um novo aviso, ele aparecerá aqui para as famílias.");
+      renderList("homeGeneralAnnouncements", generalAnnouncements.slice(0, 3), "announcements", "Nenhum aviso geral publicado ainda", "Quando a escola publicar para todas as famílias, aparecerá aqui.");
+      renderList("homeClassAnnouncements", classAnnouncements.slice(0, 3), "announcements", "Nenhum aviso da turma publicado ainda", selectedParentClass ? `Não há avisos para ${selectedParentClass} no momento.` : "Escolha a turma acompanhada para ver os avisos específicos.");
       renderList("homeEvents", visibleEvents.slice(0, 3), "events", "Nenhum evento cadastrado", parentEmptyMessage("eventos"));
       renderList("homeCalendar", visibleCalendar.slice(0, 3), "calendar", "Nenhuma data importante cadastrada", parentEmptyMessage("datas importantes"));
       renderList("homeDocuments", visibleDocuments.slice(0, 3), "documents", "Nenhum documento disponível", parentEmptyMessage("documentos"));
@@ -6102,11 +7474,72 @@
       const announcementPriority = document.getElementById("parentAnnouncementPriority").value;
       const filteredAnnouncements = visibleAnnouncements
         .filter((item) => !announcementPriority || item.priority === announcementPriority);
-      renderList("parentAnnouncementsList", filteredAnnouncements, "announcements", "Nenhum comunicado publicado ainda", announcementPriority ? `Nenhum comunicado com prioridade ${announcementPriority} neste filtro.` : parentEmptyMessage("comunicados"));
+      renderList("parentAnnouncementsList", filteredAnnouncements, "announcements", "Nenhum aviso publicado ainda", announcementPriority ? `Nenhum aviso com prioridade ${announcementPriority} neste filtro.` : parentEmptyMessage("avisos"));
 
       renderSplitLists("Events", generalEvents, classEvents, "events", "Nenhum evento geral cadastrado", "Nenhum evento da turma cadastrado");
       renderSplitLists("Calendar", generalCalendar, classCalendar, "calendar", "Nenhuma data geral cadastrada", "Nenhuma data da turma cadastrada");
       renderSplitLists("Documents", generalDocuments, classDocuments, "documents", "Nenhum documento geral disponível", "Nenhum documento da turma disponível");
+    }
+
+    function renderImportantNotice(items) {
+      const container = document.getElementById("parentImportantNotice");
+      if (!container) return;
+      const sorted = sortByDateDesc(items);
+      const important = sorted.find((item) => item.priority === "urgente")
+        || sorted.find((item) => item.priority === "importante")
+        || sorted[0];
+
+      if (!important) {
+        container.innerHTML = `
+          <article class="important-notice empty-important">
+            <span>Aviso importante</span>
+            <h2>Nenhum aviso publicado ainda</h2>
+            <p>Quando a escola publicar um novo aviso, ele aparecerá aqui para as famílias.</p>
+          </article>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <article class="important-notice ${escapeAttribute(important.priority || "normal")}" style="${cardDelay(0)}">
+          <div>
+            <span>Aviso importante</span>
+            <h2>${escapeHtml(important.title)}</h2>
+            <p>${escapeHtml(summaryText(important.text || important.description || "", 150))}</p>
+            <div class="meta-row">
+              ${priorityBadge(important)}
+              <span class="badge target">${escapeHtml(audienceLabel(important))}</span>
+              ${important.date ? `<span class="badge">${escapeHtml(formatDate(important.date))}</span>` : ""}
+            </div>
+          </div>
+          <button class="btn btn-primary btn-small" type="button" data-detail="announcements:${escapeAttribute(important.id)}">Ler aviso</button>
+        </article>
+      `;
+      container.querySelector("[data-detail]")?.addEventListener("click", (event) => {
+        const [, id] = event.currentTarget.dataset.detail.split(":");
+        openDetailModal("announcements", id);
+      });
+    }
+
+    function renderParentQuickCards(counts) {
+      const container = document.getElementById("parentQuickCards");
+      if (!container) return;
+      const cards = [
+        ["announcements", "Avisos", counts.announcements, "Recados da escola"],
+        ["events", "Eventos", counts.events, "Momentos importantes"],
+        ["calendar", "Agenda", counts.calendar, "Datas escolares"],
+        ["documents", "Docs", counts.documents, "Arquivos úteis"]
+      ];
+      container.innerHTML = cards.map(([screen, label, value, note], index) => `
+        <button class="parent-quick-card" type="button" data-parent-screen="${escapeAttribute(screen)}" style="${cardDelay(index)}">
+          <strong>${escapeHtml(value)}</strong>
+          <span>${escapeHtml(label)}</span>
+          <small>${escapeHtml(note)}</small>
+        </button>
+      `).join("");
+      container.querySelectorAll("[data-parent-screen]").forEach((button) => {
+        button.addEventListener("click", () => setParentScreen(button.dataset.parentScreen));
+      });
     }
 
     function renderSplitLists(suffix, generalItems, classItems, collection, generalEmpty, classEmpty) {
@@ -6127,10 +7560,10 @@
       const nextEvents = visibleEvents.length;
       const nextDates = visibleCalendar.length;
       const metrics = [
-        [urgentCount, "Comunicados urgentes", "blue"],
+        [urgentCount, "Avisos urgentes", "blue"],
         [nextEvents, "Eventos próximos", "green"],
         [visibleDocuments.length, "Documentos", "amber"],
-        [visibleAnnouncements.length, "Comunicados", "blue"],
+        [visibleAnnouncements.length, "Avisos", "blue"],
         [nextDates, "Datas importantes", "green"],
         [visibleDocuments.length, "Links úteis", "amber"]
       ];
@@ -6148,7 +7581,7 @@
     function renderAdminLists() {
       const announcementClass = document.getElementById("adminAnnouncementClassFilter").value;
       const announcementSearch = document.getElementById("adminAnnouncementSearch").value;
-      renderAdminCollection("adminAnnouncementsList", filterBySearch(sortByDateDesc(state.announcements).filter((item) => matchesClass(item, announcementClass)), announcementSearch), "announcements", "Nenhum comunicado publicado ainda", adminEmptyMessage(announcementClass, announcementSearch));
+      renderAdminCollection("adminAnnouncementsList", filterBySearch(sortByDateDesc(state.announcements).filter((item) => matchesClass(item, announcementClass)), announcementSearch), "announcements", "Nenhum aviso publicado ainda", adminEmptyMessage(announcementClass, announcementSearch));
 
       const eventClass = document.getElementById("adminEventClassFilter").value;
       const eventSearch = document.getElementById("adminEventSearch").value;
@@ -6271,6 +7704,7 @@
 
     function renderList(containerId, items, collection, emptyMessage, emptyDetail = "A escola ainda não publicou informações nesta área.") {
       const container = document.getElementById(containerId);
+      if (!container) return;
       if (!items.length) {
         container.innerHTML = emptyState(emptyMessage, emptyDetail);
         return;
@@ -6278,10 +7712,11 @@
 
       container.innerHTML = items.map((item, index) => {
         const title = item.title || item.name;
-        const text = item.text || item.description || "";
+        const text = summaryText(item.text || item.description || "", collection === "announcements" ? 132 : 150);
         const documentLink = collection === "documents"
           ? `<div class="meta-row"><a class="btn btn-primary btn-small" href="${escapeAttribute(item.link)}" target="_blank" rel="noopener">Abrir documento</a></div>`
           : "";
+        const detailLabel = collection === "announcements" ? "Ler aviso" : "Ver detalhes";
 
         return `
           <article class="${cardClasses(item, collection)}" style="${cardDelay(index)}">
@@ -6290,14 +7725,14 @@
               <span class="item-kind">${escapeHtml(collectionLabel(collection))}</span>
               <div class="card-title">
                 <h3>${escapeHtml(title)}</h3>
-                ${priorityBadge(item)}
+                ${statusBadge(item, collection)}
               </div>
               <p>${escapeHtml(text)}</p>
               ${imageHtml(item)}
               ${metaRow(item)}
               ${documentLink}
               <div class="meta-row">
-                <button class="btn btn-muted btn-small" type="button" data-detail="${collection}:${item.id}">Ver detalhes</button>
+                <button class="btn btn-muted btn-small" type="button" data-detail="${collection}:${item.id}">${escapeHtml(detailLabel)}</button>
               </div>
             </div>
           </article>
@@ -6344,10 +7779,141 @@
       localStorage.setItem(SELECTED_PARENT_CLASS_KEY, selectedParentClass);
       ensureParentAudienceAvailability();
 
+      const welcomeSelect = document.getElementById("welcomeClassSelect");
+      if (welcomeSelect) {
+        welcomeSelect.innerHTML = parentOptions;
+        welcomeSelect.value = selectedParentClass;
+      }
+      renderClassChoiceList();
+
       const audienceSelect = document.getElementById("parentAudienceFilter");
       if (audienceSelect) audienceSelect.value = parentAudienceFilter;
       updateAudienceButtons();
       updatePriorityButtons();
+    }
+
+    function renderClassChoiceList() {
+      const list = document.getElementById("classChoiceList");
+      if (!list) return;
+      const classes = normalizeClasses(state.settings.classes).filter((className) => className !== "Todas as turmas");
+      list.innerHTML = classes.map((className) => `
+        <button class="${selectedParentClass === className ? "active" : ""}" type="button" data-select-parent-class="${escapeAttribute(className)}">
+          <span>${escapeHtml(className)}</span>
+          <small>${selectedParentClass === className ? "Selecionada" : "Acompanhar turma"}</small>
+        </button>
+      `).join("");
+      list.querySelectorAll("[data-select-parent-class]").forEach((button) => {
+        button.addEventListener("click", () => selectParentClass(button.dataset.selectParentClass));
+      });
+    }
+
+    function selectParentClass(className) {
+      selectedParentClass = normalizeClassName(className);
+      localStorage.setItem(SELECTED_PARENT_CLASS_KEY, selectedParentClass);
+      localStorage.setItem(PARENT_ONBOARDING_KEY, "true");
+      const parentSelect = document.getElementById("parentGlobalClass");
+      if (parentSelect) parentSelect.value = selectedParentClass;
+      const welcomeSelect = document.getElementById("welcomeClassSelect");
+      if (welcomeSelect) welcomeSelect.value = selectedParentClass;
+      parentAudienceFilter = "general";
+      ensureParentAudienceAvailability();
+      updateAudienceButtons();
+      renderParentClassDisplay();
+      renderParentLists();
+      closeClassModal();
+      closeWelcomeModal();
+      showToast(`Agora você está acompanhando ${selectedParentClass}.`);
+    }
+
+    function openClassModal() {
+      renderClassChoiceList();
+      document.getElementById("classModal").classList.add("show");
+    }
+
+    function closeClassModal() {
+      document.getElementById("classModal").classList.remove("show");
+    }
+
+    // Onboarding simples para o primeiro acesso dos pais.
+    function maybeShowParentWelcome() {
+      const alreadyDone = localStorage.getItem(PARENT_ONBOARDING_KEY) === "true";
+      if (document.body.dataset.activeMode !== "parent" || alreadyDone || selectedParentClass) return;
+      window.setTimeout(() => {
+        const modal = document.getElementById("welcomeModal");
+        if (modal) modal.classList.add("show");
+      }, 450);
+    }
+
+    function completeParentWelcome() {
+      const select = document.getElementById("welcomeClassSelect");
+      const className = select ? select.value : "";
+      if (!className) {
+        showToast("Escolha a turma acompanhada para continuar.");
+        return;
+      }
+      selectParentClass(className);
+    }
+
+    function closeWelcomeModal() {
+      document.getElementById("welcomeModal")?.classList.remove("show");
+    }
+
+    // Instalação PWA: usa beforeinstallprompt quando o navegador permite.
+    async function handleInstallClick() {
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        await deferredInstallPrompt.userChoice.catch(() => null);
+        deferredInstallPrompt = null;
+        localStorage.setItem(PWA_INSTALL_SEEN_KEY, "true");
+        return;
+      }
+      openInstallModal();
+    }
+
+    function openInstallModal() {
+      localStorage.setItem(PWA_INSTALL_SEEN_KEY, "true");
+      document.getElementById("installModal").classList.add("show");
+    }
+
+    function closeInstallModal() {
+      document.getElementById("installModal").classList.remove("show");
+    }
+
+    // Notificações: hoje é apenas uma prévia local.
+    // Futuro Firebase Cloud Messaging:
+    // - salvar token do responsável
+    // - vincular token à escola
+    // - vincular token à turma
+    // - enviar push ao publicar aviso geral ou por turma
+    async function enableSchoolNotifications() {
+      if (!("Notification" in window)) {
+        showToast("Em breve a escola poderá enviar notificações pelo app instalado.");
+        return;
+      }
+
+      try {
+        const permission = await Notification.requestPermission();
+        if (permission === "granted") {
+          localStorage.setItem(NOTIFICATIONS_ENABLED_KEY, "true");
+          showToast("Avisos da escola ativados neste navegador.");
+          return;
+        }
+        showToast("As notificações não foram ativadas. Você pode permitir depois nas configurações do navegador.");
+      } catch {
+        showToast("Não foi possível ativar notificações neste navegador.");
+      }
+    }
+
+    function sendLocalNotificationPreview(item) {
+      if (localStorage.getItem(NOTIFICATIONS_ENABLED_KEY) !== "true") return;
+      if (!("Notification" in window) || Notification.permission !== "granted") return;
+      const title = item.title || "Novo aviso da escola";
+      const body = summaryText(item.text || item.description || "", 90);
+      try {
+        new Notification(title, { body });
+      } catch {
+        // Alguns navegadores bloqueiam notificações locais em file://.
+      }
     }
 
     function renderClassesList() {
@@ -6519,6 +8085,8 @@
       Object.entries(state.settings).forEach(([key, value]) => {
         if (form.elements[key]) form.elements[key].value = value;
       });
+      if (form.elements.logoData) form.elements.logoData.value = state.settings.logoData || "";
+      renderLogoPreview();
       renderSettingsPreview();
     }
 
@@ -6528,6 +8096,54 @@
       if (!name || !address) return;
       name.textContent = state.settings.schoolName || "Escola Haze";
       address.textContent = state.settings.address || "Endereço da escola";
+    }
+
+    // Personalização de logo: salva base64 pequeno no localStorage.
+    async function handleLogoUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      try {
+        if (!file.type || !file.type.startsWith("image/")) {
+          showToast("Escolha uma imagem válida para a logo.");
+          return;
+        }
+        const dataUrl = await fileToDataUrl(file);
+        const logoData = dataUrl.length <= MAX_LOGO_DATA_URL_LENGTH
+          ? dataUrl
+          : await compressImageDataUrl(dataUrl, 420, 0.78);
+        if (logoData.length > MAX_LOGO_DATA_URL_LENGTH) {
+          showToast("A logo ficou pesada demais. Use uma imagem menor.");
+          return;
+        }
+        state.settings.logoData = logoData;
+        const form = document.getElementById("settingsForm");
+        if (form.elements.logoData) form.elements.logoData.value = logoData;
+        saveState();
+        renderLogoPreview();
+        renderBranding();
+        showToast("Logo da escola atualizada.");
+      } catch (error) {
+        console.error("Erro ao salvar logo.", error);
+        showToast("Não foi possível salvar a logo.");
+      }
+    }
+
+    function renderLogoPreview() {
+      const preview = document.getElementById("logoPreview");
+      if (!preview) return;
+      preview.innerHTML = state.settings.logoData
+        ? `<img src="${escapeAttribute(state.settings.logoData)}" alt="Prévia da logo"><button class="btn btn-muted btn-small" type="button" id="removeLogoButton">Remover logo</button>`
+        : `<span>Sem logo cadastrada</span>`;
+      document.getElementById("removeLogoButton")?.addEventListener("click", () => {
+        state.settings.logoData = "";
+        const form = document.getElementById("settingsForm");
+        if (form.elements.logoData) form.elements.logoData.value = "";
+        if (form.elements.schoolLogo) form.elements.schoolLogo.value = "";
+        saveState();
+        renderLogoPreview();
+        renderBranding();
+        showToast("Logo removida.");
+      });
     }
 
     function formToObject(form, fields) {
@@ -6578,7 +8194,7 @@
     function matchesParentAudience(item) {
       const target = normalizeClassName(item.targetClass || item.className || "Todas as turmas");
       const selected = normalizeClassName(selectedParentClass);
-      if (parentAudienceFilter === "general") return target === "Todas as turmas";
+      if (parentAudienceFilter === "general") return target === "Todas as turmas" || (Boolean(selected) && target === selected);
       return Boolean(selected) && target === selected;
     }
 
@@ -6587,8 +8203,8 @@
       if (!notice) return;
       const selected = normalizeClassName(selectedParentClass);
       const labels = {
-        general: "Mostrando apenas publicações gerais da escola.",
-        mine: selected ? `Mostrando apenas publicações da turma ${selected}.` : "Escolha uma turma para ver as publicações específicas."
+        general: selected ? `Mostrando avisos gerais e da turma ${selected}.` : "Mostrando avisos gerais da escola.",
+        mine: selected ? `Mostrando apenas avisos da turma ${selected}.` : "Escolha uma turma para ver os avisos específicos."
       };
       notice.textContent = labels[parentAudienceFilter] || labels.mine;
       notice.classList.add("show");
@@ -6597,6 +8213,7 @@
 
     function renderSelectedClassChip() {
       const chip = document.getElementById("selectedClassChip");
+      renderParentClassDisplay();
       if (!chip) return;
       if (!selectedParentClass) {
         chip.classList.remove("show");
@@ -6607,14 +8224,19 @@
       chip.classList.add("show");
     }
 
+    function renderParentClassDisplay() {
+      const display = document.getElementById("parentClassDisplay");
+      if (display) display.textContent = selectedParentClass || "Escolha a turma";
+    }
+
     function parentEmptyMessage(itemLabel) {
       const selected = normalizeClassName(selectedParentClass);
       if (parentAudienceFilter === "general") {
-        return `Não há ${itemLabel} gerais publicados no momento.`;
+        return `Não há ${itemLabel} publicados no momento.`;
       }
       return selected
         ? `Não há ${itemLabel} para ${selected} no momento.`
-        : "Escolha a turma acompanhada para ver as publicações específicas.";
+        : "Escolha a turma acompanhada para ver os avisos específicos.";
     }
 
     function adminEmptyMessage(selectedClass, search) {
@@ -6653,6 +8275,45 @@
       }, 60);
     }
 
+    // Leitura de avisos: por enquanto fica local neste navegador.
+    function getReadItems() {
+      try {
+        const items = JSON.parse(localStorage.getItem(READ_ITEMS_KEY) || "[]");
+        return Array.isArray(items) ? items : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function isUnread(id) {
+      return Boolean(id) && !getReadItems().includes(id);
+    }
+
+    function markAsRead(id) {
+      if (!id || !isUnread(id)) return;
+      const readItems = [...getReadItems(), id];
+      localStorage.setItem(READ_ITEMS_KEY, JSON.stringify(Array.from(new Set(readItems))));
+      renderParentLists();
+    }
+
+    function summaryText(text, maxLength = 140) {
+      const clean = String(text || "").replace(/\s+/g, " ").trim();
+      if (clean.length <= maxLength) return clean;
+      return `${clean.slice(0, Math.max(0, maxLength - 1)).trim()}…`;
+    }
+
+    function statusBadge(item, collection) {
+      if (collection === "announcements" && isUnread(item.id)) {
+        return `<span class="badge novo">Novo</span>`;
+      }
+      return priorityBadge(item);
+    }
+
+    function audienceLabel(item) {
+      const target = normalizeClassName(item.targetClass || item.className || "Todas as turmas");
+      return target === "Todas as turmas" ? "Todas as famílias" : target;
+    }
+
     function priorityBadge(item) {
       if (!item.priority) return "";
       const label = item.priority.charAt(0).toUpperCase() + item.priority.slice(1);
@@ -6661,7 +8322,7 @@
 
     function collectionLabel(collection) {
       const labels = {
-        announcements: "Comunicado",
+        announcements: "Aviso",
         events: "Evento",
         calendar: "Agenda",
         documents: "Documento"
