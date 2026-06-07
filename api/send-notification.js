@@ -1,0 +1,167 @@
+const crypto = require("crypto");
+
+const PROJECT_ID = process.env.FIREBASE_PROJECT_ID || "hazeportal-5022e";
+const TOKEN_URL = "https://oauth2.googleapis.com/token";
+const FIRESTORE_SCOPE = "https://www.googleapis.com/auth/datastore";
+const MESSAGING_SCOPE = "https://www.googleapis.com/auth/firebase.messaging";
+
+module.exports = async function handler(req, res) {
+  if (req.method !== "POST") {
+    res.status(405).json({ error: "Metodo nao permitido" });
+    return;
+  }
+
+  try {
+    const payload = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {};
+    const title = String(payload.title || "Novo aviso da escola").slice(0, 120);
+    const body = String(payload.body || "A escola publicou uma nova informacao.").slice(0, 240);
+    const targetClass = String(payload.targetClass || "Todas as turmas");
+    const schoolId = String(payload.schoolId || "escola-haze");
+    const accessToken = await getAccessToken();
+    const tokens = await loadTokens(accessToken, schoolId, targetClass);
+
+    const results = await Promise.all(tokens.map((token) => sendMessage(accessToken, token, {
+      title,
+      body,
+      targetClass,
+      schoolId,
+      announcementId: String(payload.announcementId || ""),
+      origin: String(payload.origin || "")
+    })));
+
+    res.status(200).json({
+      ok: true,
+      targetClass,
+      tokens: tokens.length,
+      sent: results.filter(Boolean).length
+    });
+  } catch (error) {
+    console.error("Erro ao enviar notificacao.", error);
+    res.status(500).json({ error: error.message || "Erro ao enviar notificacao" });
+  }
+};
+
+async function getAccessToken() {
+  const account = getServiceAccount();
+  const now = Math.floor(Date.now() / 1000);
+  const header = { alg: "RS256", typ: "JWT" };
+  const claim = {
+    iss: account.client_email,
+    scope: `${FIRESTORE_SCOPE} ${MESSAGING_SCOPE}`,
+    aud: TOKEN_URL,
+    iat: now,
+    exp: now + 3600
+  };
+  const unsigned = `${base64url(JSON.stringify(header))}.${base64url(JSON.stringify(claim))}`;
+  const signer = crypto.createSign("RSA-SHA256");
+  signer.update(unsigned);
+  signer.end();
+  const signature = signer.sign(account.private_key);
+  const assertion = `${unsigned}.${base64url(signature)}`;
+
+  const response = await fetch(TOKEN_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
+      assertion
+    })
+  });
+
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error_description || data.error || "Falha ao autenticar no Google Cloud");
+  return data.access_token;
+}
+
+function getServiceAccount() {
+  if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+    const parsed = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
+    parsed.private_key = parsed.private_key.replace(/\\n/g, "\n");
+    return parsed;
+  }
+
+  if (!process.env.FIREBASE_CLIENT_EMAIL || !process.env.FIREBASE_PRIVATE_KEY) {
+    throw new Error("Configure FIREBASE_CLIENT_EMAIL e FIREBASE_PRIVATE_KEY na Vercel");
+  }
+
+  return {
+    client_email: process.env.FIREBASE_CLIENT_EMAIL,
+    private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n")
+  };
+}
+
+async function loadTokens(accessToken, schoolId, targetClass) {
+  const response = await fetch(`https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents:runQuery`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      structuredQuery: {
+        from: [{ collectionId: "notificationTokens", allDescendants: true }]
+      }
+    })
+  });
+
+  const rows = await response.json();
+  if (!response.ok) throw new Error(rows.error?.message || "Falha ao buscar tokens");
+
+  return rows
+    .map((row) => row.document?.fields || null)
+    .filter(Boolean)
+    .filter((fields) => fields.active?.booleanValue !== false)
+    .filter((fields) => fields.schoolId?.stringValue === schoolId)
+    .filter((fields) => targetClass === "Todas as turmas" || fields.targetClass?.stringValue === targetClass)
+    .map((fields) => fields.token?.stringValue)
+    .filter(Boolean);
+}
+
+async function sendMessage(accessToken, token, payload) {
+  const response = await fetch(`https://fcm.googleapis.com/v1/projects/${PROJECT_ID}/messages:send`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      message: {
+        token,
+        notification: {
+          title: payload.title,
+          body: payload.body
+        },
+        webpush: {
+          fcmOptions: {
+            link: payload.origin || undefined
+          },
+          notification: {
+            icon: "/favicon.ico",
+            badge: "/favicon.ico"
+          }
+        },
+        data: {
+          schoolId: payload.schoolId,
+          targetClass: payload.targetClass,
+          announcementId: payload.announcementId
+        }
+      }
+    })
+  });
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    console.error("Falha em um token FCM.", data.error?.message || response.statusText);
+    return false;
+  }
+
+  return true;
+}
+
+function base64url(value) {
+  return Buffer.from(value)
+    .toString("base64")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/g, "");
+}
