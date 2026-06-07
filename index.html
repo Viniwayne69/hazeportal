@@ -5715,25 +5715,311 @@
     /* Logo Haze padrão: círculo carvão, H branco e bolinha vermelha */
     .brand-mark,
     .school-logo-display {
-      background: #171e19 !important;
+      background: transparent !important;
+      border: 0 !important;
       color: #ffffff !important;
+      overflow: visible !important;
     }
 
     .brand-mark::after,
     .school-logo-display::after {
-      z-index: 3 !important;
-      display: block !important;
-      background: #ca0013 !important;
-      content: "" !important;
+      display: none !important;
+      content: none !important;
     }
 
     .brand-mark .haze-logo-svg,
     .school-logo-display .haze-logo-svg {
       position: relative !important;
-      z-index: 2 !important;
+      z-index: 1 !important;
       display: block !important;
-      width: 66% !important;
-      height: 66% !important;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .brand-mark .haze-logo-svg .haze-logo-bg,
+    .school-logo-display .haze-logo-svg .haze-logo-bg {
+      fill: #171e19 !important;
+    }
+
+    .brand-mark .haze-logo-svg .haze-logo-ring,
+    .school-logo-display .haze-logo-svg .haze-logo-ring {
+      fill: none !important;
+      stroke: #ffffff !important;
+    }
+
+    .brand-mark .haze-logo-svg .haze-logo-dot,
+    .school-logo-display .haze-logo-svg .haze-logo-dot {
+      fill: #ca0013 !important;
+    }
+
+    /* Estados vazios limpos: sem sinais, apenas texto legivel e responsivo */
+    .empty-state::before,
+    .empty-state::after,
+    #parentView .empty-state::before,
+    #parentView .empty-state::after,
+    #adminView .empty-state::before,
+    #adminView .empty-state::after {
+      display: none !important;
+      content: none !important;
+    }
+
+    #parentView .empty-state,
+    #adminView .empty-state {
+      display: grid !important;
+      align-items: start !important;
+      justify-items: start !important;
+      gap: 10px !important;
+      text-align: left !important;
+      min-width: 0 !important;
+    }
+
+    #parentView .empty-state strong,
+    #parentView .empty-state span,
+    #adminView .empty-state strong,
+    #adminView .empty-state span {
+      max-width: 100% !important;
+      overflow-wrap: anywhere !important;
+      word-break: normal !important;
+      hyphens: auto !important;
+    }
+
+    #parentView .important-notice.empty-important {
+      background: #ffffff !important;
+      color: #171e19 !important;
+    }
+
+    #parentView .important-notice.empty-important span:first-child {
+      color: #68766f !important;
+      opacity: 1 !important;
+    }
+
+    #parentView .important-notice.empty-important h2 {
+      color: #171e19 !important;
+      opacity: 1 !important;
+    }
+
+    #parentView .important-notice.empty-important p {
+      color: #68766f !important;
+      font-weight: 700 !important;
+      opacity: 1 !important;
+    }
+
+    /* Feed social escolar: postagens no estilo app, sem cara de card administrativo */
+    #parentView .social-post {
+      display: grid !important;
+      grid-template-columns: 1fr !important;
+      gap: 14px !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      border: 1px solid rgba(183, 198, 194, 0.34) !important;
+      border-radius: 32px !important;
+      background: #ffffff !important;
+      box-shadow: 0 20px 50px -28px rgba(23, 30, 25, 0.2) !important;
+    }
+
+    #parentView .social-post.urgent {
+      border-color: rgba(202, 0, 19, 0.18) !important;
+      background: #ffffff !important;
+      box-shadow:
+        inset 0 0 0 2px rgba(202, 0, 19, 0.08),
+        0 20px 50px -28px rgba(23, 30, 25, 0.2) !important;
+    }
+
+    #parentView .social-post .date-tile,
+    #parentView .social-post::before,
+    #parentView .social-post::after {
+      display: none !important;
+      content: none !important;
+    }
+
+    #parentView .post-header {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 18px 18px 0;
+      min-width: 0;
+    }
+
+    #parentView .post-avatar {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 50%;
+      background: #171e19;
+      color: #ffffff;
+      flex: 0 0 auto;
+    }
+
+    #parentView .post-avatar img,
+    #parentView .post-avatar svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    #parentView .post-origin {
+      display: grid;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    #parentView .post-origin strong {
+      color: #171e19;
+      font-size: 0.98rem;
+      font-weight: 900;
+      line-height: 1.1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #parentView .post-origin span {
+      color: #68766f;
+      font-size: 0.8rem;
+      font-weight: 800;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
+    #parentView .post-new-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ca0013;
+    }
+
+    #parentView .social-post .item-body {
+      display: grid !important;
+      grid-column: auto !important;
+      grid-row: auto !important;
+      gap: 10px;
+      padding: 0 18px 18px;
+      min-width: 0;
+    }
+
+    #parentView .social-post .post-image {
+      display: block;
+      width: 100%;
+      max-height: min(520px, 68vh);
+      margin: 2px 0 0;
+      border-radius: 0;
+      background: #eeebe3;
+      object-fit: cover;
+    }
+
+    #parentView .post-kicker {
+      color: #68766f;
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    #parentView .social-post .post-title {
+      margin: 0 !important;
+    }
+
+    #parentView .social-post .post-title h3 {
+      flex: 1 1 auto !important;
+      color: #171e19 !important;
+      font-size: clamp(1.15rem, 3.8vw, 1.55rem) !important;
+      line-height: 1.05 !important;
+      overflow-wrap: anywhere;
+    }
+
+    #parentView .social-post p {
+      margin: 0 !important;
+      color: #68766f !important;
+      font-size: 0.98rem;
+      font-weight: 800;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+      word-break: normal;
+    }
+
+    #parentView .post-tags,
+    #parentView .post-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    #parentView .post-actions {
+      padding-top: 4px;
+    }
+
+    #parentView .post-actions .btn {
+      min-height: 42px;
+      border-radius: 999px;
+    }
+
+    #parentView .post-actions .btn-muted {
+      background: #f3f4f1;
+      color: #171e19;
+    }
+
+    @media (max-width: 640px) {
+      #parentView .social-post {
+        border-radius: 28px !important;
+      }
+
+      #parentView .post-header {
+        grid-template-columns: 44px minmax(0, 1fr) auto;
+        padding: 16px 16px 0;
+      }
+
+      #parentView .post-avatar {
+        width: 44px;
+        height: 44px;
+      }
+
+      #parentView .social-post .item-body {
+        padding: 0 16px 16px;
+      }
+
+      #parentView .social-post .post-image {
+        max-height: 430px;
+      }
+    }
+
+    #parentView #parentHeroMetrics,
+    #parentView #parentStatusGrid {
+      display: none !important;
+    }
+
+    /* Respiro final para o menu inferior nao cobrir o ultimo post */
+    body[data-active-mode="parent"] {
+      --parent-bottom-nav-space: calc(118px + env(safe-area-inset-bottom));
+    }
+
+    body[data-active-mode="parent"] .app,
+    body[data-active-mode="parent"] .main,
+    #parentView .work-panel,
+    #parentView .screen.active {
+      padding-bottom: var(--parent-bottom-nav-space) !important;
+    }
+
+    #parentView .screen.active::after {
+      display: block;
+      height: calc(42px + env(safe-area-inset-bottom));
+      content: "";
+    }
+
+    #parentView .social-post:last-child,
+    #parentView .grid > .social-post:last-child,
+    #parentView .compact-feed > .social-post:last-child {
+      margin-bottom: 18px !important;
+    }
+
+    #parentView .tabs {
+      bottom: calc(14px + env(safe-area-inset-bottom)) !important;
     }
   </style>
 </head>
@@ -5743,9 +6029,11 @@
       <div class="topbar-inner">
         <a class="brand" href="#" data-mode-link="parent" aria-label="Abrir portal dos pais">
           <span class="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 64 64">
-              <path d="M16 44V16h8v11h16V16h8v28h-8V34H24v10z" fill="white"></path>
-              <circle cx="48" cy="16" r="5" fill="#F59E0B"></circle>
+            <svg class="haze-logo-svg" viewBox="0 0 64 64" aria-hidden="true">
+              <path class="haze-logo-bg" d="M32 3a29 29 0 1 1 0 58a29 29 0 1 1 0-58" fill="#171e19"></path>
+              <path class="haze-logo-ring" d="M32 3a29 29 0 1 1 0 58a29 29 0 1 1 0-58" fill="none" stroke="#ffffff" stroke-width="4"></path>
+              <path d="M18 44V16h8v11h16V16h8v28h-8V34H26v10z" fill="#ffffff"></path>
+              <path class="haze-logo-dot" d="M49 42a7 7 0 1 1 0 14a7 7 0 1 1 0-14" fill="#ca0013"></path>
             </svg>
           </span>
           <span>
@@ -6460,14 +6748,86 @@
     </div>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
+  <script>
+    (function setupHazeFirebase() {
+      const firebaseConfig = {
+        apiKey: "AIzaSyCgPBuGNwiF8Bju_UR37N55vc775Ctc7uM",
+        authDomain: "hazeportal-5022e.firebaseapp.com",
+        projectId: "hazeportal-5022e",
+        storageBucket: "hazeportal-5022e.firebasestorage.app",
+        messagingSenderId: "757529850374",
+        appId: "1:757529850374:web:5df94b236a122e19768987"
+      };
+
+      const SCHOOL_ID = "escola-haze";
+
+      window.hazeFirebase = { enabled: false };
+
+      if (!window.firebase) {
+        console.warn("Firebase SDK nao carregado. O portal vai usar localStorage.");
+        return;
+      }
+
+      try {
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+        const stateRef = db.collection("schools").doc(SCHOOL_ID).collection("portal").doc("state");
+
+        window.hazeFirebase = {
+          enabled: true,
+
+          async load(fallbackData) {
+            const snapshot = await stateRef.get();
+            if (!snapshot.exists) {
+              await stateRef.set({
+                data: fallbackData,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+              });
+              return fallbackData;
+            }
+            return snapshot.data().data || fallbackData;
+          },
+
+          async save(data) {
+            await stateRef.set({
+              data,
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+          },
+
+          watch(callback) {
+            return stateRef.onSnapshot((snapshot) => {
+              if (!snapshot.exists) return;
+              callback(snapshot.data().data);
+            }, (error) => {
+              console.error("Erro ao acompanhar Firestore.", error);
+            });
+          },
+
+          async upload(file, folder) {
+            const safeName = `${Date.now()}-${file.name}`.replace(/[^\w.\-]/g, "-");
+            const fileRef = storage.ref().child(`schools/${SCHOOL_ID}/${folder}/${safeName}`);
+            await fileRef.put(file, { contentType: file.type });
+            return fileRef.getDownloadURL();
+          }
+        };
+      } catch (error) {
+        console.error("Firebase nao inicializado.", error);
+      }
+    })();
+  </script>
   <script>
     "use strict";
 
     /*
       Haze - Portal dos Pais
-      Primeira versao local em arquivo unico usando localStorage.
-      Futuramente pode ser conectado ao Firebase para login real,
-      banco de dados em nuvem e notificacoes push.
+      Arquivo unico com localStorage como fallback e Firebase opcional
+      para banco em nuvem e armazenamento de imagens.
+      Futuramente pode receber login real e notificacoes push.
     */
 
     const STORAGE_KEY = "hazePortalData";
@@ -6476,6 +6836,9 @@
     const PWA_INSTALL_SEEN_KEY = "hazeInstallInstructionsSeen";
     const NOTIFICATIONS_ENABLED_KEY = "hazeNotificationsEnabled";
     const PARENT_ONBOARDING_KEY = "hazeParentOnboardingDone";
+    const LOCAL_MEDIA_REF_PREFIX = "haze-local-media:";
+    const LOCAL_MEDIA_STORAGE_PREFIX = "hazeLocalMedia:";
+    const FIREBASE_REQUIRED = true;
     const ADMIN_PASSWORD = "haze123";
     const MAX_IMAGE_DATA_URL_LENGTH = 900000;
     const MAX_LOGO_DATA_URL_LENGTH = 350000;
@@ -6580,6 +6943,10 @@
     let lastChangedItemId = "";
     let editingClassName = "";
     let deferredInstallPrompt = null;
+    let firebaseReady = false;
+    let applyingRemoteState = false;
+    let firebaseUnsubscribe = null;
+    let knownAnnouncementIds = new Set((state.announcements || []).map((item) => item.id));
 
     const els = {
       parentView: document.getElementById("parentView"),
@@ -6592,11 +6959,12 @@
 
     document.addEventListener("DOMContentLoaded", init);
 
-    function init() {
+    async function init() {
       const initialMode = getInitialMode();
       syncActiveMode(initialMode);
       applyTheme();
       bindEvents();
+      await startFirebaseSync();
       renderAll();
       setMode(initialMode);
       maybeShowParentWelcome();
@@ -6610,16 +6978,12 @@
 
     function loadState() {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (!saved) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultData));
-        return structuredClone(defaultData);
-      }
+      if (!saved) return structuredClone(defaultData);
 
       try {
         return mergeDefaults(JSON.parse(saved));
       } catch (error) {
-        console.warn("Dados locais invalidos. Restaurando modelo.", error);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultData));
+        console.warn("Dados locais invalidos. Usando modelo ate carregar Firebase.", error);
         return structuredClone(defaultData);
       }
     }
@@ -6645,13 +7009,74 @@
       };
     }
 
-    function saveState() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      } catch (error) {
-        console.error("Falha ao salvar no localStorage.", error);
-        throw new Error("Nao foi possivel salvar. A imagem pode estar pesada demais para esta versao local.");
+    async function saveState() {
+      if (applyingRemoteState) return;
+
+      if (!window.hazeFirebase?.enabled) {
+        throw new Error("Firebase nao carregado. Nada foi publicado.");
       }
+
+      if (!firebaseReady) {
+        throw new Error("Firebase ainda esta conectando. Tente novamente em alguns segundos.");
+      }
+
+      await window.hazeFirebase.save(state);
+    }
+
+    async function startFirebaseSync() {
+      if (!window.hazeFirebase?.enabled) {
+        showToast("Firebase nao carregado. Publicacoes oficiais estao bloqueadas.");
+        return;
+      }
+
+      try {
+        const cloudState = await window.hazeFirebase.load(state);
+        applyingRemoteState = true;
+        state = mergeDefaults(cloudState);
+        refreshKnownAnnouncements(state.announcements);
+        applyingRemoteState = false;
+        firebaseReady = true;
+        applyTheme();
+        renderAll();
+
+        if (typeof firebaseUnsubscribe === "function") firebaseUnsubscribe();
+        firebaseUnsubscribe = window.hazeFirebase.watch((remoteState) => {
+          if (!remoteState || applyingRemoteState) return;
+          const nextState = mergeDefaults(remoteState);
+          notifyNewRemoteAnnouncements(nextState.announcements);
+          applyingRemoteState = true;
+          state = nextState;
+          applyingRemoteState = false;
+          applyTheme();
+          renderAll();
+        });
+
+        showToast("Firebase conectado.");
+      } catch (error) {
+        applyingRemoteState = false;
+        firebaseReady = false;
+        console.error("Erro ao conectar Firebase.", error);
+        showToast("Firebase nao conectado. Publicacoes oficiais bloqueadas.");
+      }
+    }
+
+    function refreshKnownAnnouncements(announcements) {
+      knownAnnouncementIds = new Set((announcements || []).map((item) => item.id).filter(Boolean));
+    }
+
+    function notifyNewRemoteAnnouncements(announcements) {
+      const incoming = Array.isArray(announcements) ? announcements : [];
+      const freshItems = incoming.filter((item) => item.id && !knownAnnouncementIds.has(item.id));
+      refreshKnownAnnouncements(incoming);
+      freshItems
+        .filter((item) => shouldNotifyParentAboutAnnouncement(item))
+        .forEach((item) => sendLocalNotificationPreview(item));
+    }
+
+    function shouldNotifyParentAboutAnnouncement(item) {
+      const target = normalizeClassName(item.targetClass || item.className || "Todas as turmas");
+      const selected = normalizeClassName(selectedParentClass);
+      return target === "Todas as turmas" || (Boolean(selected) && target === selected);
     }
 
     function normalizeClasses(classes) {
@@ -6884,16 +7309,23 @@
         if (event.key === "Escape") closeDetailModal();
       });
 
-      document.getElementById("resetDemoButton").addEventListener("click", () => {
+      document.getElementById("resetDemoButton").addEventListener("click", async () => {
         const confirmed = window.confirm("Restaurar os dados de exemplo? Isso substitui as informações salvas neste navegador.");
         if (!confirmed) return;
+        const previousState = structuredClone(state);
         state = structuredClone(defaultData);
         selectedParentClass = "";
         localStorage.setItem(SELECTED_PARENT_CLASS_KEY, selectedParentClass);
-        saveState();
-        applyTheme();
-        renderAll();
-        showToast("Dados de exemplo restaurados.");
+        try {
+          await saveState();
+          applyTheme();
+          renderAll();
+          showToast("Dados de exemplo restaurados.");
+        } catch (error) {
+          state = previousState;
+          console.error("Erro ao restaurar exemplo.", error);
+          showToast(error.message || "Nao foi possivel restaurar os dados.");
+        }
       });
 
       document.getElementById("loginForm").addEventListener("submit", (event) => {
@@ -6923,9 +7355,9 @@
           const data = formToObject(form, ["id", "title", "text", "targetClass", "priority", "date", "imageData"]);
           const file = form.elements.announcementImage.files[0];
           if (file) {
-            data.imageData = await prepareAnnouncementImage(file);
+            data.imageData = await uploadMediaFile(file, "announcements");
           }
-          upsertItem("announcements", data);
+          await upsertItem("announcements", data);
           closeFormPanel("announcementFormPanel");
         } catch (error) {
           console.error("Erro ao publicar aviso.", error);
@@ -6935,26 +7367,60 @@
         }
       });
 
-      document.getElementById("eventForm").addEventListener("submit", (event) => {
+      document.getElementById("eventForm").addEventListener("submit", async (event) => {
         event.preventDefault();
-        upsertItem("events", formToObject(event.target, ["id", "name", "date", "time", "targetClass", "description"]));
-        closeFormPanel("eventFormPanel");
+        const form = event.currentTarget;
+        const submitButton = form.querySelector("[type='submit']");
+        const originalLabel = submitButton ? submitButton.textContent : "";
+        try {
+          setSubmitBusy(submitButton, "Publicando...");
+          await upsertItem("events", formToObject(form, ["id", "name", "date", "time", "targetClass", "description"]));
+          closeFormPanel("eventFormPanel");
+        } catch (error) {
+          console.error("Erro ao publicar evento.", error);
+          showToast(error.message || "Nao foi possivel publicar o evento.");
+        } finally {
+          clearSubmitBusy(submitButton, originalLabel);
+        }
       });
 
-      document.getElementById("calendarForm").addEventListener("submit", (event) => {
+      document.getElementById("calendarForm").addEventListener("submit", async (event) => {
         event.preventDefault();
-        upsertItem("calendar", formToObject(event.target, ["id", "title", "date", "type", "targetClass", "description"]));
-        closeFormPanel("calendarFormPanel");
+        const form = event.currentTarget;
+        const submitButton = form.querySelector("[type='submit']");
+        const originalLabel = submitButton ? submitButton.textContent : "";
+        try {
+          setSubmitBusy(submitButton, "Publicando...");
+          await upsertItem("calendar", formToObject(form, ["id", "title", "date", "type", "targetClass", "description"]));
+          closeFormPanel("calendarFormPanel");
+        } catch (error) {
+          console.error("Erro ao publicar data.", error);
+          showToast(error.message || "Nao foi possivel publicar a data.");
+        } finally {
+          clearSubmitBusy(submitButton, originalLabel);
+        }
       });
 
-      document.getElementById("documentForm").addEventListener("submit", (event) => {
+      document.getElementById("documentForm").addEventListener("submit", async (event) => {
         event.preventDefault();
-        upsertItem("documents", formToObject(event.target, ["id", "name", "link", "description", "targetClass"]));
-        closeFormPanel("documentFormPanel");
+        const form = event.currentTarget;
+        const submitButton = form.querySelector("[type='submit']");
+        const originalLabel = submitButton ? submitButton.textContent : "";
+        try {
+          setSubmitBusy(submitButton, "Publicando...");
+          await upsertItem("documents", formToObject(form, ["id", "name", "link", "description", "targetClass"]));
+          closeFormPanel("documentFormPanel");
+        } catch (error) {
+          console.error("Erro ao publicar documento.", error);
+          showToast(error.message || "Nao foi possivel publicar o documento.");
+        } finally {
+          clearSubmitBusy(submitButton, originalLabel);
+        }
       });
 
-      document.getElementById("settingsForm").addEventListener("submit", (event) => {
+      document.getElementById("settingsForm").addEventListener("submit", async (event) => {
         event.preventDefault();
+        const previousSettings = structuredClone(state.settings);
         state.settings = {
           ...state.settings,
           ...formToObject(event.target, [
@@ -6968,10 +7434,16 @@
           ])
         };
         state.settings.classes = normalizeClasses(state.settings.classes);
-        saveState();
-        applyTheme();
-        renderAll();
-        showToast("Configurações salvas.");
+        try {
+          await saveState();
+          applyTheme();
+          renderAll();
+          showToast("Configurações salvas.");
+        } catch (error) {
+          state.settings = previousSettings;
+          console.error("Erro ao salvar configuracoes.", error);
+          showToast(error.message || "Nao foi possivel salvar as configuracoes.");
+        }
       });
     }
 
@@ -7071,7 +7543,7 @@
       panel.classList.remove("active");
     }
 
-    function upsertItem(collection, item) {
+    async function upsertItem(collection, item) {
       const isEditing = Boolean(item.id);
       const cleanItem = normalizeItem(item);
       const previousItems = state[collection];
@@ -7084,11 +7556,12 @@
 
       lastChangedItemId = cleanItem.id;
       try {
-        saveState();
+        await saveState();
       } catch (error) {
         state[collection] = previousItems;
         throw error;
       }
+      if (collection === "announcements") refreshKnownAnnouncements(state.announcements);
       renderAll();
       scrollToChangedItem();
       if (collection === "announcements" && !isEditing) sendLocalNotificationPreview(cleanItem);
@@ -7138,29 +7611,43 @@
       focusFirstField(form);
     }
 
-    function deleteItem(collection, id) {
+    async function deleteItem(collection, id) {
       const confirmed = window.confirm("Excluir esta informação do portal?");
       if (!confirmed) return;
 
+      const previousItems = state[collection];
       state[collection] = state[collection].filter((entry) => entry.id !== id);
-      saveState();
-      renderAll();
-      showToast("Informação excluída.");
+      try {
+        await saveState();
+        renderAll();
+        showToast("Informação excluída.");
+      } catch (error) {
+        state[collection] = previousItems;
+        console.error("Erro ao excluir informacao.", error);
+        showToast(error.message || "Nao foi possivel excluir.");
+      }
     }
 
-    function markUrgent(id) {
+    async function markUrgent(id) {
+      const previousItems = state.announcements;
       state.announcements = state.announcements.map((entry) => {
         if (entry.id !== id) return entry;
         return { ...entry, priority: "urgente" };
       });
       lastChangedItemId = id;
-      saveState();
-      renderAll();
-      const item = state.announcements.find((entry) => entry.id === id);
-      showToast(`Comunicado marcado como urgente para ${normalizeClassName(item?.targetClass)}.`);
+      try {
+        await saveState();
+        renderAll();
+        const item = state.announcements.find((entry) => entry.id === id);
+        showToast(`Comunicado marcado como urgente para ${normalizeClassName(item?.targetClass)}.`);
+      } catch (error) {
+        state.announcements = previousItems;
+        console.error("Erro ao marcar urgente.", error);
+        showToast(error.message || "Nao foi possivel marcar como urgente.");
+      }
     }
 
-    function duplicateItem(collection, id) {
+    async function duplicateItem(collection, id) {
       const item = state[collection].find((entry) => entry.id === id);
       if (!item) return;
 
@@ -7170,12 +7657,19 @@
       };
       if (copy.title) copy.title = `${copy.title} (cópia)`;
       if (copy.name) copy.name = `${copy.name} (cópia)`;
+      const previousItems = state[collection];
       state[collection].unshift(copy);
       lastChangedItemId = copy.id;
-      saveState();
-      renderAll();
-      editItem(collection, copy.id);
-      showToast("Cópia criada. Revise e salve as alterações.");
+      try {
+        await saveState();
+        renderAll();
+        editItem(collection, copy.id);
+        showToast("Cópia criada. Revise e salve as alterações.");
+      } catch (error) {
+        state[collection] = previousItems;
+        console.error("Erro ao duplicar informacao.", error);
+        showToast(error.message || "Nao foi possivel duplicar.");
+      }
     }
 
     function clearAdminFilters(collection) {
@@ -7285,7 +7779,7 @@
       }, 80);
     }
 
-    function applyThemePreset(theme) {
+    async function applyThemePreset(theme) {
       const themes = {
         classic: ["#ca0013", "#171e19", "#b7c6c2"],
         green: ["#0f8f5f", "#171e19", "#b7c6c2"],
@@ -7294,6 +7788,7 @@
       const colors = themes[theme];
       if (!colors) return;
 
+      const previousSettings = structuredClone(state.settings);
       const form = document.getElementById("settingsForm");
       form.elements.primaryColor.value = colors[0];
       form.elements.secondaryColor.value = colors[1];
@@ -7304,10 +7799,16 @@
         secondaryColor: colors[1],
         accentColor: colors[2]
       };
-      saveState();
-      applyTheme();
-      renderSettingsPreview();
-      showToast("Tema aplicado.");
+      try {
+        await saveState();
+        applyTheme();
+        renderSettingsPreview();
+        showToast("Tema aplicado.");
+      } catch (error) {
+        state.settings = previousSettings;
+        console.error("Erro ao aplicar tema.", error);
+        showToast(error.message || "Nao foi possivel aplicar o tema.");
+      }
     }
 
     function openDetailModal(collection, id) {
@@ -7353,7 +7854,7 @@
         state.settings.primaryColor = defaultData.settings.primaryColor;
         state.settings.secondaryColor = defaultData.settings.secondaryColor;
         state.settings.accentColor = defaultData.settings.accentColor;
-        saveState();
+        if (firebaseReady) saveState().catch((error) => console.error("Erro ao salvar tema padrao.", error));
       }
 
       document.documentElement.style.setProperty("--primary", state.settings.primaryColor || defaultData.settings.primaryColor);
@@ -7386,24 +7887,27 @@
 
     function renderSchoolLogo() {
       const settings = state.settings;
-      const logoHtml = settings.logoData
-        ? `<img src="${escapeAttribute(settings.logoData)}" alt="Logo da escola">`
+      const logoSrc = resolveMediaSource(settings.logoData);
+      const logoHtml = logoSrc
+        ? `<img src="${escapeAttribute(logoSrc)}" alt="Logo da escola">`
         : `
           <svg class="haze-logo-svg" viewBox="0 0 64 64" aria-hidden="true">
-            <path d="M17 45V15h9v12h18V15h9v30h-9V34H26v11z" fill="#ffffff"></path>
-            <circle cx="49" cy="49" r="6" fill="#ca0013"></circle>
+            <path class="haze-logo-bg" d="M32 3a29 29 0 1 1 0 58a29 29 0 1 1 0-58" fill="#171e19"></path>
+            <path class="haze-logo-ring" d="M32 3a29 29 0 1 1 0 58a29 29 0 1 1 0-58" fill="none" stroke="#ffffff" stroke-width="4"></path>
+            <path d="M18 44V16h8v11h16V16h8v28h-8V34H26v10z" fill="#ffffff"></path>
+            <path class="haze-logo-dot" d="M49 42a7 7 0 1 1 0 14a7 7 0 1 1 0-14" fill="#ca0013"></path>
           </svg>
         `;
 
       document.querySelectorAll(".brand-mark").forEach((mark) => {
         mark.innerHTML = logoHtml;
-        mark.classList.toggle("has-logo", Boolean(settings.logoData));
+        mark.classList.toggle("has-logo", Boolean(logoSrc));
       });
 
       const parentLogo = document.getElementById("parentSchoolLogo");
       if (parentLogo) {
         parentLogo.innerHTML = logoHtml;
-        parentLogo.classList.toggle("has-logo", Boolean(settings.logoData));
+        parentLogo.classList.toggle("has-logo", Boolean(logoSrc));
       }
     }
 
@@ -7552,6 +8056,18 @@
     }
 
     function renderParentOverview() {
+      const heroMetrics = document.getElementById("parentHeroMetrics");
+      const statusGrid = document.getElementById("parentStatusGrid");
+      if (heroMetrics) {
+        heroMetrics.innerHTML = "";
+        heroMetrics.hidden = true;
+      }
+      if (statusGrid) {
+        statusGrid.innerHTML = "";
+        statusGrid.hidden = true;
+      }
+      return;
+
       const visibleAnnouncements = state.announcements.filter(matchesParentAudience);
       const visibleEvents = getUpcoming(state.events, "date").filter(matchesParentAudience);
       const visibleCalendar = getUpcoming(state.calendar, "date").filter(matchesParentAudience);
@@ -7712,27 +8228,34 @@
 
       container.innerHTML = items.map((item, index) => {
         const title = item.title || item.name;
-        const text = summaryText(item.text || item.description || "", collection === "announcements" ? 132 : 150);
+        const text = summaryText(item.text || item.description || "", collection === "announcements" ? 180 : 170);
         const documentLink = collection === "documents"
-          ? `<div class="meta-row"><a class="btn btn-primary btn-small" href="${escapeAttribute(item.link)}" target="_blank" rel="noopener">Abrir documento</a></div>`
+          ? `<a class="btn btn-primary btn-small" href="${escapeAttribute(item.link)}" target="_blank" rel="noopener">Abrir documento</a>`
           : "";
-        const detailLabel = collection === "announcements" ? "Ler aviso" : "Ver detalhes";
+        const detailLabel = collection === "announcements" ? "Ler aviso" : "Ver postagem";
+        const postBadges = feedStatusBadges(item, collection);
 
         return `
-          <article class="${cardClasses(item, collection)}" style="${cardDelay(index)}">
-            ${dateTile(item)}
+          <article class="${cardClasses(item, collection)} social-post" style="${cardDelay(index)}">
+            <header class="post-header">
+              <div class="post-avatar" aria-hidden="true">${postAvatarHtml()}</div>
+              <div class="post-origin">
+                <strong>${escapeHtml(state.settings.schoolName || "Escola Haze")}</strong>
+                <span>${postMetaHtml(item)}</span>
+              </div>
+              ${collection === "announcements" && isUnread(item.id) ? `<span class="post-new-dot" aria-label="Nova publicacao"></span>` : ""}
+            </header>
+            ${imageHtml(item, "post")}
             <div class="item-body">
-              <span class="item-kind">${escapeHtml(collectionLabel(collection))}</span>
-              <div class="card-title">
+              <div class="post-kicker">${escapeHtml(collectionLabel(collection))}</div>
+              <div class="card-title post-title">
                 <h3>${escapeHtml(title)}</h3>
-                ${statusBadge(item, collection)}
               </div>
               <p>${escapeHtml(text)}</p>
-              ${imageHtml(item)}
-              ${metaRow(item)}
-              ${documentLink}
-              <div class="meta-row">
+              ${postBadges ? `<div class="post-tags">${postBadges}</div>` : ""}
+              <div class="post-actions">
                 <button class="btn btn-muted btn-small" type="button" data-detail="${collection}:${item.id}">${escapeHtml(detailLabel)}</button>
+                ${documentLink}
               </div>
             </div>
           </article>
@@ -7983,7 +8506,7 @@
       });
     }
 
-    function addClassFromInput() {
+    async function addClassFromInput() {
       const input = document.getElementById("newClassName");
       const className = normalizeClassName(input.value);
       if (!className || className === "Todas as turmas") {
@@ -7997,13 +8520,20 @@
         return;
       }
 
+      const previousSettings = structuredClone(state.settings);
       state.settings.classes = classes;
       input.value = "";
-      saveState();
-      populateClassFilters();
-      renderClassesList();
-      renderAll();
-      showToast("Turma adicionada.");
+      try {
+        await saveState();
+        populateClassFilters();
+        renderClassesList();
+        renderAll();
+        showToast("Turma adicionada.");
+      } catch (error) {
+        state.settings = previousSettings;
+        console.error("Erro ao adicionar turma.", error);
+        showToast(error.message || "Nao foi possivel adicionar a turma.");
+      }
     }
 
     function startClassEdit(className) {
@@ -8013,7 +8543,7 @@
       renderClassesList();
     }
 
-    function editClass(oldClassName, nextValue) {
+    async function editClass(oldClassName, nextValue) {
       const current = normalizeClassName(oldClassName);
       if (current === "Todas as turmas") return;
 
@@ -8025,6 +8555,7 @@
       }
 
       const affected = countClassReferences(current);
+      const previousState = structuredClone(state);
       state.settings.classes = normalizeClasses(state.settings.classes.map((className) => (
         className === current ? next : className
       )));
@@ -8034,18 +8565,25 @@
         localStorage.setItem(SELECTED_PARENT_CLASS_KEY, selectedParentClass);
       }
       editingClassName = "";
-      saveState();
-      renderAll();
-      showToast(`Turma atualizada em ${affected} publicação${affected === 1 ? "" : "ões"}.`);
+      try {
+        await saveState();
+        renderAll();
+        showToast(`Turma atualizada em ${affected} publicação${affected === 1 ? "" : "ões"}.`);
+      } catch (error) {
+        state = previousState;
+        console.error("Erro ao editar turma.", error);
+        showToast(error.message || "Nao foi possivel editar a turma.");
+      }
     }
 
-    function deleteClass(className) {
+    async function deleteClass(className) {
       const target = normalizeClassName(className);
       if (target === "Todas as turmas") return;
       const affected = countClassReferences(target);
       const confirmed = window.confirm(`Excluir a turma "${target}"? ${affected} publicação${affected === 1 ? "" : "ões"} será${affected === 1 ? "" : "ão"} movida${affected === 1 ? "" : "s"} para Todas as turmas.`);
       if (!confirmed) return;
 
+      const previousState = structuredClone(state);
       state.settings.classes = normalizeClasses(state.settings.classes.filter((item) => item !== target));
       updateClassReferences(target, "Todas as turmas");
       if (selectedParentClass === target) {
@@ -8053,9 +8591,15 @@
         localStorage.setItem(SELECTED_PARENT_CLASS_KEY, selectedParentClass);
       }
       editingClassName = "";
-      saveState();
-      renderAll();
-      showToast(`Turma excluída. ${affected} publicação${affected === 1 ? "" : "ões"} movida${affected === 1 ? "" : "s"} para Todas as turmas.`);
+      try {
+        await saveState();
+        renderAll();
+        showToast(`Turma excluída. ${affected} publicação${affected === 1 ? "" : "ões"} movida${affected === 1 ? "" : "s"} para Todas as turmas.`);
+      } catch (error) {
+        state = previousState;
+        console.error("Erro ao excluir turma.", error);
+        showToast(error.message || "Nao foi possivel excluir a turma.");
+      }
     }
 
     function updateClassReferences(oldClassName, newClassName) {
@@ -8102,27 +8646,22 @@
     async function handleLogoUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
+      const previousSettings = structuredClone(state.settings);
       try {
         if (!file.type || !file.type.startsWith("image/")) {
           showToast("Escolha uma imagem válida para a logo.");
           return;
         }
-        const dataUrl = await fileToDataUrl(file);
-        const logoData = dataUrl.length <= MAX_LOGO_DATA_URL_LENGTH
-          ? dataUrl
-          : await compressImageDataUrl(dataUrl, 420, 0.78);
-        if (logoData.length > MAX_LOGO_DATA_URL_LENGTH) {
-          showToast("A logo ficou pesada demais. Use uma imagem menor.");
-          return;
-        }
+        const logoData = await uploadLogoFile(file);
         state.settings.logoData = logoData;
         const form = document.getElementById("settingsForm");
         if (form.elements.logoData) form.elements.logoData.value = logoData;
-        saveState();
+        await saveState();
         renderLogoPreview();
         renderBranding();
         showToast("Logo da escola atualizada.");
       } catch (error) {
+        state.settings = previousSettings;
         console.error("Erro ao salvar logo.", error);
         showToast("Não foi possível salvar a logo.");
       }
@@ -8131,18 +8670,26 @@
     function renderLogoPreview() {
       const preview = document.getElementById("logoPreview");
       if (!preview) return;
-      preview.innerHTML = state.settings.logoData
-        ? `<img src="${escapeAttribute(state.settings.logoData)}" alt="Prévia da logo"><button class="btn btn-muted btn-small" type="button" id="removeLogoButton">Remover logo</button>`
+      const logoSrc = resolveMediaSource(state.settings.logoData);
+      preview.innerHTML = logoSrc
+        ? `<img src="${escapeAttribute(logoSrc)}" alt="Prévia da logo"><button class="btn btn-muted btn-small" type="button" id="removeLogoButton">Remover logo</button>`
         : `<span>Sem logo cadastrada</span>`;
-      document.getElementById("removeLogoButton")?.addEventListener("click", () => {
+      document.getElementById("removeLogoButton")?.addEventListener("click", async () => {
+        const previousSettings = structuredClone(state.settings);
         state.settings.logoData = "";
         const form = document.getElementById("settingsForm");
         if (form.elements.logoData) form.elements.logoData.value = "";
         if (form.elements.schoolLogo) form.elements.schoolLogo.value = "";
-        saveState();
-        renderLogoPreview();
-        renderBranding();
-        showToast("Logo removida.");
+        try {
+          await saveState();
+          renderLogoPreview();
+          renderBranding();
+          showToast("Logo removida.");
+        } catch (error) {
+          state.settings = previousSettings;
+          console.error("Erro ao remover logo.", error);
+          showToast(error.message || "Nao foi possivel remover a logo.");
+        }
       });
     }
 
@@ -8309,6 +8856,44 @@
       return priorityBadge(item);
     }
 
+    function postAvatarHtml() {
+      const logoSrc = resolveMediaSource(state.settings.logoData);
+      if (logoSrc) {
+        return `<img src="${escapeAttribute(logoSrc)}" alt="">`;
+      }
+
+      return `
+        <svg class="haze-logo-svg" viewBox="0 0 64 64" aria-hidden="true">
+          <path class="haze-logo-bg" d="M32 3a29 29 0 1 1 0 58a29 29 0 1 1 0-58" fill="#171e19"></path>
+          <path class="haze-logo-ring" d="M32 3a29 29 0 1 1 0 58a29 29 0 1 1 0-58" fill="none" stroke="#ffffff" stroke-width="4"></path>
+          <path d="M18 44V16h8v11h16V16h8v28h-8V34H26v10z" fill="#ffffff"></path>
+          <path class="haze-logo-dot" d="M49 42a7 7 0 1 1 0 14a7 7 0 1 1 0-14" fill="#ca0013"></path>
+        </svg>
+      `;
+    }
+
+    function postMetaHtml(item) {
+      const parts = [audienceLabel(item)];
+      if (item.date) parts.push(formatDate(item.date));
+      if (item.time) parts.push(item.time);
+      if (item.type) parts.push(item.type);
+      return parts.map((part) => escapeHtml(part)).join(` <span aria-hidden="true">•</span> `);
+    }
+
+    function feedStatusBadges(item, collection) {
+      const badges = [];
+      if (collection === "announcements" && isUnread(item.id)) {
+        badges.push(`<span class="badge novo">Nova publicação</span>`);
+      }
+      if (item.priority && item.priority !== "normal") {
+        badges.push(priorityBadge(item));
+      }
+      if (collection !== "announcements" && item.type) {
+        badges.push(`<span class="badge target">${escapeHtml(item.type)}</span>`);
+      }
+      return badges.join("");
+    }
+
     function audienceLabel(item) {
       const target = normalizeClassName(item.targetClass || item.className || "Todas as turmas");
       return target === "Todas as turmas" ? "Todas as famílias" : target;
@@ -8375,9 +8960,57 @@
     }
 
     function imageHtml(item, variant = "card") {
-      if (!item.imageData) return "";
-      const className = variant === "detail" ? "detail-image" : "card-image";
-      return `<img class="${className}" src="${escapeAttribute(item.imageData)}" alt="Imagem do aviso">`;
+      const imageSrc = resolveMediaSource(item.imageData);
+      if (!imageSrc) return "";
+      const className = variant === "detail" ? "detail-image" : variant === "post" ? "card-image post-image" : "card-image";
+      return `<img class="${className}" src="${escapeAttribute(imageSrc)}" alt="Imagem do aviso">`;
+    }
+
+    async function uploadMediaFile(file, folder) {
+      if (window.hazeFirebase?.enabled) {
+        try {
+          return await window.hazeFirebase.upload(file, folder);
+        } catch (error) {
+          console.error("Falha ao enviar imagem para Firebase Storage.", error);
+          showToast("Storage indisponivel. Salvando imagem localmente.");
+        }
+      }
+
+      const imageData = await prepareAnnouncementImage(file);
+      return storeLocalMedia(imageData);
+    }
+
+    async function uploadLogoFile(file) {
+      if (window.hazeFirebase?.enabled) {
+        try {
+          return await window.hazeFirebase.upload(file, "logos");
+        } catch (error) {
+          console.error("Falha ao enviar logo para Firebase Storage.", error);
+          showToast("Storage indisponivel. Salvando logo localmente.");
+        }
+      }
+
+      const dataUrl = await fileToDataUrl(file);
+      const logoData = dataUrl.length <= MAX_LOGO_DATA_URL_LENGTH
+        ? dataUrl
+        : await compressImageDataUrl(dataUrl, 420, 0.78);
+      if (logoData.length > MAX_LOGO_DATA_URL_LENGTH) {
+        throw new Error("A logo ficou pesada demais. Use uma imagem menor.");
+      }
+      return storeLocalMedia(logoData);
+    }
+
+    function storeLocalMedia(dataUrl) {
+      const mediaId = createId();
+      localStorage.setItem(`${LOCAL_MEDIA_STORAGE_PREFIX}${mediaId}`, dataUrl);
+      return `${LOCAL_MEDIA_REF_PREFIX}${mediaId}`;
+    }
+
+    function resolveMediaSource(value) {
+      if (!value) return "";
+      if (!value.startsWith(LOCAL_MEDIA_REF_PREFIX)) return value;
+      const mediaId = value.slice(LOCAL_MEDIA_REF_PREFIX.length);
+      return localStorage.getItem(`${LOCAL_MEDIA_STORAGE_PREFIX}${mediaId}`) || "";
     }
 
     async function prepareAnnouncementImage(file) {
