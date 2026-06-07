@@ -6751,6 +6751,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-messaging-compat.js"></script>
   <script>
     (function setupHazeFirebase() {
       const firebaseConfig = {
@@ -6763,6 +6764,7 @@
       };
 
       const SCHOOL_ID = "escola-haze";
+      const VAPID_KEY = "BGpmvo6-IcZCvGaQ-O4ngAUo6uO6c_bMYk3cjv27FDfGCJr9wxz1QNJQRm2WV_-0GtVr6rOdFvZ0yOyodSuMqRQ";
 
       window.hazeFirebase = { enabled: false };
 
@@ -6775,10 +6777,25 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         const storage = firebase.storage();
+        let messaging = null;
         const stateRef = db.collection("schools").doc(SCHOOL_ID).collection("portal").doc("state");
+        const notificationTokensRef = db.collection("schools").doc(SCHOOL_ID).collection("notificationTokens");
+
+        try {
+          if (firebase.messaging && "serviceWorker" in navigator) {
+            messaging = firebase.messaging();
+          }
+        } catch (error) {
+          console.warn("Firebase Messaging indisponivel neste navegador.", error);
+        }
+
+        function tokenDocId(token) {
+          return btoa(token).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+        }
 
         window.hazeFirebase = {
           enabled: true,
+          messagingEnabled: Boolean(messaging),
 
           async load(fallbackData) {
             const snapshot = await stateRef.get();
@@ -6813,6 +6830,42 @@
             const fileRef = storage.ref().child(`schools/${SCHOOL_ID}/${folder}/${safeName}`);
             await fileRef.put(file, { contentType: file.type });
             return fileRef.getDownloadURL();
+          },
+
+          async registerNotificationToken(targetClass) {
+            if (!messaging) throw new Error("Firebase Messaging nao esta disponivel neste navegador.");
+            if (!("Notification" in window)) throw new Error("Este navegador nao suporta notificacoes.");
+            if (!("serviceWorker" in navigator)) throw new Error("Este navegador nao suporta notificacoes em segundo plano.");
+
+            const permission = await Notification.requestPermission();
+            if (permission !== "granted") throw new Error("As notificacoes nao foram permitidas.");
+
+            const registration = await navigator.serviceWorker.register("./firebase-messaging-sw.js");
+            const token = await messaging.getToken({
+              vapidKey: VAPID_KEY,
+              serviceWorkerRegistration: registration
+            });
+            if (!token) throw new Error("Nao foi possivel gerar o token de notificacao.");
+
+            const cleanClass = String(targetClass || "").trim();
+            await notificationTokensRef.doc(tokenDocId(token)).set({
+              token,
+              targetClass: cleanClass,
+              schoolId: SCHOOL_ID,
+              active: true,
+              platform: "web",
+              userAgent: navigator.userAgent,
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+
+            messaging.onMessage((payload) => {
+              const notification = payload.notification || {};
+              const title = notification.title || "Novo aviso da escola";
+              const body = notification.body || "A escola publicou uma nova informacao.";
+              if (Notification.permission === "granted") new Notification(title, { body });
+            });
+
+            return token;
           }
         };
       } catch (error) {
@@ -7564,7 +7617,10 @@
       if (collection === "announcements") refreshKnownAnnouncements(state.announcements);
       renderAll();
       scrollToChangedItem();
-      if (collection === "announcements" && !isEditing) sendLocalNotificationPreview(cleanItem);
+      if (collection === "announcements" && !isEditing) {
+        sendLocalNotificationPreview(cleanItem);
+        sendPushNotification(cleanItem);
+      }
       showToast(feedbackMessage(collection, cleanItem, isEditing));
     }
 
@@ -8409,21 +8465,23 @@
     // - vincular token à turma
     // - enviar push ao publicar aviso geral ou por turma
     async function enableSchoolNotifications() {
-      if (!("Notification" in window)) {
-        showToast("Em breve a escola poderá enviar notificações pelo app instalado.");
+      if (!selectedParentClass) {
+        showToast("Escolha a turma acompanhada antes de ativar os avisos.");
+        return;
+      }
+
+      if (!window.hazeFirebase?.enabled) {
+        showToast("Firebase ainda nao esta conectado.");
         return;
       }
 
       try {
-        const permission = await Notification.requestPermission();
-        if (permission === "granted") {
-          localStorage.setItem(NOTIFICATIONS_ENABLED_KEY, "true");
-          showToast("Avisos da escola ativados neste navegador.");
-          return;
-        }
-        showToast("As notificações não foram ativadas. Você pode permitir depois nas configurações do navegador.");
-      } catch {
-        showToast("Não foi possível ativar notificações neste navegador.");
+        await window.hazeFirebase.registerNotificationToken(selectedParentClass);
+        localStorage.setItem(NOTIFICATIONS_ENABLED_KEY, "true");
+        showToast(`Notificacoes ativadas para ${selectedParentClass}.`);
+      } catch (error) {
+        console.error("Erro ao ativar notificacoes reais.", error);
+        showToast(error.message || "Nao foi possivel ativar notificacoes neste navegador.");
       }
     }
 
@@ -8437,6 +8495,24 @@
       } catch {
         // Alguns navegadores bloqueiam notificações locais em file://.
       }
+    }
+
+    function sendPushNotification(item) {
+      if (window.location.protocol === "file:") return;
+      fetch("/api/send-notification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          schoolId: "escola-haze",
+          announcementId: item.id || "",
+          targetClass: normalizeClassName(item.targetClass || "Todas as turmas"),
+          title: item.title || "Novo aviso da escola",
+          body: summaryText(item.text || item.description || "A escola publicou uma nova informacao.", 160),
+          origin: window.location.origin
+        })
+      }).catch((error) => {
+        console.warn("Envio push ainda nao configurado.", error);
+      });
     }
 
     function renderClassesList() {
