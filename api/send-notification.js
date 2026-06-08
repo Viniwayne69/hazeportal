@@ -1,9 +1,17 @@
 const crypto = require("crypto");
+const webpush = require("web-push");
 
 const PROJECT_ID = process.env.FIREBASE_PROJECT_ID || "hazeportal-5022e";
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const FIRESTORE_SCOPE = "https://www.googleapis.com/auth/datastore";
 const MESSAGING_SCOPE = "https://www.googleapis.com/auth/firebase.messaging";
+const WEB_PUSH_PUBLIC_KEY = process.env.WEB_PUSH_PUBLIC_KEY || "BLzHPEszdUSRfVVkg7AnUK70mftzvxsUuZ8tB7NG9r6MAqhCWGUyWhPs-Aq6-0egmEFUwnQvR5c62jNsgTEoLms";
+const WEB_PUSH_PRIVATE_KEY = process.env.WEB_PUSH_PRIVATE_KEY || "";
+const WEB_PUSH_SUBJECT = process.env.WEB_PUSH_SUBJECT || "mailto:contato@hazeportal.com";
+
+if (WEB_PUSH_PRIVATE_KEY) {
+  webpush.setVapidDetails(WEB_PUSH_SUBJECT, WEB_PUSH_PUBLIC_KEY, WEB_PUSH_PRIVATE_KEY);
+}
 
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
@@ -18,21 +26,27 @@ module.exports = async function handler(req, res) {
     const targetClass = String(payload.targetClass || "Todas as turmas");
     const schoolId = String(payload.schoolId || "escola-haze");
     const accessToken = await getAccessToken();
-    const tokens = await loadTokens(accessToken, schoolId, targetClass);
+    const targets = await loadTokens(accessToken, schoolId, targetClass);
 
-    const results = await Promise.all(tokens.map((token) => sendMessage(accessToken, token, {
+    const messagePayload = {
       title,
       body,
       targetClass,
       schoolId,
       announcementId: String(payload.announcementId || ""),
       origin: String(payload.origin || "")
-    })));
+    };
+
+    const results = await Promise.all(targets.map((target) => (
+      target.type === "webpush"
+        ? sendWebPush(target.subscription, messagePayload)
+        : sendMessage(accessToken, target.token, messagePayload)
+    )));
 
     res.status(200).json({
       ok: true,
       targetClass,
-      tokens: tokens.length,
+      tokens: targets.length,
       sent: results.filter(Boolean).length
     });
   } catch (error) {
@@ -113,8 +127,49 @@ async function loadTokens(accessToken, schoolId, targetClass) {
     .filter((fields) => fields.active?.booleanValue !== false)
     .filter((fields) => fields.schoolId?.stringValue === schoolId)
     .filter((fields) => targetClass === "Todas as turmas" || fields.targetClass?.stringValue === targetClass)
-    .map((fields) => fields.token?.stringValue)
-    .filter(Boolean);
+    .map((fields) => {
+      const type = fields.type?.stringValue || "fcm";
+      if (type === "webpush") {
+        return {
+          type,
+          subscription: parseSubscription(fields)
+        };
+      }
+
+      return {
+        type: "fcm",
+        token: fields.token?.stringValue || ""
+      };
+    })
+    .filter((target) => target.type === "webpush" ? Boolean(target.subscription) : Boolean(target.token));
+}
+
+function parseSubscription(fields) {
+  if (fields.subscriptionJson?.stringValue) {
+    try {
+      return JSON.parse(fields.subscriptionJson.stringValue);
+    } catch (error) {
+      console.error("Assinatura Web Push invalida.", error);
+    }
+  }
+
+  return firestoreValueToJs(fields.subscription);
+}
+
+function firestoreValueToJs(value) {
+  if (!value) return null;
+  if ("stringValue" in value) return value.stringValue;
+  if ("booleanValue" in value) return value.booleanValue;
+  if ("integerValue" in value) return Number(value.integerValue);
+  if ("doubleValue" in value) return Number(value.doubleValue);
+  if ("arrayValue" in value) return (value.arrayValue.values || []).map(firestoreValueToJs);
+  if ("mapValue" in value) {
+    return Object.entries(value.mapValue.fields || {}).reduce((result, [key, child]) => {
+      result[key] = firestoreValueToJs(child);
+      return result;
+    }, {});
+  }
+  return null;
 }
 
 async function sendMessage(accessToken, token, payload) {
@@ -156,6 +211,29 @@ async function sendMessage(accessToken, token, payload) {
   }
 
   return true;
+}
+
+async function sendWebPush(subscription, payload) {
+  if (!WEB_PUSH_PRIVATE_KEY) {
+    console.error("WEB_PUSH_PRIVATE_KEY nao configurada na Vercel.");
+    return false;
+  }
+
+  try {
+    await webpush.sendNotification(subscription, JSON.stringify({
+      source: "haze-web-push",
+      title: payload.title,
+      body: payload.body,
+      schoolId: payload.schoolId,
+      targetClass: payload.targetClass,
+      announcementId: payload.announcementId,
+      origin: payload.origin
+    }));
+    return true;
+  } catch (error) {
+    console.error("Falha em uma assinatura Web Push.", error.statusCode || "", error.body || error.message);
+    return false;
+  }
 }
 
 function base64url(value) {
