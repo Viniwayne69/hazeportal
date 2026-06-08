@@ -165,8 +165,23 @@ async function loadTokens(accessToken, schoolId, targetClass) {
     })
   });
 
-  const rows = await response.json();
-  if (!response.ok) throw new Error(rows.error?.message || "Falha ao buscar tokens");
+  const responseText = await response.text();
+  let rows = null;
+
+  try {
+    rows = responseText ? JSON.parse(responseText) : null;
+  } catch {
+    rows = null;
+  }
+
+  if (!response.ok) {
+    const detail = rows?.error?.message || responseText || response.statusText || "sem detalhe retornado";
+    throw new Error(`Falha ao buscar tokens no Firestore (${response.status}): ${String(detail).slice(0, 500)}`);
+  }
+
+  if (!Array.isArray(rows)) {
+    throw new Error(`Resposta inesperada do Firestore ao buscar tokens: ${String(responseText || "").slice(0, 500)}`);
+  }
 
   return rows
     .map((row) => row.document?.fields || null)
