@@ -11,6 +11,7 @@
   <meta name="description" content="Haze - Portal dos Pais: comunicacao escolar organizada para familias.">
   <meta name="msapplication-TileColor" content="#171e19">
   <link rel="icon" type="image/svg+xml" sizes="any" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Crect width="512" height="512" rx="128" fill="%23171e19"/%3E%3Cpath d="M132 360V132h68v86h112v-86h68v228h-68v-88H200v88z" fill="%23fff"/%3E%3Ccircle cx="419" cy="419" r="42" fill="%23ca0013"/%3E%3C/svg%3E'>
+  <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="512x512" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAB1PSURBVHhe7d0/iF1ZfidweezxtD1jd9utuu9ebd33GgbsDjzQMImM8SCDAzGJ29iYxpESQ8MmikwH9qKJFKyNwIkydzCBBgfTiUE42FFkBJt0sLt02KFChRNqOa9U49Z5Jb2q0jmn3v2dzxc+0FSVXlW9qq7zfff8udeuSTd5d7N5b7VZ3XrFvLqzmqd7QI9Wd/K/CUebozH/2yEiB5ZfDeing/h6ejyspyenVuvpBcBbm6en3/zbMqzH+8M83VUYRCrnaHPjo6Pj8XYa5If19Pn2f8B5/OXO/6QAV+RlMXi0/Tt1PH08bIab+d8yEXlD0mC/bdbr8YthHr/K/ycDWJJhnr5OVydX8/SZUiDyjUyb6cNhHj992Zyf5f/zAIQyj89PXuBMd9MLnvxvokjYrDarD9KcvQEf4JuFYPw0vSDK/2aKLDppocx27v7kUtju/wAAnJinZ+kFUlpHkP8tFVlEtpf2T1bKGvQBLuPkKulDUwVy8Enb8tJlrNU8frnziwzApW0XRc/TZ2kaNf/bK3JlWR3f+GQ7p3/GLy0AZW3POZlXd9KLrvzvsUj1pEtS6dLUyQKW3V9QAOpK56GkF1/pnJT8b7RI8WxP3luPX+S/iABcoXn80sJBqZKXK/kdrwtwwE7WCqzu5H/DRS6c1Cgt6gNYlu0OrHl1Z7PZvJP/XRd5Y05usGPgB1i0dK7APN1VBGRvtqf02bsPEEs6U2Ce7tk5IDtJq0gN/ADBzePzdF5LPgZIh0n3sraqH6Az8/TUCYMdZ3t7ynn85c4vBgBdSEe2mxboKNstfWmryBm/DAB0Ji0UdIZA7KTL/emufDs/fABYT4/dkjhg0jYQx/YC8CbbaeF5umfbYICkNpcWe+Q/ZAB4nTRNPGyGm/mYIgvJyZ5+i/wAuKR5+iwfW+SAky7dmOsHoJDHdgosIOmSvxX+ABSVdgqYEjjcpNOdXPIHoJp5upePPXKFSZdmhvX4aOcHBQCFpVvDp23l+VgkjZOOcnTJH4Cm0s2FNqtb+ZgkjeKSPwBXypRA+6zW44OdHwQANJamoB0c1CC2+AFwgGwVrJk0+Kcn+YwnHgCu1jx+aXFghaRmlZ7cnSccAA7EME9frzarD/IxTC6Z9GRa6Q/AIszj87RDLR/L5II52eY3fb3zBAPAoUol4Hi8nY9pcs6kYxfdwheAJTq5tfDqTj62yZ6k5mSPPwBLN8zT3XyMk9ckDf75EwgAi+W2wvuTLvt75Q9AOKYDXp+04M+cPwBRWRh4Rk62+lntD0Bc6Qp3utKdj4HdZns7X/v8AeiBcwJOsj3e1wl/AHSk+xMDne0PQK9SCej2BkLu6gdA1+bxy+5uJbxajw92nggA6M/jbkpAOhXpjCcAALqUrojnY2W4OOgHAM4Q+aCgk+1+9voDwI50EF7UnQGr9fjFzjcMAJyYp6fh1gOY9weA8xgf5GPoYjNtpg/N+wPA+QzH08f5WLq4pEsZjvkFgAuIsB7AYT8AcAlLXg+QtjTsfEMAwLkM6/F+PrYefMz7A0ABm9WtfIw96LjDHwAUME/PFjMVYMsfAJS0gK2BR5uj0aV/ACjraHPjo3zMPagM6/FR/kUDAG9pnp7mY+7B5Oh4vL3zBQMARQzz+Gk+9l55HPgDAJXN07M01Z6PwVea1Tx9tvOFAgClPczH4CtLOq7Qwj8AaGPYDDfzsfhK4ja/ANDQPH6Zj8XNk+5YtPOFAQBVpTN38jG5WdLCv7QgIf+iAIC60tT7lS0IdOIfAFylKzgh0Kt/ALhaV3IVIB1GkH8hAEBbzW8Z7G5/AHAAWt4t0Mp/ADgczXYEePUPAAekxVUAr/4B4PBUvwrg1T8AHKCaVwG8+geAw1XtKsBqPT3OPxkAcBiGefwqH7vfOkebGx/lnwgAOCzpan0+hr9VhvX0ef5JAIDDMqynJ/kYfumkRQXpuMH8kwAAB2iz+iAfyy+V1by6s/PgAMBhmqd7+Vh+qVj8BwDLUWQxYLrLUP7AAMBhGzbDzXxMv1BW8/RZ/qAAwMF7mI/pF0q6jHDGgwIAh2wen1/6ZEB7/wFguS59JsBqPT7IHwwAWIrxi3xs35t02SDdWGD3wQCAJUhn+KTF/PkY/8YcHY+38wcCAJZlmMdP8zH+jRnW46P8QQCAhZmnp/kY/8ak1YM7DwIALM67m817+Th/Zqz+B4A4zr0bYJinu/k/BgCWanyQj/VnJm0b2P3HAMAizeOX+Vh/Zsz/A0Ase9cBmP8HgHj2rgMw/w8AEe1ZB2D+HwACetM6gJPjf83/A0BErz0WeLVZ3co/GAAIYl7dycf+bVbzdG/ngwGAEIb19Hk+9m8zrKcn+QcDADEM8/R1PvZv4/a/ABBbWu/3yuCfDgjIPwgAiCWd9/NKARg2w838gwCAYI5vfPJKAUgrA3c+CACIZZ7uvVIAhvV4f+eDAIBQhvX46JUC4ARAAOhAfiJgesPOBwEAsczj81cKwDCPv9z5IAAgnF8dCTxtpg/zdwIAMR0dj7e3BSD9R/5OACCmYR4/fXn5f7qbvxMAiGp8sC0Aq/X0cPedAEBQj08LwOMz3gkABDTM41cnBWCenubvBACCmqdnp2sAvt55JwAQlgIAAB06XQOw8w4AIC4FAAA6dO3dzea9/I0AQGzXVpvVB/kbAYDY3AcAADqUrgDcyt8IAMSmAABAh66tjm98kr8RAIjt2mpe3cnfCADE5lbAANChdCOge/kbAYDYFAAA6JACAAAdUgAAoEMKAAB0SAEAgA4pAADQIQUAADqkAABAhxQAAOiQAgAAHVIAAKBDCgAAdEgBAIAOKQAA0CEFgPD+8m/+qpo/+KM/3Pl81PEnf/anO89/Kemx888H0SkAhFczafDIPx91/OzffpY//cWSHjv/fBCdAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFczCkA7CgCUpQAQXs0oAO0oAFCWAkB4NaMAtKMAQFkKAOHVjALQjgIAZSkAhFcz//iT/7EtAdT3v578In/6i0UBoEcKAOGJ7IsCQI8UAMIT2RcFgB4pAIQnsi8KAD1SAAhPZF8UAHqkABCeyL4oAPRIASA8kX1RAOiRAkB4IvuiANAjBYDwRPZFAaBHCgDhieyLAkCPFADCE9kXBYAeKQCEJ7IvCgA9UgAIT2RfFAB6pAAQnsi+KAD0SAEgPJF9UQDokQJAeCL7ogDQIwWA8ET2RQGgRwoA4YnsiwJAjxQAwhPZFwWAHikAhCeyLwoAPVIACE9kXxQAeqQAEF7NpIHjfz74Jxr4P//v/+ZPf7EoAPRIASC8mvnLv/mrnc9HHWmQrhUFgB4pAIRXMwpAOwoAlKUAEF7NKADtKABQlgJAeDWjALSjAEBZCgDh1YwC0I4CAGUpAIRXMwpAOwoAlKUAEF7NKADtKABQlgJAeDWjALSjAEBZCgDh1YwC0I4CAGUpAIRXMwpAOwoAlKUAEF7NKADtKABQlgJAeDWjALSjAEBZCgDh1YwC0I4CAGUpAIRXMwpAOwoAlKUAEF7NKADtKABQlgJAeDWjALSjAEBZCgDh1YwC0I4CAGUpAIRXMwpAOwoAlKUAEF7NKADtKABQlgJAeDWjALSjAEBZCgDh1YwC0I4CAGUpAIRXMwpAOwoAlKUAEF7NKADtKABQlgJAeDWjALSjAEBZCgDh1YwC0I4CAGUpAIRXMwpAOwoAlKUAEF7NKADtKABQlgJAeDWjALSjAEBZCgDh1YwC0I4CAGUpAIRXMwpAOwoAlKUAEF7NKADtKABQlgJAeDWjALSjAEBZCgDh1YwC0I4CAGUpAIRXMwpAOwoAlKUAEF7NKADtKABQlgJAeDWjALSjAEBZCgDh1YwC0I4CAGUpAIRXMwpAOwoAlKUAEF7NKADtKABQlgJAeDWjALSjAEBZCgDh1YwC0I4CAGUpAIRXMwpAOwoAlKUAEF7NKADtKABQlgJAeDWjALSjAEBZCgDh1YwC0I4CAGUpAIRXMwpAOwoAlKUAEF7NKADtKABQlgJAeDWjALSjAEBZCgDh1YwC0I4CAGUpAIRXMwpAOwoAlKUAEF7NKADtKABQlgJAeDWjALSjAEBZCgDh1YwC0I4CAGUpAIRXMwpAOwoAlKUAEF7NKADtKABQlgJAeDWjALSjAEBZCgDh1YwC0I4CAGUpAIRXMwpAOwoAlKUAEF7NKADtKABQlgJAeDWjALSjAEBZCgDh1YwC0I4CAGUpAIRXMwpAOwoAlKUAEF7NKADtKABQlgJAeDWjALSjAEBZCgDh1YwC0I4CAGUpAIRXMwpAOwoAlKUAEF4apGv5gz/6w53PRx1/8md/uvP8l5IeO/98EJ0CAAAdUgAAoEMKAAB0SAEAgA4pAADQIQUAADqkAABAhxQAAOiQAgAAHVIAAKBDCgAAdEgBAIAOKQAA0CEFAAA6pAAAQIcUAADokAIAAB1SAACgQwoAAHRIAQCADikAANAhBQAAOqQAAECHFAAA6JACAAAdUgAAoEMKAAB0SAEAgA4pAADQIQUAADqkAABAhxQAAOiQAgAAHVIAAGjuz4dxr+N5999RjgIAQDXfPx5f/PX11Yt/+J3hxb++c/3Ff/z6+y/+97Xz+8W3rm//3U++d/Tib99fvfjwv+1+Di5HAQCgqB9O44u//93hxc9+8/rOgF7Cz799fVsofrQadz4356cAAPDW0ivzv/u9YTs45wN2Tf/+G9df3H13ePGDG8rARSkAAFxausSfBuD//LXdwbm1+989MkVwAQoAABeWFuilV/xpjj4fiK9SKiJp+iEVk/xr5lWpAHyWvxEAXictxrvoYr7WUjFJBcVOgte7tppXd/I3AkAubc1rPcf/tlJR+Yuj1c73ggIAwDmkV9P54LokaddA/j317tpqs7qVvxEAknQJPS2uywfUJXr4zpG1Ad+gAABwprSi/qffWdYl/33SFEY6pyD/Xnt07Whz46P8jQD07Y/HcbvHPh9AI0gLBNN6hvx77k26AvBB/kYA+pUWzR3Cvv7a0m6G/HvvybWjzdGYvxGAPqVX/j0M/qd+PPRbAq6l5G8EoD9pzj/qZf/XSdMBva4JUAAA2K72j7bg77xS6elxd8BJAZinZ/k7AOjHP/92jK1+l5VuOdzbqYHbAjDM09f5OwDow9IP+Smlt8OCXl4BGL/M3wFAfGk7XD4Q9qybnQHz+PzkCsB6erLzTgBCS5e8l3a2f23p3gE93FI4Xfl/WQDGR/k7AYjNpf+zdTEVME9PTxcBuiUwQEfSq/9Dv6XvVUnnIHRwFeDhyRWA4+njM94JQFBe/b9Z2hWRP2eRDPN0d1sA3A8AoB/p1W1Pp/1dVjoVMX/uokgv/LcFYLPZvJO/E4CY0hx3Ptix619+K+5VgGkzfbgtANtpAGcBAITn1f/FpBsj5c9hBL8a/FNW6+lx/gEAxHL3Xa/+LyLiWoBhHr/KCsD4IP8gAGKx7/9i0tWSePcJGL94pQAM8/jp7gcBEMWPVk79u4w7vx9rGmBYj/dfKQBHx+Pt/IMAiMPiv8tJNwrKn8slSy/4Xy0Am6Mx/yAA4ki3vc0HN/ZL0wCR7hQ4bIabrxSAlHRzgPwDAVi+H9xw+f9tpJsm5c/pUr272byXj//uCggQVLrLXT6ocX5p90T+nC7S6V0A89gJABDT/e8e7QxqnF+cdQDZDoDTuCcAQEw/+03z/2/jF+cdQDZDoDTuCcAQEw/+03z/2/jF+cdQDZDoDTuCcAQEw/+03z/2/jF++KUQB+dQ+APGleYJjHX+b/AIBlSwNYPqhxMRHOA3jlCOA8w3p6kv8DAJYrHf+bD2ZcXDpHIX9ulyQd+Z+P+a9kNU/38n8EwHKlFez5YMbFpYWU+XO7JMN6+jwf81/JarO6lf8jAJbrx4MdACUs/kTAeXUnH/NfSbo1sHUAAHHYAljG4rcCblYf5GP+TqwDAIhDAShjyQVg7/z/aawDAIgjXbrOBzMubtEFYN/8/2msAwCIwxWAMpZcAPbO/5/GOgCAOBSAMhZdAM4z/38a6wAAYviLIwWghL/7vWUWgHPP/58mXS7IHwSA5XEOQBmLPQdgnu7lY/wb41hggBh+OCkAJaTzFPLndgneePzv6zKsx0f5AwGwPP/5a7sDGheTjlTOn9eDN09P87H9XDk6Hm/vPBgAi/Pzb7sZ0NtIBSp/TpdgmMdP87H9XEm7AVbz9Cx/QACW5V9+62hnUOP80u2U8+f00KVp/KPN0ZiP7efOaj0+yB8UgGVJK9jzQY3z+4ffWeIOgPGLfEy/UIbNcHP3QQFYkj8eLQR8G2krZf6cHrzjG5/kY/qFM8zjVzsPDMCi/OJb1gFc1vePx53n86DN4/M0jZ+P5xfOap4+23lwABbl/netA7iMJc7/r9bTw3wsv1TSIoIzHhyABXEi4OUs8QjgNH2fj+WXjqOBAZbteDYNcBk/uLGsy/8XPvp3XxwNDLB8P/meaYCL+Ol3Fnj5/6JH/+6LMwEAlu9HK7sBLuLO7y9r9f9b7/1/XYZ5upt/MgCWxaFA5/Mfv/7+dtokf/4O2/ggH7uLxFUAgOVzJsD5LG3vf7VX/6dxFQBg+f75t10FeJNlbv2r9Or/NK4CACxfurOdOwS+3p8PS1v5X/nV/2lcBQBYvnS+fT7w8f52jUT+XB2+yq/+T5NaRmobu18AAEuRrgI4F2BXWiORP1eH7mhz46N8rK4WdwkEWL60zS0fAHv297+7vFP/3vqufxeNqwAAMVgQeOJf37m+wG1/jV/9n8ZVAIDlS4NeWvWeD4g9+fffuL6dEsmfm8PX+NX/aVwFAIghnXefDr7JB8YepN0QS5z3T67k1f9p0pnD+RcEwPKkY4J73Bq4tAN/Tg3r6fN8TG6adC7AMI9f5V8YAMvz19f7WhT4399b4qK/7Q1/njXZ978vR8fj7Z0vDoBFSivh84EyovvfXeJ+/xPDPH6aj8VXlmE9Psq/QACWKW0PjDwdcPfdhb7yT+bpaT4GX2ksCASIJR2HG+2goFRq0jRH/r0uyZUu/HtdHBEMEEvaHRBli2Da6rfU1f7/pdGRv5fJah6/3P2CAViq7x+P2/Px8wF1SX76naXu8/+GeXqWFt7n4+7BZNgMN3e+aAAWL82bL3FdQLrp0RJP+NtxfOOTfMw9uKzW08OdLxyAxUtTAks5OvjhO0cBLvn/yuN8rD3IvLvZvJcuVZzxDQAQQBpY09n5+aB7CNKahR8Py17o903bBfab1Qf5WHuwGY6nj/NvAoBY0kB7KIsE01HGf/t+nIH/VFpgn4+xBx83CwLoQxp4r+qKwM+/fX17bkGIef5dy7j0nyetVkwHFpzxDQEQUFojkBYLpkE5H6hLSlv60uK+H05h5vh3Hcpxv5dNmrdYzePznW8MgNDStrt06M5Pvnf01tMEqVCko3vTlYZUMvLPFdJmdSsfUxcX6wEASNIr9nTCYLpKsE9aXxBoFf/FzNO9fCxdbNJtC3e+QQDgFcN6epKPoYuO2wYDwB5Ln/d/XabN9KEbBgHAa0SY939dVvPqzs43DACdG9bj/XzMDBfrAQDgG+bp6UHf6KdUtusB1tOTnScAADozzNPXizrq921zcr8Atw4GoGPz+Dytj8vHyPBJjWfbfPInBACCS4vijzY3PsrHxm6Smo+TAgHoyXbwPx5v52Nidxk2w03bAwHoxry6k4+F3SY1ISUAgPDm6bN8DOw+zggAILbxQT72ycukZrT7hAHAsqUzcPIxT7KkhpQ/cQCwYI+7OOinRFbr6eEZTyAALI3B/6JJ90M+44kEgEVIl/0N/peMhYEALJMFf2+d4Xj62BZBABbDVr9ySecEODEQgIPnkJ/ySWcmKwEAHCLH+1aOGwgBcHDm8XnXN/ZplaPN0ehWwgAcgvSitMtb+l5V3t1s3kt7K/MfBAA0M09P05XpfIySBkkrLe0QAKC1YT3et8f/inNyO2HrAgBoIM33W+x3ODmZEhi/2PlBAUAp8/Q0rUPLxyA5gAzz+KkpAQCKm6d7+ZgjB5a0FWOYx692fngAcFHz9Gy1Wd3Kxxo50KQpgXQThp0fJACc32OX/Bea7c2EnB4IwAVsp5Kd57/8bA8OskAQgHMY1tMTB/sES9q2YW0AAGdKc/1u5BM36dCGtJLTTgEA/sv4IK0dy8cMCZh0dKOjhAE6N09P02Fy+RghHWQ4nj7eXvbJfykAiGsenw/zdDcfE6SzpGmBdKbzzi8IAOEM6/GRrX3yStK0gLMDAGJKq/sd6CNvzGkRsFAQIILxi3RCbP63XuS1eXl+wANFAGB50gs5A7+8VbZFYJ7uOVEQ4PBtp3I3qw/yv+Uil872lsPbImDXAMAhOblSOz6wuE+qZrtrYJ7uOlUQ4IrN07O0i8vAL82T5pdW6+mhqwIAbaRX+9v5/ePxdv43WeRKkg4VSvtL819WAIp4nM7qT1dh87+/IgeRtFZgmMdP0xGTZ/wCA3BOaao1Tbm6xC+Ly/aeA9ubD01f57/YAJxhO6U6PnBLXgmTkzKwurPdomLNAMCJdC7/enyUrpwa9KWLpF/09Au/XTegEAC92J6pMn5xcmnfQT0iLwvBdDf9j+HQISCKl6epPl7N02cGfJFzZHsC4WZ1a3vmwHq8n25kYS0BcLC2e/KnJ2n+Pg326e+XE/lECmfYDDfTtsPtAsN046JtOXDPAqCB7Q6ndKVyurc6vvGJO+wtM/8fEGy/TdsLm3oAAAAASUVORK5CYII=">
   <link rel="manifest" href='data:application/manifest+json,%7B%22theme_color%22%3A%22%23171e19%22%2C%22name%22%3A%22Haze%20-%20Portal%20dos%20Pais%22%2C%22display%22%3A%22standalone%22%2C%22short_name%22%3A%22Haze%22%2C%22background_color%22%3A%22%23eeebe3%22%2C%22start_url%22%3A%22.%22%2C%22icons%22%3A%5B%7B%22purpose%22%3A%22any%20maskable%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22sizes%22%3A%22512x512%22%2C%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%253D%2522http%253A%252F%252Fwww.w3.org%252F2000%252Fsvg%2522%2520viewBox%253D%25220%25200%2520512%2520512%2522%253E%253Crect%2520width%253D%2522512%2522%2520height%253D%2522512%2522%2520rx%253D%2522128%2522%2520fill%253D%2522%2523171e19%2522%252F%253E%253Cpath%2520d%253D%2522M132%2520360V132h68v86h112v-86h68v228h-68v-88H200v88z%2522%2520fill%253D%2522%2523fff%2522%252F%253E%253Ccircle%2520cx%253D%2522419%2522%2520cy%253D%2522419%2522%2520r%253D%252242%2522%2520fill%253D%2522%2523ca0013%2522%252F%253E%253C%252Fsvg%253E%22%7D%5D%7D'>
   <title>Haze - Portal dos Pais</title>
@@ -6765,6 +6766,7 @@
 
       const SCHOOL_ID = "escola-haze";
       const VAPID_KEY = "BGpmvo6-IcZCvGaQ-O4ngAUo6uO6c_bMYk3cjv27FDfGCJr9wxz1QNJQRm2WV_-0GtVr6rOdFvZ0yOyodSuMqRQ";
+      const WEB_PUSH_PUBLIC_KEY = "BLzHPEszdUSRfVVkg7AnUK70mftzvxsUuZ8tB7NG9r6MAqhCWGUyWhPs-Aq6-0egmEFUwnQvR5c62jNsgTEoLms";
 
       window.hazeFirebase = { enabled: false };
 
@@ -6791,6 +6793,13 @@
 
         function tokenDocId(token) {
           return btoa(token).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+        }
+
+        function urlBase64ToUint8Array(value) {
+          const padding = "=".repeat((4 - (value.length % 4)) % 4);
+          const base64 = (value + padding).replace(/-/g, "+").replace(/_/g, "/");
+          const rawData = atob(base64);
+          return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
         }
 
         window.hazeFirebase = {
@@ -6833,7 +6842,6 @@
           },
 
           async registerNotificationToken(targetClass) {
-            if (!messaging) throw new Error("Firebase Messaging nao esta disponivel neste navegador.");
             if (!("Notification" in window)) throw new Error("Este navegador nao suporta notificacoes.");
             if (!("serviceWorker" in navigator)) throw new Error("Este navegador nao suporta notificacoes em segundo plano.");
 
@@ -6841,31 +6849,65 @@
             if (permission !== "granted") throw new Error("As notificacoes nao foram permitidas.");
 
             const registration = await navigator.serviceWorker.register("./firebase-messaging-sw.js");
-            const token = await messaging.getToken({
-              vapidKey: VAPID_KEY,
-              serviceWorkerRegistration: registration
-            });
-            if (!token) throw new Error("Nao foi possivel gerar o token de notificacao.");
-
             const cleanClass = String(targetClass || "").trim();
-            await notificationTokensRef.doc(tokenDocId(token)).set({
-              token,
+
+            if (messaging) {
+              try {
+                const token = await messaging.getToken({
+                  vapidKey: VAPID_KEY,
+                  serviceWorkerRegistration: registration
+                });
+                if (!token) throw new Error("Nao foi possivel gerar o token de notificacao.");
+
+                await notificationTokensRef.doc(tokenDocId(token)).set({
+                  type: "fcm",
+                  token,
+                  targetClass: cleanClass,
+                  schoolId: SCHOOL_ID,
+                  active: true,
+                  platform: "web",
+                  userAgent: navigator.userAgent,
+                  updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+
+                messaging.onMessage((payload) => {
+                  const notification = payload.notification || {};
+                  const title = notification.title || "Novo aviso da escola";
+                  const body = notification.body || "A escola publicou uma nova informacao.";
+                  if (Notification.permission === "granted") new Notification(title, { body });
+                });
+
+                return { type: "fcm", token };
+              } catch (error) {
+                console.warn("Firebase Messaging falhou. Tentando Web Push padrao.", error);
+              }
+            }
+
+            if (!registration.pushManager) {
+              throw new Error("No iPhone, instale o portal na tela inicial e abra pelo icone para ativar avisos.");
+            }
+
+            const existingSubscription = await registration.pushManager.getSubscription();
+            const subscription = existingSubscription || await registration.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: urlBase64ToUint8Array(WEB_PUSH_PUBLIC_KEY)
+            });
+            const subscriptionJson = subscription.toJSON();
+
+            await notificationTokensRef.doc(tokenDocId(subscription.endpoint)).set({
+              type: "webpush",
+              endpoint: subscription.endpoint,
+              subscription: subscriptionJson,
+              subscriptionJson: JSON.stringify(subscriptionJson),
               targetClass: cleanClass,
               schoolId: SCHOOL_ID,
               active: true,
-              platform: "web",
+              platform: "webpush",
               userAgent: navigator.userAgent,
               updatedAt: firebase.firestore.FieldValue.serverTimestamp()
             }, { merge: true });
 
-            messaging.onMessage((payload) => {
-              const notification = payload.notification || {};
-              const title = notification.title || "Novo aviso da escola";
-              const body = notification.body || "A escola publicou uma nova informacao.";
-              if (Notification.permission === "granted") new Notification(title, { body });
-            });
-
-            return token;
+            return { type: "webpush", endpoint: subscription.endpoint };
           }
         };
       } catch (error) {
