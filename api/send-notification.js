@@ -10,13 +10,31 @@ const WEB_PUSH_SUBJECT = process.env.WEB_PUSH_SUBJECT || "mailto:contato@hazepor
 
 module.exports = async function handler(req, res) {
   if (req.method === "GET") {
-    res.status(200).json({
-      ok: true,
-      projectId: PROJECT_ID,
-      hasServiceAccountJson: Boolean(process.env.GOOGLE_SERVICE_ACCOUNT_JSON),
-      hasWebPushPrivateKey: Boolean(WEB_PUSH_PRIVATE_KEY),
-      webPushPackage: canLoadWebPush()
-    });
+    const mode = String(req.query?.debug || "");
+    try {
+      if (mode === "auth") {
+        const accessToken = await getAccessToken();
+        res.status(200).json({ ok: true, auth: true, tokenPrefix: accessToken.slice(0, 12) });
+        return;
+      }
+
+      if (mode === "tokens") {
+        const accessToken = await getAccessToken();
+        const targets = await loadTokens(accessToken, "escola-haze", "Todas as turmas");
+        res.status(200).json({ ok: true, tokens: targets.length, types: countTargetTypes(targets) });
+        return;
+      }
+
+      res.status(200).json({
+        ok: true,
+        projectId: PROJECT_ID,
+        hasServiceAccountJson: Boolean(process.env.GOOGLE_SERVICE_ACCOUNT_JSON),
+        hasWebPushPrivateKey: Boolean(WEB_PUSH_PRIVATE_KEY),
+        webPushPackage: canLoadWebPush()
+      });
+    } catch (error) {
+      res.status(500).json({ ok: false, error: error.message || "Erro no diagnostico" });
+    }
     return;
   }
 
@@ -259,6 +277,13 @@ function canLoadWebPush() {
   } catch {
     return false;
   }
+}
+
+function countTargetTypes(targets) {
+  return targets.reduce((result, target) => {
+    result[target.type] = (result[target.type] || 0) + 1;
+    return result;
+  }, {});
 }
 
 function base64url(value) {
