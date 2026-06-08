@@ -6926,6 +6926,7 @@
     */
 
     const STORAGE_KEY = "hazePortalData";
+    const PENDING_CLOUD_SYNC_KEY = "hazePendingCloudSync";
     const SELECTED_PARENT_CLASS_KEY = "selectedParentClass";
     const READ_ITEMS_KEY = "hazeReadItems";
     const PWA_INSTALL_SEEN_KEY = "hazeInstallInstructionsSeen";
@@ -7041,6 +7042,8 @@
     let firebaseReady = false;
     let applyingRemoteState = false;
     let firebaseUnsubscribe = null;
+    let pendingCloudSave = localStorage.getItem(PENDING_CLOUD_SYNC_KEY) === "true";
+    let cloudSaveTimer = null;
     let knownAnnouncementIds = new Set((state.announcements || []).map((item) => item.id));
 
     const els = {
@@ -7104,30 +7107,70 @@
       };
     }
 
+    function persistLocalState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function markCloudSyncPending() {
+      pendingCloudSave = true;
+      localStorage.setItem(PENDING_CLOUD_SYNC_KEY, "true");
+    }
+
+    function clearCloudSyncPending() {
+      pendingCloudSave = false;
+      localStorage.removeItem(PENDING_CLOUD_SYNC_KEY);
+    }
+
+    function scheduleCloudSave(delay = 800) {
+      if (!window.hazeFirebase?.enabled || !firebaseReady || applyingRemoteState) return;
+      clearTimeout(cloudSaveTimer);
+      cloudSaveTimer = window.setTimeout(() => {
+        flushCloudSave();
+      }, delay);
+    }
+
+    async function flushCloudSave() {
+      if (applyingRemoteState || !window.hazeFirebase?.enabled || !firebaseReady) return false;
+
+      try {
+        await window.hazeFirebase.save(state);
+        clearCloudSyncPending();
+        return true;
+      } catch (error) {
+        markCloudSyncPending();
+        console.error("Erro ao sincronizar com Firebase.", error);
+        return false;
+      }
+    }
+
     async function saveState() {
       if (applyingRemoteState) return;
 
-      if (!window.hazeFirebase?.enabled) {
-        throw new Error("Firebase nao carregado. Nada foi publicado.");
+      persistLocalState();
+      markCloudSyncPending();
+
+      if (!window.hazeFirebase?.enabled || !firebaseReady) {
+        scheduleCloudSave();
+        return;
       }
 
-      if (!firebaseReady) {
-        throw new Error("Firebase ainda esta conectando. Tente novamente em alguns segundos.");
-      }
-
-      await window.hazeFirebase.save(state);
+      await flushCloudSave();
     }
 
     async function startFirebaseSync() {
       if (!window.hazeFirebase?.enabled) {
-        showToast("Firebase nao carregado. Publicacoes oficiais estao bloqueadas.");
+        showToast("Firebase ainda nao carregou. As alteracoes ficam salvas neste navegador.");
         return;
       }
 
       try {
+        const localStateBeforeCloud = structuredClone(state);
         const cloudState = await window.hazeFirebase.load(state);
         applyingRemoteState = true;
-        state = mergeDefaults(cloudState);
+        state = pendingCloudSave
+          ? mergeStateById(cloudState, localStateBeforeCloud)
+          : mergeDefaults(cloudState);
+        persistLocalState();
         refreshKnownAnnouncements(state.announcements);
         applyingRemoteState = false;
         firebaseReady = true;
@@ -7137,22 +7180,50 @@
         if (typeof firebaseUnsubscribe === "function") firebaseUnsubscribe();
         firebaseUnsubscribe = window.hazeFirebase.watch((remoteState) => {
           if (!remoteState || applyingRemoteState) return;
+          if (pendingCloudSave) return;
           const nextState = mergeDefaults(remoteState);
           notifyNewRemoteAnnouncements(nextState.announcements);
           applyingRemoteState = true;
           state = nextState;
+          persistLocalState();
           applyingRemoteState = false;
           applyTheme();
           renderAll();
         });
 
+        if (pendingCloudSave) scheduleCloudSave(0);
         showToast("Firebase conectado.");
       } catch (error) {
         applyingRemoteState = false;
         firebaseReady = false;
         console.error("Erro ao conectar Firebase.", error);
-        showToast("Firebase nao conectado. Publicacoes oficiais bloqueadas.");
+        showToast("Firebase ainda nao conectou. As alteracoes ficam salvas neste navegador.");
       }
+    }
+
+    function mergeStateById(cloudData, localData) {
+      const cloud = mergeDefaults(cloudData || defaultData);
+      const local = mergeDefaults(localData || defaultData);
+      return {
+        settings: {
+          ...cloud.settings,
+          ...local.settings,
+          classes: normalizeClasses([...(cloud.settings.classes || []), ...(local.settings.classes || [])])
+        },
+        announcements: mergeCollectionById(cloud.announcements, local.announcements),
+        events: mergeCollectionById(cloud.events, local.events),
+        calendar: mergeCollectionById(cloud.calendar, local.calendar),
+        documents: mergeCollectionById(cloud.documents, local.documents)
+      };
+    }
+
+    function mergeCollectionById(cloudItems = [], localItems = []) {
+      const merged = new Map();
+      [...cloudItems, ...localItems].forEach((item) => {
+        if (!item?.id) return;
+        merged.set(item.id, normalizeItem(item));
+      });
+      return [...merged.values()];
     }
 
     function refreshKnownAnnouncements(announcements) {
