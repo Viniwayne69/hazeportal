@@ -1,5 +1,4 @@
 const crypto = require("crypto");
-const webpush = require("web-push");
 
 const PROJECT_ID = process.env.FIREBASE_PROJECT_ID || "hazeportal-5022e";
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
@@ -9,11 +8,18 @@ const WEB_PUSH_PUBLIC_KEY = process.env.WEB_PUSH_PUBLIC_KEY || "BLzHPEszdUSRfVVk
 const WEB_PUSH_PRIVATE_KEY = process.env.WEB_PUSH_PRIVATE_KEY || "";
 const WEB_PUSH_SUBJECT = process.env.WEB_PUSH_SUBJECT || "mailto:contato@hazeportal.com";
 
-if (WEB_PUSH_PRIVATE_KEY) {
-  webpush.setVapidDetails(WEB_PUSH_SUBJECT, WEB_PUSH_PUBLIC_KEY, WEB_PUSH_PRIVATE_KEY);
-}
-
 module.exports = async function handler(req, res) {
+  if (req.method === "GET") {
+    res.status(200).json({
+      ok: true,
+      projectId: PROJECT_ID,
+      hasServiceAccountJson: Boolean(process.env.GOOGLE_SERVICE_ACCOUNT_JSON),
+      hasWebPushPrivateKey: Boolean(WEB_PUSH_PRIVATE_KEY),
+      webPushPackage: canLoadWebPush()
+    });
+    return;
+  }
+
   if (req.method !== "POST") {
     res.status(405).json({ error: "Metodo nao permitido" });
     return;
@@ -220,6 +226,8 @@ async function sendWebPush(subscription, payload) {
   }
 
   try {
+    const webpush = loadWebPush();
+    webpush.setVapidDetails(WEB_PUSH_SUBJECT, WEB_PUSH_PUBLIC_KEY, WEB_PUSH_PRIVATE_KEY);
     await webpush.sendNotification(subscription, JSON.stringify({
       source: "haze-web-push",
       title: payload.title,
@@ -232,6 +240,23 @@ async function sendWebPush(subscription, payload) {
     return true;
   } catch (error) {
     console.error("Falha em uma assinatura Web Push.", error.statusCode || "", error.body || error.message);
+    return false;
+  }
+}
+
+function loadWebPush() {
+  try {
+    return require("web-push");
+  } catch (error) {
+    throw new Error(`Pacote web-push nao instalado na Vercel: ${error.message}`);
+  }
+}
+
+function canLoadWebPush() {
+  try {
+    require("web-push");
+    return true;
+  } catch {
     return false;
   }
 }
