@@ -18,6 +18,25 @@ module.exports = async function handler(req, res) {
         return;
       }
 
+      if (mode === "account") {
+        const account = getServiceAccount();
+        res.status(200).json({
+          ok: true,
+          hasClientEmail: Boolean(account.client_email),
+          clientEmailDomain: String(account.client_email || "").split("@")[1] || "",
+          hasPrivateKey: Boolean(account.private_key),
+          privateKeyStart: String(account.private_key || "").slice(0, 28),
+          privateKeyLength: String(account.private_key || "").length
+        });
+        return;
+      }
+
+      if (mode === "sign") {
+        const assertion = createGoogleAssertion();
+        res.status(200).json({ ok: true, assertionParts: assertion.split(".").length, assertionLength: assertion.length });
+        return;
+      }
+
       if (mode === "tokens") {
         const accessToken = await getAccessToken();
         const targets = await loadTokens(accessToken, "escola-haze", "Todas as turmas");
@@ -80,6 +99,23 @@ module.exports = async function handler(req, res) {
 };
 
 async function getAccessToken() {
+  const assertion = createGoogleAssertion();
+
+  const response = await fetch(TOKEN_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
+      assertion
+    })
+  });
+
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error_description || data.error || "Falha ao autenticar no Google Cloud");
+  return data.access_token;
+}
+
+function createGoogleAssertion() {
   const account = getServiceAccount();
   const now = Math.floor(Date.now() / 1000);
   const header = { alg: "RS256", typ: "JWT" };
@@ -95,20 +131,7 @@ async function getAccessToken() {
   signer.update(unsigned);
   signer.end();
   const signature = signer.sign(account.private_key);
-  const assertion = `${unsigned}.${base64url(signature)}`;
-
-  const response = await fetch(TOKEN_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-      assertion
-    })
-  });
-
-  const data = await response.json();
-  if (!response.ok) throw new Error(data.error_description || data.error || "Falha ao autenticar no Google Cloud");
-  return data.access_token;
+  return `${unsigned}.${base64url(signature)}`;
 }
 
 function getServiceAccount() {
