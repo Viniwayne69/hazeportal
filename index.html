@@ -4715,11 +4715,11 @@
 
     #parentView .school-logo-display {
       position: absolute;
-      right: 26px;
-      top: 26px;
-      width: 54px;
-      height: 54px;
-      flex-basis: 54px;
+      right: 24px;
+      top: 22px;
+      width: 72px;
+      height: 72px;
+      flex-basis: 72px;
     }
 
     #parentView .kicker,
@@ -5504,12 +5504,12 @@
       #parentView .school-logo-display {
         right: 18px;
         top: 18px;
-        width: 50px;
-        height: 50px;
+        width: 62px;
+        height: 62px;
       }
 
       #parentView .side-title {
-        max-width: calc(100% - 72px);
+        max-width: calc(100% - 86px);
         font-size: clamp(1.85rem, 9vw, 3rem);
       }
 
@@ -6030,6 +6030,7 @@
         <div class="layout">
           <aside class="side-panel" aria-label="Resumo da escola">
             <span class="kicker">Portal dos Pais</span>
+            <div id="parentSchoolLogo" class="school-logo-display" aria-hidden="true"></div>
             <div>
               <h1 id="heroSchoolName" class="side-title">Haze - Portal dos Pais</h1>
               <p class="side-copy">A escola publica, os pais acompanham e a comunicaÃ§Ã£o fica organizada.</p>
@@ -8040,11 +8041,7 @@
     }
 
     function renderSchoolLogo() {
-      const settings = state.settings;
-      const logoSrc = resolveMediaSource(settings.logoData);
-      const logoHtml = logoSrc
-        ? `<img src="${escapeAttribute(logoSrc)}" alt="">`
-        : `<img src="${HAZE_DEFAULT_LOGO}" alt="">`;
+      const logoHtml = `<img src="${HAZE_DEFAULT_LOGO}" alt="">`;
 
       document.querySelectorAll(".brand-mark").forEach((mark) => {
         mark.innerHTML = logoHtml;
@@ -9024,11 +9021,6 @@
     }
 
     function postAvatarHtml() {
-      const logoSrc = resolveMediaSource(state.settings.logoData);
-      if (logoSrc) {
-        return `<img src="${escapeAttribute(logoSrc)}" alt="">`;
-      }
-
       return `<img src="${HAZE_DEFAULT_LOGO}" alt="">`;
     }
 
