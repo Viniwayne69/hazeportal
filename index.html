@@ -5722,10 +5722,14 @@
     }
 
     /* Logo Haze padrao: imagem oficial da escola */
+    body[data-active-mode="admin"] .brand-mark,
+    body[data-active-mode="parent"] .brand-mark,
     .brand-mark,
     .school-logo-display {
       background: transparent !important;
       border: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
       color: #ffffff !important;
       overflow: visible !important;
     }
@@ -5748,7 +5752,9 @@
     }
 
     #parentView .school-logo-display img,
-    body[data-active-mode="parent"] .brand-mark img {
+    body[data-active-mode="admin"] .brand-mark img,
+    body[data-active-mode="parent"] .brand-mark img,
+    .brand-mark img {
       background: transparent !important;
       border-radius: 0 !important;
       object-fit: contain !important;
