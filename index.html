@@ -5760,7 +5760,7 @@
       object-fit: contain !important;
     }
 
-    /* Modal de boas-vindas: evita vazamento do seletor no topo do desktop */
+    /* Modal de boas-vindas: existe apenas no fluxo mobile */
     body[data-active-mode="parent"] #welcomeModal {
       position: fixed !important;
       inset: 0 !important;
@@ -5802,6 +5802,15 @@
     body[data-active-mode="parent"] #welcomeModal select {
       display: block !important;
       min-height: 56px !important;
+    }
+
+    @media (min-width: 721px) {
+      body[data-active-mode="parent"] #welcomeModal,
+      body[data-active-mode="parent"] #welcomeModal.show {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+      }
     }
 
     @media (max-width: 720px) {
@@ -8585,10 +8594,15 @@
     // Onboarding simples para o primeiro acesso dos pais.
     function maybeShowParentWelcome() {
       const alreadyDone = localStorage.getItem(PARENT_ONBOARDING_KEY) === "true";
+      const isDesktop = window.matchMedia("(min-width: 721px)").matches;
+      if (isDesktop) {
+        document.getElementById("welcomeModal")?.classList.remove("show");
+        return;
+      }
       if (document.body.dataset.activeMode !== "parent" || alreadyDone || selectedParentClass) return;
       window.setTimeout(() => {
         const modal = document.getElementById("welcomeModal");
-        if (modal) modal.classList.add("show");
+        if (modal && window.matchMedia("(max-width: 720px)").matches) modal.classList.add("show");
       }, 450);
     }
 
