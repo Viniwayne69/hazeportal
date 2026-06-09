@@ -5760,6 +5760,63 @@
       object-fit: contain !important;
     }
 
+    /* Modal de boas-vindas: evita vazamento do seletor no topo do desktop */
+    body[data-active-mode="parent"] #welcomeModal {
+      position: fixed !important;
+      inset: 0 !important;
+      z-index: 140 !important;
+      display: none !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: clamp(18px, 3vw, 36px) !important;
+      background: rgba(23, 30, 25, 0.44) !important;
+    }
+
+    body[data-active-mode="parent"] #welcomeModal.show {
+      display: flex !important;
+    }
+
+    body[data-active-mode="parent"] #welcomeModal .welcome-sheet {
+      position: relative !important;
+      width: min(520px, calc(100vw - 36px)) !important;
+      max-height: min(680px, calc(100vh - 48px)) !important;
+      margin: 0 !important;
+      overflow: auto !important;
+      padding: 24px !important;
+      border: 1px solid rgba(183, 198, 194, 0.34) !important;
+      border-radius: 32px !important;
+      background: #ffffff !important;
+      box-shadow: 0 24px 70px -28px rgba(23, 30, 25, 0.5) !important;
+      transform: none !important;
+    }
+
+    body[data-active-mode="parent"] #welcomeModal .field,
+    body[data-active-mode="parent"] #welcomeModal select,
+    body[data-active-mode="parent"] #welcomeModal button {
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    body[data-active-mode="parent"] #welcomeModal select {
+      display: block !important;
+      min-height: 56px !important;
+    }
+
+    @media (max-width: 720px) {
+      body[data-active-mode="parent"] #welcomeModal {
+        align-items: flex-end !important;
+        padding: 10px !important;
+      }
+
+      body[data-active-mode="parent"] #welcomeModal .welcome-sheet {
+        width: 100% !important;
+        max-height: calc(100vh - 20px) !important;
+        border-radius: 32px 32px 24px 24px !important;
+      }
+    }
+
         /* Estados vazios limpos: sem sinais, apenas texto legivel e responsivo */
     .empty-state::before,
     .empty-state::after,
