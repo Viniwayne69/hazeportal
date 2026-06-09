@@ -2745,11 +2745,22 @@
       gap: 8px;
       align-items: center;
       justify-content: flex-start;
-      margin-top: 4px;
+      margin-top: 8px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(183, 198, 194, 0.24);
+    }
+
+    #adminView .admin-list-actions .btn {
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 999px;
     }
 
     #adminView .admin-list-actions .btn-danger {
       margin-left: auto;
+      border-color: rgba(202, 0, 19, 0.18);
+      background: rgba(202, 0, 19, 0.08);
+      color: #ca0013;
     }
 
     #adminView .stat-value {
@@ -4966,12 +4977,14 @@
     }
 
     .parent-quick-card {
+      position: relative;
       display: grid;
-      min-height: 128px;
-      gap: 4px;
+      min-height: 124px;
+      gap: 6px;
       align-content: center;
       justify-items: start;
-      padding: 18px;
+      overflow: hidden;
+      padding: 20px;
       border: 1px solid var(--app-line);
       border-radius: var(--app-radius-lg);
       background: #ffffff;
@@ -4982,13 +4995,24 @@
       animation-delay: var(--delay, 0ms);
     }
 
+    .parent-quick-card::after {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(202, 0, 19, 0.14);
+      content: "";
+    }
+
     .parent-quick-card:hover {
       transform: translateY(-2px) scale(1.01);
       background: rgba(255, 255, 255, 0.92);
     }
 
     .parent-quick-card strong {
-      font-size: 2rem;
+      font-size: 1.85rem;
       font-weight: 900;
       line-height: 1;
     }
@@ -5000,6 +5024,7 @@
     .parent-quick-card small {
       color: var(--app-muted);
       font-weight: 800;
+      line-height: 1.25;
     }
 
     #parentView .section {
@@ -5079,6 +5104,14 @@
       box-shadow: var(--app-shadow);
       animation: appCardIn 0.38s var(--motion) both;
       animation-delay: var(--delay, 0ms);
+      transition: transform 0.24s var(--motion), border-color 0.24s ease, box-shadow 0.24s ease;
+    }
+
+    #parentView .card:hover,
+    #adminView .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(183, 198, 194, 0.56);
+      box-shadow: 0 28px 60px -34px rgba(23, 30, 25, 0.32);
     }
 
     #parentView .card::before,
@@ -5231,13 +5264,18 @@
       object-fit: cover;
     }
 
-    #parentView .empty-state {
+    #parentView .empty-state,
+    #adminView .empty-state {
       display: grid;
       gap: 8px;
-      padding: 24px;
+      padding: 26px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--app-muted);
     }
 
-    #parentView .empty-state strong {
+    #parentView .empty-state strong,
+    #adminView .empty-state strong {
       color: var(--app-ink);
       font-size: 1rem;
       font-weight: 900;
@@ -5968,13 +6006,19 @@
     #parentView .social-post {
       display: grid !important;
       grid-template-columns: 1fr !important;
-      gap: 14px !important;
+      gap: 0 !important;
       padding: 0 !important;
       overflow: hidden !important;
       border: 1px solid rgba(183, 198, 194, 0.34) !important;
-      border-radius: 32px !important;
+      border-radius: 34px !important;
       background: #ffffff !important;
       box-shadow: 0 20px 50px -28px rgba(23, 30, 25, 0.2) !important;
+    }
+
+    #parentView .social-post:hover {
+      transform: translateY(-4px) !important;
+      border-color: rgba(183, 198, 194, 0.58) !important;
+      box-shadow: 0 34px 80px -46px rgba(23, 30, 25, 0.44) !important;
     }
 
     #parentView .social-post.urgent {
@@ -5994,23 +6038,25 @@
 
     #parentView .post-header {
       display: grid;
-      grid-template-columns: 48px minmax(0, 1fr) auto;
-      gap: 12px;
+      grid-template-columns: 52px minmax(0, 1fr) auto;
+      gap: 14px;
       align-items: center;
-      padding: 18px 18px 0;
+      padding: 20px 20px 14px;
       min-width: 0;
+      border-bottom: 1px solid rgba(183, 198, 194, 0.18);
     }
 
     #parentView .post-avatar {
       display: grid;
-      width: 48px;
-      height: 48px;
+      width: 52px;
+      height: 52px;
       place-items: center;
       overflow: hidden;
       border-radius: 50%;
       background: #171e19;
       color: #ffffff;
       flex: 0 0 auto;
+      box-shadow: 0 0 0 4px rgba(238, 235, 227, 0.92);
     }
 
     #parentView .post-avatar img,
@@ -6023,13 +6069,13 @@
 
     #parentView .post-origin {
       display: grid;
-      gap: 2px;
+      gap: 4px;
       min-width: 0;
     }
 
     #parentView .post-origin strong {
       color: #171e19;
-      font-size: 0.98rem;
+      font-size: 1rem;
       font-weight: 900;
       line-height: 1.1;
       overflow: hidden;
@@ -6045,6 +6091,32 @@
       overflow-wrap: anywhere;
     }
 
+    #parentView .post-separator {
+      color: rgba(104, 118, 111, 0.55);
+      padding: 0 4px;
+    }
+
+    #parentView .post-type-pill {
+      display: inline-flex;
+      min-height: 34px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(238, 235, 227, 0.92);
+      color: #171e19;
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    #parentView .post-type-pill.is-new {
+      background: #ca0013;
+      color: #ffffff;
+    }
+
     #parentView .post-new-dot {
       width: 10px;
       height: 10px;
@@ -6056,19 +6128,27 @@
       display: grid !important;
       grid-column: auto !important;
       grid-row: auto !important;
-      gap: 10px;
-      padding: 0 18px 18px;
+      gap: 12px;
+      padding: 18px 20px 20px;
       min-width: 0;
     }
 
     #parentView .social-post .post-image {
       display: block;
       width: 100%;
-      max-height: min(520px, 68vh);
-      margin: 2px 0 0;
+      aspect-ratio: 16 / 9;
+      max-height: min(560px, 66vh);
+      margin: 0;
       border-radius: 0;
       background: #eeebe3;
       object-fit: cover;
+      object-position: center;
+      transition: filter 0.24s ease, transform 0.32s var(--motion);
+    }
+
+    #parentView .social-post:hover .post-image {
+      filter: saturate(1.04);
+      transform: scale(1.006);
     }
 
     #parentView .post-kicker {
@@ -6087,19 +6167,29 @@
     #parentView .social-post .post-title h3 {
       flex: 1 1 auto !important;
       color: #171e19 !important;
-      font-size: clamp(1.15rem, 3.8vw, 1.55rem) !important;
-      line-height: 1.05 !important;
+      font-size: clamp(1.2rem, 3.4vw, 1.65rem) !important;
+      letter-spacing: -0.025em !important;
+      line-height: 1.08 !important;
       overflow-wrap: anywhere;
     }
 
     #parentView .social-post p {
       margin: 0 !important;
       color: #68766f !important;
-      font-size: 0.98rem;
-      font-weight: 800;
-      line-height: 1.45;
+      font-size: 1rem;
+      font-weight: 750;
+      line-height: 1.55;
       overflow-wrap: anywhere;
       word-break: normal;
+    }
+
+    #parentView .post-footer {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      min-width: 0;
+      padding-top: 4px;
     }
 
     #parentView .post-tags,
@@ -6113,6 +6203,7 @@
 
     #parentView .post-actions {
       padding-top: 4px;
+      justify-content: flex-end;
     }
 
     #parentView .post-actions .btn {
@@ -6131,21 +6222,37 @@
       }
 
       #parentView .post-header {
-        grid-template-columns: 44px minmax(0, 1fr) auto;
-        padding: 16px 16px 0;
+        grid-template-columns: 46px minmax(0, 1fr) auto;
+        gap: 12px;
+        padding: 16px 16px 12px;
       }
 
       #parentView .post-avatar {
-        width: 44px;
-        height: 44px;
+        width: 46px;
+        height: 46px;
       }
 
       #parentView .social-post .item-body {
-        padding: 0 16px 16px;
+        padding: 16px;
       }
 
       #parentView .social-post .post-image {
+        aspect-ratio: 4 / 3;
         max-height: 430px;
+      }
+
+      #parentView .post-type-pill {
+        min-height: 30px;
+        padding: 0 10px;
+        font-size: 0.64rem;
+      }
+
+      #parentView .post-footer {
+        grid-template-columns: 1fr;
+      }
+
+      #parentView .post-actions {
+        justify-content: flex-start;
       }
     }
 
@@ -8628,6 +8735,7 @@
           : "";
         const detailLabel = collection === "announcements" ? "Ler aviso" : "Ver postagem";
         const postBadges = feedStatusBadges(item, collection);
+        const postType = collection === "announcements" && isUnread(item.id) ? "Novo" : collectionLabel(collection);
 
         return `
           <article class="${cardClasses(item, collection)} social-post" style="${cardDelay(index)}">
@@ -8637,19 +8745,21 @@
                 <strong>${escapeHtml(state.settings.schoolName || "Escola Haze")}</strong>
                 <span>${postMetaHtml(item)}</span>
               </div>
-              ${collection === "announcements" && isUnread(item.id) ? `<span class="post-new-dot" aria-label="Nova publicacao"></span>` : ""}
+              <span class="post-type-pill ${collection === "announcements" && isUnread(item.id) ? "is-new" : ""}">${escapeHtml(postType)}</span>
             </header>
-            ${imageHtml(item, "post")}
             <div class="item-body">
               <div class="post-kicker">${escapeHtml(collectionLabel(collection))}</div>
               <div class="card-title post-title">
                 <h3>${escapeHtml(title)}</h3>
               </div>
               <p>${escapeHtml(text)}</p>
-              ${postBadges ? `<div class="post-tags">${postBadges}</div>` : ""}
-              <div class="post-actions">
-                <button class="btn btn-muted btn-small" type="button" data-detail="${collection}:${item.id}">${escapeHtml(detailLabel)}</button>
-                ${documentLink}
+              ${imageHtml(item, "post")}
+              <div class="post-footer">
+                ${postBadges ? `<div class="post-tags">${postBadges}</div>` : "<span></span>"}
+                <div class="post-actions">
+                  <button class="btn btn-muted btn-small" type="button" data-detail="${collection}:${item.id}">${escapeHtml(detailLabel)}</button>
+                  ${documentLink}
+                </div>
               </div>
             </div>
           </article>
@@ -9280,11 +9390,11 @@
     }
 
     function postMetaHtml(item) {
-      const parts = [audienceLabel(item)];
+      const parts = [`Para ${audienceLabel(item)}`];
       if (item.date) parts.push(formatDate(item.date));
       if (item.time) parts.push(item.time);
       if (item.type) parts.push(item.type);
-      return parts.map((part) => escapeHtml(part)).join(` <span aria-hidden="true">•</span> `);
+      return parts.map((part) => escapeHtml(part)).join(` <span class="post-separator" aria-hidden="true">&bull;</span> `);
     }
 
     function feedStatusBadges(item, collection) {
@@ -9294,6 +9404,13 @@
       }
       if (item.priority && item.priority !== "normal") {
         badges.push(priorityBadge(item));
+      }
+      badges.push(`<span class="badge target">${escapeHtml(audienceLabel(item))}</span>`);
+      if (item.date) {
+        badges.push(`<span class="badge">${escapeHtml(formatDate(item.date))}</span>`);
+      }
+      if (item.time) {
+        badges.push(`<span class="badge">${escapeHtml(item.time)}</span>`);
       }
       if (collection !== "announcements" && item.type) {
         badges.push(`<span class="badge target">${escapeHtml(item.type)}</span>`);
