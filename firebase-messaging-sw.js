@@ -1,4 +1,16 @@
-const HAZE_ICON = "/haze-icon.svg";
+const HAZE_ICON = "/haze-icon.png";
+const recentlyShown = new Map();
+
+function shouldShowNotification(payload) {
+  const key = payload.announcementId || payload.data?.announcementId || `${payload.title || ""}:${payload.body || ""}`;
+  const now = Date.now();
+  const lastShownAt = recentlyShown.get(key);
+
+  if (lastShownAt && now - lastShownAt < 15000) return false;
+
+  recentlyShown.set(key, now);
+  return true;
+}
 
 self.addEventListener("push", (event) => {
   if (!event.data) return;
@@ -11,6 +23,7 @@ self.addEventListener("push", (event) => {
   }
 
   if (payload.source !== "haze-web-push") return;
+  if (!shouldShowNotification(payload)) return;
 
   const title = payload.title || "Novo aviso da escola";
   const options = {
@@ -42,12 +55,15 @@ try {
 
   messaging.onBackgroundMessage((payload) => {
     const notification = payload.notification || {};
+    const data = payload.data || {};
+    if (!shouldShowNotification({ ...data, title: notification.title, body: notification.body })) return;
+
     const title = notification.title || "Novo aviso da escola";
     const options = {
       body: notification.body || "A escola publicou uma nova informacao.",
       icon: HAZE_ICON,
       badge: HAZE_ICON,
-      data: payload.data || {}
+      data
     };
 
     self.registration.showNotification(title, options);
