@@ -5736,6 +5736,24 @@
       content: none !important;
     }
 
+    #parentView .side-panel::after {
+      display: none !important;
+      content: none !important;
+    }
+
+    #parentView .school-logo-display {
+      z-index: 2 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    #parentView .school-logo-display img,
+    body[data-active-mode="parent"] .brand-mark img {
+      background: transparent !important;
+      border-radius: 0 !important;
+      object-fit: contain !important;
+    }
+
         /* Estados vazios limpos: sem sinais, apenas texto legivel e responsivo */
     .empty-state::before,
     .empty-state::after,
