@@ -5746,14 +5746,26 @@
     }
 
     #parentView .side-panel::before {
-      display: none !important;
-      content: none !important;
+      display: block !important;
+      z-index: 1 !important;
+      top: 10px !important;
+      right: 10px !important;
+      width: 134px !important;
+      height: 134px !important;
+      border-radius: 50% !important;
+      background: rgba(183, 198, 194, 0.22) !important;
+      content: "" !important;
     }
 
     #parentView .school-logo-display {
       z-index: 2 !important;
+      display: grid !important;
+      place-items: center !important;
+      padding: 12px !important;
+      border-radius: 0 !important;
       background: transparent !important;
       box-shadow: none !important;
+      overflow: visible !important;
     }
 
     #parentView .school-logo-display img,
@@ -5763,6 +5775,11 @@
       background: transparent !important;
       border-radius: 0 !important;
       object-fit: contain !important;
+    }
+
+    #parentView .school-logo-display img {
+      width: 100% !important;
+      height: 100% !important;
     }
 
     /* Modal de boas-vindas: existe apenas no fluxo mobile */
