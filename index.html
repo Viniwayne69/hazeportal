@@ -5748,11 +5748,11 @@
     #parentView .side-panel::before {
       display: block !important;
       z-index: 1 !important;
-      top: 10px !important;
-      right: 10px !important;
-      width: 134px !important;
-      height: 134px !important;
-      border-radius: 50% !important;
+      top: -52px !important;
+      right: -42px !important;
+      width: 170px !important;
+      height: 170px !important;
+      border-radius: 999px !important;
       background: rgba(183, 198, 194, 0.22) !important;
       content: "" !important;
     }
@@ -5761,7 +5761,12 @@
       z-index: 2 !important;
       display: grid !important;
       place-items: center !important;
-      padding: 12px !important;
+      top: 18px !important;
+      right: 20px !important;
+      width: 88px !important;
+      height: 88px !important;
+      flex-basis: 88px !important;
+      padding: 0 !important;
       border-radius: 0 !important;
       background: transparent !important;
       box-shadow: none !important;
@@ -5780,6 +5785,16 @@
     #parentView .school-logo-display img {
       width: 100% !important;
       height: 100% !important;
+    }
+
+    @media (max-width: 720px) {
+      #parentView .school-logo-display {
+        top: 18px !important;
+        right: 18px !important;
+        width: 62px !important;
+        height: 62px !important;
+        flex-basis: 62px !important;
+      }
     }
 
     /* Modal de boas-vindas: existe apenas no fluxo mobile */
