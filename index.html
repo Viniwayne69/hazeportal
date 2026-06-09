@@ -7113,9 +7113,79 @@
       ]
     };
 
+    const MOJIBAKE_PATTERN = /[\u00c2\u00c3]|\u00e2[\u0080-\u00bf\u20ac\u0152\u0153]/;
+
+    function repairMojibakeText(value) {
+      const text = String(value ?? "");
+      if (!MOJIBAKE_PATTERN.test(text)) return text;
+
+      const cp1252 = {
+        0x20AC: 0x80,
+        0x201A: 0x82,
+        0x0192: 0x83,
+        0x201E: 0x84,
+        0x2026: 0x85,
+        0x2020: 0x86,
+        0x2021: 0x87,
+        0x02C6: 0x88,
+        0x2030: 0x89,
+        0x0160: 0x8A,
+        0x2039: 0x8B,
+        0x0152: 0x8C,
+        0x017D: 0x8E,
+        0x2018: 0x91,
+        0x2019: 0x92,
+        0x201C: 0x93,
+        0x201D: 0x94,
+        0x2022: 0x95,
+        0x2013: 0x96,
+        0x2014: 0x97,
+        0x02DC: 0x98,
+        0x2122: 0x99,
+        0x0161: 0x9A,
+        0x203A: 0x9B,
+        0x0153: 0x9C,
+        0x017E: 0x9E,
+        0x0178: 0x9F
+      };
+
+      try {
+        const bytes = Array.from(text, (char) => {
+          const code = char.charCodeAt(0);
+          if (code <= 255) return code;
+          return cp1252[code] ?? 63;
+        });
+        const fixed = new TextDecoder("utf-8").decode(new Uint8Array(bytes));
+        return fixed.includes("\uFFFD") ? text : fixed;
+      } catch (error) {
+        try {
+          return decodeURIComponent(escape(text));
+        } catch {
+          return text;
+        }
+      }
+    }
+
+    function repairPersistedText(value) {
+      if (typeof value === "string") return repairMojibakeText(value);
+      if (Array.isArray(value)) return value.map((item) => repairPersistedText(item));
+      if (value && typeof value === "object") {
+        return Object.fromEntries(Object.entries(value).map(([key, entry]) => [key, repairPersistedText(entry)]));
+      }
+      return value;
+    }
+
+    function hasMojibakeText(value) {
+      if (typeof value === "string") return MOJIBAKE_PATTERN.test(value);
+      if (Array.isArray(value)) return value.some((item) => hasMojibakeText(item));
+      if (value && typeof value === "object") return Object.values(value).some((entry) => hasMojibakeText(entry));
+      return false;
+    }
+
     let state = loadState();
     let adminAuthenticated = false;
-    let selectedParentClass = localStorage.getItem(SELECTED_PARENT_CLASS_KEY) || "";
+    let selectedParentClass = repairMojibakeText(localStorage.getItem(SELECTED_PARENT_CLASS_KEY) || "");
+    if (selectedParentClass) localStorage.setItem(SELECTED_PARENT_CLASS_KEY, selectedParentClass);
     let parentAudienceFilter = "general";
     let lastChangedItemId = "";
     let editingClassName = "";
@@ -7168,6 +7238,7 @@
     }
 
     function mergeDefaults(saved) {
+      saved = repairPersistedText(saved || {});
       if (saved.settings && saved.settings.schoolName === "Escola Haze Modelo") {
         saved.settings.schoolName = "Escola Haze";
       }
@@ -7247,6 +7318,7 @@
       try {
         const localStateBeforeCloud = structuredClone(state);
         const cloudState = await window.hazeFirebase.load(state);
+        const cloudNeedsEncodingRepair = hasMojibakeText(cloudState);
         applyingRemoteState = true;
         state = pendingCloudSave
           ? mergeStateById(cloudState, localStateBeforeCloud)
@@ -7262,6 +7334,7 @@
         firebaseUnsubscribe = window.hazeFirebase.watch((remoteState) => {
           if (!remoteState || applyingRemoteState) return;
           if (pendingCloudSave) return;
+          const remoteNeedsEncodingRepair = hasMojibakeText(remoteState);
           const nextState = mergeDefaults(remoteState);
           notifyNewRemoteAnnouncements(nextState.announcements);
           applyingRemoteState = true;
@@ -7270,9 +7343,10 @@
           applyingRemoteState = false;
           applyTheme();
           renderAll();
+          if (remoteNeedsEncodingRepair) scheduleCloudSave(0);
         });
 
-        if (pendingCloudSave) scheduleCloudSave(0);
+        if (pendingCloudSave || cloudNeedsEncodingRepair) scheduleCloudSave(0);
         showToast("Firebase conectado.");
       } catch (error) {
         applyingRemoteState = false;
@@ -7369,7 +7443,7 @@
     }
 
     function normalizeClassName(value) {
-      const name = String(value || "").trim();
+      const name = repairMojibakeText(value || "").trim();
       if (!name || name === "Todas") return "Todas as turmas";
       const highSchoolShort = name.match(/^([123])\s*(?:º|ª|o|a)?$/i);
       if (highSchoolShort) return `${highSchoolShort[1]}º ano Ensino Médio`;
@@ -7816,7 +7890,7 @@
     function normalizeItem(item) {
       const normalized = { ...item };
       Object.keys(normalized).forEach((key) => {
-        if (typeof normalized[key] === "string") normalized[key] = normalized[key].trim();
+        if (typeof normalized[key] === "string") normalized[key] = repairMojibakeText(normalized[key]).trim();
       });
       normalized.targetClass = normalizeClassName(normalized.targetClass || normalized.className || "Todas as turmas");
       delete normalized.className;
