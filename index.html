@@ -10,9 +10,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="description" content="Haze - Portal dos Pais: comunicacao escolar organizada para familias.">
   <meta name="msapplication-TileColor" content="#171e19">
-  <link rel="icon" type="image/png" sizes="512x512" href="/haze-icon.png">
-  <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="apple-touch-icon" sizes="512x512" href="/haze-icon.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="haze-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="512x512" href="haze-icon.png">
   <title>Haze - Portal dos Pais</title>
   <style>
     :root {
@@ -6012,7 +6012,7 @@
     <header class="topbar">
       <div class="topbar-inner">
         <a class="brand" href="#" data-mode-link="parent" aria-label="Abrir portal dos pais">
-          <span class="brand-mark" aria-hidden="true"><img src="/haze-icon.png" alt=""></span>
+          <span class="brand-mark" aria-hidden="true"><img src="haze-icon.png" alt=""></span>
           <span>
             <span class="brand-title">Haze - Portal dos Pais</span>
             <span class="brand-subtitle">ComunicaÃ§Ã£o escolar organizada</span>
@@ -6945,7 +6945,7 @@
       "3Âº ano Ensino MÃ©dio"
     ];
 
-    const HAZE_DEFAULT_LOGO = "/haze-icon.png";
+    const HAZE_DEFAULT_LOGO = "haze-icon.png";
 
     const defaultData = {
       settings: {
@@ -8043,8 +8043,8 @@
       const settings = state.settings;
       const logoSrc = resolveMediaSource(settings.logoData);
       const logoHtml = logoSrc
-        ? `<img src="${escapeAttribute(logoSrc)}" alt="Logo da escola">`
-        : `<img src="${HAZE_DEFAULT_LOGO}" alt="Logo Haze School">`;
+        ? `<img src="${escapeAttribute(logoSrc)}" alt="">`
+        : `<img src="${HAZE_DEFAULT_LOGO}" alt="">`;
 
       document.querySelectorAll(".brand-mark").forEach((mark) => {
         mark.innerHTML = logoHtml;

@@ -1,4 +1,4 @@
-const HAZE_ICON = "/haze-icon.png";
+const HAZE_ICON = "haze-icon.png";
 const recentlyShown = new Map();
 
 function shouldShowNotification(payload) {

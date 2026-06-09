@@ -9,7 +9,7 @@
   "theme_color": "#171e19",
   "icons": [
     {
-      "src": "/haze-icon.png",
+      "src": "haze-icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
