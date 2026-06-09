@@ -6802,6 +6802,16 @@
           return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
         }
 
+        function getNotificationDeviceId() {
+          const key = "hazeNotificationDeviceId";
+          let value = localStorage.getItem(key);
+          if (!value) {
+            value = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+            localStorage.setItem(key, value);
+          }
+          return value;
+        }
+
         window.hazeFirebase = {
           enabled: true,
           messagingEnabled: Boolean(messaging),
@@ -6850,6 +6860,7 @@
 
             const registration = await navigator.serviceWorker.register("./firebase-messaging-sw.js");
             const cleanClass = String(targetClass || "").trim();
+            const deviceId = getNotificationDeviceId();
 
             if (messaging) {
               try {
@@ -6864,6 +6875,7 @@
                   token,
                   targetClass: cleanClass,
                   schoolId: SCHOOL_ID,
+                  deviceId,
                   active: true,
                   platform: "web",
                   userAgent: navigator.userAgent,
@@ -6901,6 +6913,7 @@
               subscriptionJson: JSON.stringify(subscriptionJson),
               targetClass: cleanClass,
               schoolId: SCHOOL_ID,
+              deviceId,
               active: true,
               platform: "webpush",
               userAgent: navigator.userAgent,
@@ -7232,11 +7245,7 @@
 
     function notifyNewRemoteAnnouncements(announcements) {
       const incoming = Array.isArray(announcements) ? announcements : [];
-      const freshItems = incoming.filter((item) => item.id && !knownAnnouncementIds.has(item.id));
       refreshKnownAnnouncements(incoming);
-      freshItems
-        .filter((item) => shouldNotifyParentAboutAnnouncement(item))
-        .forEach((item) => sendLocalNotificationPreview(item));
     }
 
     function shouldNotifyParentAboutAnnouncement(item) {
@@ -7731,7 +7740,6 @@
       renderAll();
       scrollToChangedItem();
       if (collection === "announcements" && !isEditing) {
-        sendLocalNotificationPreview(cleanItem);
         sendPushNotification(cleanItem);
       }
       showToast(feedbackMessage(collection, cleanItem, isEditing));
