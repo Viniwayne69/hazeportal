@@ -2951,7 +2951,7 @@
     }
 
     #parentView .layout {
-      grid-template-columns: minmax(330px, 0.34fr) minmax(0, 1fr);
+      grid-template-columns: minmax(360px, 430px) minmax(0, 1fr);
       gap: clamp(22px, 2.4vw, 40px);
     }
 
@@ -4604,7 +4604,7 @@
     }
 
     body[data-active-mode="parent"] .topbar-inner {
-      width: min(100%, 1500px);
+      width: min(calc(100% - 32px), 1760px);
       padding: 10px clamp(10px, 2vw, 28px);
     }
 
@@ -4678,11 +4678,11 @@
     }
 
     body[data-active-mode="parent"] .main {
-      padding: clamp(18px, 3vw, 38px) clamp(10px, 2vw, 30px) calc(112px + env(safe-area-inset-bottom));
+      padding: clamp(18px, 3vw, 38px) clamp(10px, 1.4vw, 22px) calc(112px + env(safe-area-inset-bottom));
     }
 
     #parentView {
-      width: min(100%, 1480px);
+      width: min(100%, 1760px);
       margin: 0 auto;
     }
 
@@ -5823,6 +5823,55 @@
         width: 100% !important;
         max-height: calc(100vh - 20px) !important;
         border-radius: 32px 32px 24px 24px !important;
+      }
+    }
+
+    /* Modais dos pais no desktop: leitura central, sem folha mobile vazando no topo */
+    @media (min-width: 721px) {
+      body[data-active-mode="parent"] #detailModal,
+      body[data-active-mode="parent"] #classModal,
+      body[data-active-mode="parent"] #installModal {
+        position: fixed !important;
+        inset: 0 !important;
+        z-index: 150 !important;
+        display: none !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: clamp(24px, 4vw, 54px) !important;
+        background: rgba(23, 30, 25, 0.42) !important;
+      }
+
+      body[data-active-mode="parent"] #detailModal.show,
+      body[data-active-mode="parent"] #classModal.show,
+      body[data-active-mode="parent"] #installModal.show {
+        display: flex !important;
+      }
+
+      body[data-active-mode="parent"] #detailModal .modal-card,
+      body[data-active-mode="parent"] #classModal .modal-card,
+      body[data-active-mode="parent"] #installModal .modal-card {
+        position: relative !important;
+        width: min(860px, calc(100vw - 72px)) !important;
+        max-height: calc(100vh - 96px) !important;
+        margin: auto !important;
+        overflow: auto !important;
+        padding: 28px !important;
+        border: 1px solid rgba(183, 198, 194, 0.34) !important;
+        border-radius: 32px !important;
+        background: #ffffff !important;
+        box-shadow: 0 30px 90px -34px rgba(23, 30, 25, 0.58) !important;
+        transform: none !important;
+      }
+
+      body[data-active-mode="parent"] #detailModal .modal-head,
+      body[data-active-mode="parent"] #classModal .modal-head,
+      body[data-active-mode="parent"] #installModal .modal-head {
+        display: flex !important;
+        align-items: flex-start !important;
+        justify-content: space-between !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
       }
     }
 
