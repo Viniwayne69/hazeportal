@@ -25,9 +25,9 @@ self.addEventListener("push", (event) => {
   if (payload.source !== "haze-web-push") return;
   if (!shouldShowNotification(payload)) return;
 
-  const title = payload.title || "Novo aviso da escola";
+  const title = payload.title || payload.data?.title || "Novo aviso da escola";
   const options = {
-    body: payload.body || "A escola publicou uma nova informacao.",
+    body: payload.body || payload.data?.body || "A escola publicou uma nova informacao.",
     icon: HAZE_ICON,
     badge: HAZE_ICON,
     data: payload
@@ -56,11 +56,12 @@ try {
   messaging.onBackgroundMessage((payload) => {
     const notification = payload.notification || {};
     const data = payload.data || {};
-    if (!shouldShowNotification({ ...data, title: notification.title, body: notification.body })) return;
+    const title = notification.title || data.title || "Novo aviso da escola";
+    const body = notification.body || data.body || "A escola publicou uma nova informacao.";
+    if (!shouldShowNotification({ ...data, title, body })) return;
 
-    const title = notification.title || "Novo aviso da escola";
     const options = {
-      body: notification.body || "A escola publicou uma nova informacao.",
+      body,
       icon: HAZE_ICON,
       badge: HAZE_ICON,
       data

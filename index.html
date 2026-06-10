@@ -7120,6 +7120,7 @@
             const registration = await navigator.serviceWorker.register("./firebase-messaging-sw.js");
             const cleanClass = String(targetClass || "").trim();
             const deviceId = getNotificationDeviceId();
+            const registered = [];
 
             if (messaging) {
               try {
@@ -7143,43 +7144,55 @@
 
                 messaging.onMessage((payload) => {
                   const notification = payload.notification || {};
-                  const title = notification.title || "Novo aviso da escola";
-                  const body = notification.body || "A escola publicou uma nova informacao.";
+                  const data = payload.data || {};
+                  const title = notification.title || data.title || "Novo aviso da escola";
+                  const body = notification.body || data.body || "A escola publicou uma nova informacao.";
                   if (Notification.permission === "granted") new Notification(title, { body });
                 });
 
-                return { type: "fcm", token };
+                registered.push({ type: "fcm", token });
               } catch (error) {
                 console.warn("Firebase Messaging falhou. Tentando Web Push padrao.", error);
               }
             }
 
             if (!registration.pushManager) {
+              if (registered.length) return registered;
               throw new Error("No iPhone, instale o portal na tela inicial e abra pelo icone para ativar avisos.");
             }
 
-            const existingSubscription = await registration.pushManager.getSubscription();
-            const subscription = existingSubscription || await registration.pushManager.subscribe({
-              userVisibleOnly: true,
-              applicationServerKey: urlBase64ToUint8Array(WEB_PUSH_PUBLIC_KEY)
-            });
-            const subscriptionJson = subscription.toJSON();
+            try {
+              const existingSubscription = await registration.pushManager.getSubscription();
+              const subscription = existingSubscription || await registration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: urlBase64ToUint8Array(WEB_PUSH_PUBLIC_KEY)
+              });
+              const subscriptionJson = subscription.toJSON();
 
-            await notificationTokensRef.doc(tokenDocId(subscription.endpoint)).set({
-              type: "webpush",
-              endpoint: subscription.endpoint,
-              subscription: subscriptionJson,
-              subscriptionJson: JSON.stringify(subscriptionJson),
-              targetClass: cleanClass,
-              schoolId: SCHOOL_ID,
-              deviceId,
-              active: true,
-              platform: "webpush",
-              userAgent: navigator.userAgent,
-              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            }, { merge: true });
+              await notificationTokensRef.doc(tokenDocId(subscription.endpoint)).set({
+                type: "webpush",
+                endpoint: subscription.endpoint,
+                subscription: subscriptionJson,
+                subscriptionJson: JSON.stringify(subscriptionJson),
+                targetClass: cleanClass,
+                schoolId: SCHOOL_ID,
+                deviceId,
+                active: true,
+                platform: "webpush",
+                userAgent: navigator.userAgent,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+              }, { merge: true });
 
-            return { type: "webpush", endpoint: subscription.endpoint };
+              registered.push({ type: "webpush", endpoint: subscription.endpoint });
+            } catch (error) {
+              console.warn("Web Push padrao falhou neste navegador.", error);
+            }
+
+            if (!registered.length) {
+              throw new Error("Nao foi possivel ativar notificacoes neste navegador.");
+            }
+
+            return registered;
           }
         };
       } catch (error) {
@@ -8075,7 +8088,21 @@
       renderAll();
       scrollToChangedItem();
       if (collection === "announcements" && !isEditing) {
-        sendPushNotification(cleanItem);
+        sendPushNotification(cleanItem)
+          .then((result) => {
+            if (!result) return;
+            const tokens = Number(result.tokens || 0);
+            const sent = Number(result.sent || 0);
+            if (tokens > 0) {
+              showToast(`Notificação enviada para ${sent} de ${tokens} dispositivo${tokens === 1 ? "" : "s"}.`);
+            } else {
+              showToast("Aviso publicado, mas nenhum dispositivo ativou notificações ainda.");
+            }
+          })
+          .catch((error) => {
+            console.error("Erro ao confirmar envio push.", error);
+            showToast("Aviso publicado, mas a notificação não foi confirmada.");
+          });
       }
       showToast(feedbackMessage(collection, cleanItem, isEditing));
     }
@@ -8952,7 +8979,7 @@
 
     function sendPushNotification(item) {
       if (window.location.protocol === "file:") return;
-      fetch("/api/send-notification", {
+      return fetch("/api/send-notification", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -8963,8 +8990,10 @@
           body: summaryText(item.text || item.description || "A escola publicou uma nova informacao.", 160),
           origin: window.location.origin
         })
-      }).catch((error) => {
-        console.warn("Envio push ainda nao configurado.", error);
+      }).then(async (response) => {
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || "Falha ao enviar notificacao");
+        return data;
       });
     }
 

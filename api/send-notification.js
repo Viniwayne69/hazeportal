@@ -183,7 +183,7 @@ async function loadTokens(accessToken, schoolId, targetClass) {
     throw new Error(`Resposta inesperada do Firestore ao buscar tokens: ${String(responseText || "").slice(0, 500)}`);
   }
 
-  return rows
+  const targets = rows
     .map((row) => row.document?.fields || null)
     .filter(Boolean)
     .filter((fields) => fields.active?.booleanValue !== false)
@@ -194,16 +194,34 @@ async function loadTokens(accessToken, schoolId, targetClass) {
       if (type === "webpush") {
         return {
           type,
+          deviceId: fields.deviceId?.stringValue || "",
+          endpoint: fields.endpoint?.stringValue || "",
           subscription: parseSubscription(fields)
         };
       }
 
       return {
         type: "fcm",
+        deviceId: fields.deviceId?.stringValue || "",
         token: fields.token?.stringValue || ""
       };
     })
     .filter((target) => target.type === "webpush" ? Boolean(target.subscription) : Boolean(target.token));
+
+  return dedupeTargets(targets);
+}
+
+function dedupeTargets(targets) {
+  const seen = new Set();
+  return targets.filter((target) => {
+    const key = target.type === "webpush"
+      ? `webpush:${target.endpoint || target.subscription?.endpoint || ""}`
+      : `fcm:${target.token}`;
+
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 function parseSubscription(fields) {
@@ -235,6 +253,7 @@ function firestoreValueToJs(value) {
 }
 
 async function sendMessage(accessToken, token, payload) {
+  const link = payload.origin || undefined;
   const response = await fetch(`https://fcm.googleapis.com/v1/projects/${PROJECT_ID}/messages:send`, {
     method: "POST",
     headers: {
@@ -244,23 +263,23 @@ async function sendMessage(accessToken, token, payload) {
     body: JSON.stringify({
       message: {
         token,
-        notification: {
-          title: payload.title,
-          body: payload.body
-        },
         webpush: {
-          fcmOptions: {
-            link: payload.origin || undefined
+          headers: {
+            Urgency: "high",
+            TTL: "2419200"
           },
-          notification: {
-            icon: "/favicon.ico",
-            badge: "/favicon.ico"
+          fcmOptions: {
+            link
           }
         },
         data: {
+          source: "haze-fcm",
+          title: payload.title,
+          body: payload.body,
           schoolId: payload.schoolId,
           targetClass: payload.targetClass,
-          announcementId: payload.announcementId
+          announcementId: payload.announcementId,
+          origin: payload.origin || ""
         }
       }
     })
